@@ -1,5 +1,7 @@
 import {useLocation} from '@remix-run/react';
 import {useMemo} from 'react';
+import {clsx} from 'clsx';
+import {twMerge} from 'tailwind-merge';
 
 /**
  * @param {string} handle
@@ -49,3 +51,7 @@ export function getVariantUrl({
 }
 
 /** @typedef {import('@shopify/hydrogen/storefront-api-types').SelectedOption} SelectedOption */
+
+export function cn(...inputs) {
+  return twMerge(clsx(inputs));
+}

@@ -2,30 +2,43 @@ import {Await} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Aside} from '~/components/Aside';
 import {Footer} from '~/components/Footer';
-import {Header, HeaderMenu} from '~/components/Header';
+import {NavMenu} from '~/components/Header';
 import {CartMain} from '~/components/Cart';
 import {
   PredictiveSearchForm,
   PredictiveSearchResults,
 } from '~/components/Search';
 
+import {Header} from '~/components/HeaderNew';
+import {motion, MotionConfig, useReducedMotion} from 'framer-motion';
+
 /**
  * @param {LayoutProps}
  */
 export function Layout({cart, children = null, footer, header, isLoggedIn}) {
+  let shouldReduceMotion = useReducedMotion();
+
   return (
-    <>
-      <CartAside cart={cart} />
+    <MotionConfig
+      transition={shouldReduceMotion ? {duration: 0} : {duration: 1}}
+    >
+      {/* <CartAside cart={cart} />
       <SearchAside />
-      <MobileMenuAside menu={header?.menu} shop={header?.shop} />
-      {header && <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />}
-      <main>{children}</main>
+      <MobileMenuAside menu={header?.menu} shop={header?.shop} /> */}
+      <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />
+      <motion.main
+        initial={{opacity: 0}}
+        whileInView={{opacity: 1}}
+        viewport={{once: true}}
+      >
+        {children}
+      </motion.main>
       <Suspense>
         <Await resolve={footer}>
           {(footer) => <Footer menu={footer?.menu} shop={header?.shop} />}
         </Await>
       </Suspense>
-    </>
+    </MotionConfig>
   );
 }
 
@@ -84,7 +97,7 @@ function MobileMenuAside({menu, shop}) {
     menu &&
     shop?.primaryDomain?.url && (
       <Aside id="mobile-menu-aside" heading="MENU">
-        <HeaderMenu
+        <NavMenu
           menu={menu}
           viewport="mobile"
           primaryDomainUrl={shop.primaryDomain.url}

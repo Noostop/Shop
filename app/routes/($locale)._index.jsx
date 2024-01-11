@@ -3,6 +3,14 @@ import {Await, useLoaderData, Link} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
 
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 /**
  * @type {MetaFunction}
  */
@@ -27,9 +35,49 @@ export default function Homepage() {
   const data = useLoaderData();
   return (
     <div className="home">
-      <FeaturedCollection collection={data.featuredCollection} />
-      <RecommendedProducts products={data.recommendedProducts} />
+      <SliderShow collection={data.featuredCollection} />
+      {/* <FeaturedCollection collection={data.featuredCollection} />
+      <RecommendedProducts products={data.recommendedProducts} /> */}
     </div>
+  );
+}
+
+function SliderShow({collection}) {
+  if (!collection) return null;
+
+  const image = collection?.image;
+
+  return (
+    <Carousel
+      opts={{
+        align: 'start',
+        loop: true,
+      }}
+      plugins={[
+        Autoplay({
+          delay: 3000,
+          stopOnMouseEnter: true,
+          stopOnInteraction: false,
+        }),
+      ]}
+      className="w-full"
+    >
+      <CarouselContent className="h-[75vh] md:h-[60vh] lg:h-[66vh]">
+        {Array.from({length: 5}).map((_, i) => (
+          <CarouselItem key={i} className="w-full h-full pl-0">
+            <div className="h-full bg-gray-300">
+              <Image
+                data={image}
+                sizes="100vw"
+                className="object-cover w-full h-full"
+              />
+            </div>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious className="left-4" />
+      <CarouselNext className="right-4" />
+    </Carousel>
   );
 }
 

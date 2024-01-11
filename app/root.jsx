@@ -13,8 +13,8 @@ import {
   isRouteErrorResponse,
 } from '@remix-run/react';
 import favicon from '../public/favicon.svg';
-import resetStyles from './styles/reset.css';
-import appStyles from './styles/app.css';
+// import resetStyles from './styles/reset.css';
+import tailwindStyles from './styles/tailwind.css';
 import {Layout} from '~/components/Layout';
 
 /**
@@ -37,8 +37,7 @@ export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
 
 export function links() {
   return [
-    {rel: 'stylesheet', href: resetStyles},
-    {rel: 'stylesheet', href: appStyles},
+    {rel: 'stylesheet', href: tailwindStyles},
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',
@@ -110,14 +109,14 @@ export default function App() {
   const data = useLoaderData();
 
   return (
-    <html lang="en">
+    <html lang="en" className="h-full text-base antialiased bg-neutral-950">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="flex flex-col min-h-full">
         <Layout {...data}>
           <Outlet />
         </Layout>
@@ -144,14 +143,14 @@ export function ErrorBoundary() {
   }
 
   return (
-    <html lang="en">
+    <html lang="en" className="h-full text-base antialiased bg-neutral-950">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="flex flex-col min-h-full">
         <Layout {...rootData}>
           <div className="route-error">
             <h1>Oops</h1>
