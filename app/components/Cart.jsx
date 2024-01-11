@@ -277,7 +277,7 @@ export function CartEmpty({hidden = false, layout = 'aside'}) {
   );
 
   return (
-    <div className={className} hidden={hidden}>
+    <div className={className}>
       <p>
         Looks like you haven&rsquo;t added anything yet, let&rsquo;s get you
         started!

@@ -19,6 +19,9 @@ import {
   SquaresPlusIcon,
   XMarkIcon,
   ShoppingBagIcon,
+  UserIcon,
+  UserCircleIcon,
+  MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline';
 // import {Icons} from '@/components/icons';
 import {
@@ -85,6 +88,8 @@ export function Header({header, isLoggedIn, cart}) {
 
   const {scrollY} = useScroll();
 
+  console.log(menu);
+
   // useMotionValueEvent(scrollY, 'change', (latest) => {
   //   if (latest > 200) {
   //     setShowMenu(true);
@@ -100,7 +105,7 @@ export function Header({header, isLoggedIn, cart}) {
       className="sticky top-0 z-40"
       initial={{opacity: 0}}
       whileInView={{opacity: 1}}
-      // viewport={{once: true}}
+      viewport={{once: true}}
       animate={{background: showMenu ? '#fff' : 'transparent'}}
       transition={{duration: 0.3, ease: 'easeInOut'}}
     >
@@ -120,7 +125,11 @@ export function Header({header, isLoggedIn, cart}) {
           primaryDomainUrl={header.shop.primaryDomain.url}
         />
 
-        <div className="ml-auto">
+        <div className="flex items-center ml-auto">
+          <User isLoggedIn={isLoggedIn} />
+
+          <Search />
+
           <Suspense fallback={<CartBadge count={0} />}>
             <Await resolve={cart}>
               {(cart) => {
@@ -178,7 +187,7 @@ function NavigationMen({
 
   return (
     <NavigationMenu className="hidden py-2 ml-6 md:flex">
-      <NavigationMenuList>
+      <NavigationMenuList className="space-x-2">
         {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
           if (!item.url) return null;
 
@@ -191,7 +200,7 @@ function NavigationMen({
               : item.url;
           return (
             <NavigationMenuItem key={item.id}>
-              <NavigationMenuTrigger className="bg-transparent">
+              <NavigationMenuTrigger className="relative bg-transparent hover:bg-transparent data-[active]:bg-transparent data-[state=open]:bg-transparent">
                 <NavLink
                   className="text-sm font-semibold leading-6 text-gray-900"
                   key={item.id}
@@ -276,7 +285,7 @@ function CartBadge({count, cart}) {
         <div className="relative flow-root ml-4 lg:ml-6">
           <a href="/cart" className="flex items-center p-2 -m-2 group">
             <ShoppingBagIcon
-              className="flex-shrink-0 w-6 h-6 text-gray-400 group-hover:text-gray-500"
+              className="flex-shrink-0 w-6 h-6"
               aria-hidden="true"
             />
             <span className="absolute inline-flex items-center p-1 text-xs font-medium text-gray-600 rounded-full -top-2 -right-4 bg-gray-50 ring-1 ring-inset ring-gray-500/10">
@@ -298,6 +307,65 @@ function CartBadge({count, cart}) {
         </ScrollArea>
       </HoverCardContent>
     </HoverCard>
+  );
+}
+
+function User({isLoggedIn}) {
+  if (isLoggedIn) {
+    return (
+      <div className="relative flow-root ml-4 lg:ml-6">
+        <a href="/account" className="flex items-center p-2 -m-2 group">
+          <UserCircleIcon
+            className="flex-shrink-0 w-6 h-6"
+            aria-hidden="true"
+          />
+        </a>
+      </div>
+    );
+  }
+
+  return (
+    <HoverCard openDelay={0}>
+      <HoverCardTrigger asChild>
+        <div className="relative flow-root ml-4 lg:ml-6">
+          <a href="/account" className="flex items-center p-2 -m-2 group">
+            <UserCircleIcon
+              className="flex-shrink-0 w-6 h-6"
+              aria-hidden="true"
+            />
+          </a>
+        </div>
+      </HoverCardTrigger>
+      <HoverCardContent className="p-1" sideOffset={20} align="end">
+        <ScrollArea>
+          <ul className="overflow-hidden text-sm">
+            <li className="w-full p-2 transition-all rounded hover:bg-gray-200">
+              <Link className="block w-full" to="/account/login">
+                登录
+              </Link>
+            </li>
+            <li className="w-full p-2 transition-all rounded hover:bg-gray-200">
+              <Link className="block w-full" to="/account/register">
+                注册
+              </Link>
+            </li>
+          </ul>
+        </ScrollArea>
+      </HoverCardContent>
+    </HoverCard>
+  );
+}
+
+function Search() {
+  return (
+    <div className="relative flow-root ml-4 lg:ml-6">
+      <a href="/search" className="flex items-center p-2 -m-2 group">
+        <MagnifyingGlassIcon
+          className="flex-shrink-0 w-6 h-6"
+          aria-hidden="true"
+        />
+      </a>
+    </div>
   );
 }
 
