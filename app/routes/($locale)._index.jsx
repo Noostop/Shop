@@ -1,6 +1,6 @@
 import {defer} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link, Links} from '@remix-run/react';
-import {Suspense, useState, useEffect} from 'react';
+import {Suspense, useState, useEffect, useCallback} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
 
 import {
@@ -10,10 +10,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import {Button} from '@/components/ui/button';
-import Autoplay from 'embla-carousel-autoplay';
-import clsx from 'clsx';
-import {motion, stagger} from 'framer-motion';
+
+import {SliderShow} from '../components/SliderShow';
 
 /**
  * @type {MetaFunction}
@@ -38,44 +36,42 @@ export default function Homepage() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
   return (
-    <div className="home">
+    <div className="flex-1">
       <SliderShow
+        autoplay
         slides={[
           {
             id: '1',
-            title: 'New Year Sale 2024',
-            description: 'up to 50% off on all products. Limited time offer.',
+            title: '2024 年新年大促销',
+            titleWithImage: '',
+            subtitle: '新年新气象',
+            description: '所有产品均可享受高达 50% 的折扣。 限时优惠。',
             position: 'centerLeft',
             mode: 'dark',
             pcImage: {
               url: 'https://www.bluettipower.com/cdn/shop/files/CA_68400bbd-2507-4fdb-93cd-f13c9c39474b.png?v=1704518267',
               width: 5120,
               height: 1600,
-              alt: 'spring sale',
+              alt: '春节促销',
             },
             mobileImage: {
               url: 'https://www.bluettipower.com/cdn/shop/files/1_58768def-b985-4e78-ad85-4ab6a58c5e67.png?v=1704518287',
               width: 1200,
               height: 2150,
-              alt: 'spring sale',
+              alt: '春节促销',
             },
             links: [
               {
                 id: '1',
-                title: 'Shop Now',
-                url: '/collections',
-              },
-              {
-                id: '2',
-                title: 'Learn More',
+                title: '立即参与',
                 url: '/collections',
               },
             ],
           },
           {
             id: '2',
-            title: 'Lighting An African Family We Need Your Hands',
-            description: 'Reliable Power Security to Get Through Any Emergency',
+            title: '照亮非洲家庭，我们需要您的双手',
+            description: '可靠的电力安全，应对任何紧急情况',
             position: 'topCenter',
             mode: 'dark',
             pcImage: {
@@ -93,20 +89,20 @@ export default function Homepage() {
             links: [
               {
                 id: '1',
-                title: 'Shop Now',
+                title: '立即购买',
                 url: '/collections',
               },
               {
                 id: '2',
-                title: 'Learn More',
+                title: '查看更多',
                 url: '/collections',
               },
             ],
           },
           {
             id: '3',
-            title: 'INNOVATIVE HOME BACKUP SOLUTION',
-            description: 'Reliable Power Security to Get Through Any Emergency',
+            title: '创新的家庭备份解决方案',
+            description: '可靠的电力安全，应对任何紧急情况',
             position: 'topLeft',
             mode: 'dark',
             pcImage: {
@@ -121,203 +117,19 @@ export default function Homepage() {
               height: 2150,
               alt: 'spring sale',
             },
+            links: [
+              {
+                id: '2',
+                title: '查看更多',
+                url: '/collections',
+              },
+            ],
           },
         ]}
       />
       <FeaturedCollection collection={data.featuredCollection} />
       <RecommendedProducts products={data.recommendedProducts} />
     </div>
-  );
-}
-
-function SliderShow({slides = []}) {
-  const contentPosition = {
-    topLeft: {
-      container: 'text-center md:text-left',
-      content: 'pt-20',
-    },
-    topCenter: {
-      container: 'text-center flex justify-center',
-      content: 'pt-20',
-    },
-    topRight: {
-      container: 'flex justify-center md:justify-end text-center md:text-right',
-      content: 'pt-20',
-    },
-    centerTop: {
-      container: 'flex justify-center text-center items-start',
-      content: 'pt-20',
-    },
-    centerLeft: {
-      container:
-        'flex justify-center text-center md:text-left md:items-center md:justify-start',
-      content: 'pt-20 md:pt-0',
-    },
-    centerCenter: {
-      container: 'flex justify-center text-center md:items-center',
-      content: 'pt-20 md:pt-0',
-    },
-    centerRight: {
-      container:
-        'flex justify-center md:justify-end text-center md:text-right md:items-center',
-      content: 'pt-20 md:pt-0',
-    },
-    bottomLeft: {
-      container:
-        'flex justify-center md:justify-start text-center md:text-left md:items-end',
-      content: 'pt-20 md:pt-0 pb-20',
-    },
-    bottomCenter: {
-      container: 'flex justify-center text-center md:items-end',
-      content: 'pb-20 pt-20 md:pt-0',
-    },
-    bottomRight: {
-      container:
-        'flex justify-center md:justify-end text-center md:text-right md:items-end',
-      content: 'pb-20 pt-20 md:pt-0',
-    },
-  };
-
-  const contentStyle = {
-    light: 'text-black',
-    dark: 'text-white',
-  };
-
-  const [api, setApi] = useState();
-
-  useEffect(() => {
-    if (!api) {
-      return;
-    }
-
-    api.on('select', () => {});
-  }, [api]);
-
-  return (
-    <Carousel
-      opts={{
-        align: 'start',
-        loop: true,
-      }}
-      plugins={
-        [
-          // Autoplay({
-          //   delay: 3000,
-          //   stopOnMouseEnter: true,
-          //   stopOnInteraction: false,
-          // }),
-        ]
-      }
-      setApi={setApi}
-      className="w-full group/content"
-    >
-      <CarouselContent className="h-[75vh] md:h-[60vh] lg:h-[66vh] -ml-0">
-        {slides.map(
-          ({
-            id,
-            title,
-            description,
-            pcImage,
-            mobileImage,
-            links,
-            position = 'centerCenter',
-            mode = 'light',
-          }) => (
-            <CarouselItem key={id} className="relative w-full h-full pl-0">
-              <motion.div
-                className="h-full bg-gray-300"
-                initial={{opacity: 0, scale: 1.04}}
-                whileInView={{opacity: 1, scale: 1}}
-                exit={{opacity: 0, scale: 0.8}}
-              >
-                {pcImage && (
-                  <Image
-                    data={pcImage}
-                    sizes="100vw"
-                    className="hidden object-cover w-full h-full md:block"
-                  />
-                )}
-                {mobileImage && (
-                  <Image
-                    data={mobileImage}
-                    sizes="100vw"
-                    className="object-cover w-full h-full md:hidden"
-                  />
-                )}
-              </motion.div>
-              <div className="absolute inset-0 bg-input/5">
-                <motion.div
-                  className={clsx(
-                    'container h-full',
-                    contentStyle[mode],
-                    contentPosition[position]?.container,
-                  )}
-                >
-                  <motion.div
-                    className={clsx(
-                      'space-y-4 w-full md:w-3/4 lg:w-1/2',
-                      contentPosition[position]?.content,
-                    )}
-                    initial={{opacity: 0, y: -100, scale: 0.8}}
-                    whileInView={{
-                      opacity: 1,
-                      y: 0,
-                      scale: 1,
-                    }}
-                  >
-                    <motion.h2 className="text-3xl font-semibold md:text-4xl 2xl:text-5xl">
-                      {title}
-                    </motion.h2>
-                    {description && (
-                      <motion.p
-                        className={clsx(
-                          'text-sm md:text-base',
-                          (position != 'centerLeft' || position != 'topLeft') ??
-                            'px-6',
-                        )}
-                      >
-                        {description}
-                      </motion.p>
-                    )}
-                    <motion.div className="space-x-2">
-                      {links?.map(({id, title, url}) => (
-                        <Button
-                          key={id}
-                          className={clsx(
-                            'capitalize bg-input/5 rounded-full',
-                            mode == 'dark'
-                              ? 'text-white'
-                              : 'text-black border-black hover:border-input',
-                          )}
-                          variant="outline"
-                          asChild
-                        >
-                          <Link to={url}>{title}</Link>
-                        </Button>
-                      ))}
-                      {/* <Button
-                        className={clsx(
-                          'capitalize bg-input/5 rounded-full',
-                          mode == 'dark'
-                            ? 'text-white'
-                            : 'text-black border-black hover:border-input',
-                        )}
-                        variant="outline"
-                        asChild
-                      >
-                        <Link to="/collections">Buy Now</Link>
-                      </Button> */}
-                    </motion.div>
-                  </motion.div>
-                </motion.div>
-              </div>
-            </CarouselItem>
-          ),
-        )}
-      </CarouselContent>
-      <CarouselPrevious className="lg:invisible left-4 lg:group-hover/content:visible" />
-      <CarouselNext className="lg:invisible right-4 lg:group-hover/content:visible" />
-    </Carousel>
   );
 }
 
@@ -384,11 +196,11 @@ function RecommendedProducts({products}) {
                       className="basis-2/3 md:basis-1/3 lg:basis-1/4"
                     >
                       <div className="relative group/item">
-                        <div className="w-full overflow-hidden bg-gray-100 rounded-md aspect-square group-hover/item:opacity-75">
+                        <div className="w-full overflow-hidden bg-gray-100 rounded-md aspect-square lg:group-hover/item:opacity-75">
                           <Image
                             data={product.images.nodes[0]}
                             aspectRatio="1/1"
-                            sizes="(min-width: 45em) 20vw, 50vw"
+                            sizes="(min-width: 45em) 60vw, 100vw"
                             className="object-cover object-center w-full h-full mix-blend-multiply"
                           />
                         </div>
@@ -409,8 +221,8 @@ function RecommendedProducts({products}) {
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="left-4 2xl:-left-10 lg:invisible lg:group-hover:visible" />
-                <CarouselNext className="right-4 2xl:-right-10 lg:invisible lg:group-hover:visible" />
+                <CarouselPrevious className="invisible left-4 2xl:-left-10 lg:group-hover:visible" />
+                <CarouselNext className="invisible right-4 2xl:-right-10 lg:group-hover:visible" />
               </Carousel>
             )}
           </Await>
