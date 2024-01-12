@@ -1,6 +1,6 @@
 import {defer} from '@shopify/remix-oxygen';
-import {Await, useLoaderData, Link} from '@remix-run/react';
-import {Suspense} from 'react';
+import {Await, useLoaderData, Link, Links} from '@remix-run/react';
+import {Suspense, useState, useEffect} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
 
 import {
@@ -13,6 +13,8 @@ import {
 import {Button} from '@/components/ui/button';
 import Autoplay from 'embla-carousel-autoplay';
 import clsx from 'clsx';
+import {motion, stagger} from 'framer-motion';
+
 /**
  * @type {MetaFunction}
  */
@@ -53,16 +55,28 @@ export default function Homepage() {
             },
             mobileImage: {
               url: 'https://www.bluettipower.com/cdn/shop/files/1_58768def-b985-4e78-ad85-4ab6a58c5e67.png?v=1704518287',
-              width: 750,
-              height: 1344,
+              width: 1200,
+              height: 2150,
               alt: 'spring sale',
             },
+            links: [
+              {
+                id: '1',
+                title: 'Shop Now',
+                url: '/collections',
+              },
+              {
+                id: '2',
+                title: 'Learn More',
+                url: '/collections',
+              },
+            ],
           },
           {
             id: '2',
             title: 'Lighting An African Family We Need Your Hands',
             description: 'Reliable Power Security to Get Through Any Emergency',
-            position: 'centerLeft',
+            position: 'topCenter',
             mode: 'dark',
             pcImage: {
               url: 'https://www.bluettipower.com/cdn/shop/files/LAAF-PC.jpg?v=1704702172',
@@ -70,17 +84,41 @@ export default function Homepage() {
               height: 1600,
               alt: 'spring sale',
             },
+            mobileImage: {
+              url: 'https://www.bluettipower.com/cdn/shop/files/s1.jpg?v=1703208532',
+              width: 1200,
+              height: 2150,
+              alt: 'spring sale',
+            },
+            links: [
+              {
+                id: '1',
+                title: 'Shop Now',
+                url: '/collections',
+              },
+              {
+                id: '2',
+                title: 'Learn More',
+                url: '/collections',
+              },
+            ],
           },
           {
             id: '3',
             title: 'INNOVATIVE HOME BACKUP SOLUTION',
             description: 'Reliable Power Security to Get Through Any Emergency',
-            position: 'bottomLeft',
+            position: 'topLeft',
             mode: 'dark',
             pcImage: {
               url: 'https://www.bluettipower.com/cdn/shop/files/1_25a028e8-2a71-4a3c-affe-61ceae699684.webp?v=1697183665',
               width: 5120,
               height: 1600,
+              alt: 'spring sale',
+            },
+            mobileImage: {
+              url: 'https://www.bluettipower.com/cdn/shop/files/2_68778c6f-3a97-40bf-b66a-dfd0a5ae5f07.webp?v=1697183681',
+              width: 1200,
+              height: 2150,
               alt: 'spring sale',
             },
           },
@@ -145,6 +183,16 @@ function SliderShow({slides = []}) {
     dark: 'text-white',
   };
 
+  const [api, setApi] = useState();
+
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    api.on('select', () => {});
+  }, [api]);
+
   return (
     <Carousel
       opts={{
@@ -160,7 +208,8 @@ function SliderShow({slides = []}) {
           // }),
         ]
       }
-      className="w-full"
+      setApi={setApi}
+      className="w-full group/content"
     >
       <CarouselContent className="h-[75vh] md:h-[60vh] lg:h-[66vh] -ml-0">
         {slides.map(
@@ -170,11 +219,17 @@ function SliderShow({slides = []}) {
             description,
             pcImage,
             mobileImage,
+            links,
             position = 'centerCenter',
             mode = 'light',
           }) => (
             <CarouselItem key={id} className="relative w-full h-full pl-0">
-              <div className="h-full bg-gray-300">
+              <motion.div
+                className="h-full bg-gray-300"
+                initial={{opacity: 0, scale: 1.04}}
+                whileInView={{opacity: 1, scale: 1}}
+                exit={{opacity: 0, scale: 0.8}}
+              >
                 {pcImage && (
                   <Image
                     data={pcImage}
@@ -189,26 +244,32 @@ function SliderShow({slides = []}) {
                     className="object-cover w-full h-full md:hidden"
                   />
                 )}
-              </div>
+              </motion.div>
               <div className="absolute inset-0 bg-input/5">
-                <div
+                <motion.div
                   className={clsx(
                     'container h-full',
                     contentStyle[mode],
                     contentPosition[position]?.container,
                   )}
                 >
-                  <div
+                  <motion.div
                     className={clsx(
                       'space-y-4 w-full md:w-3/4 lg:w-1/2',
                       contentPosition[position]?.content,
                     )}
+                    initial={{opacity: 0, y: -100, scale: 0.8}}
+                    whileInView={{
+                      opacity: 1,
+                      y: 0,
+                      scale: 1,
+                    }}
                   >
-                    <h2 className="text-3xl font-semibold md:text-4xl 2xl:text-5xl">
+                    <motion.h2 className="text-3xl font-semibold md:text-4xl 2xl:text-5xl">
                       {title}
-                    </h2>
+                    </motion.h2>
                     {description && (
-                      <p
+                      <motion.p
                         className={clsx(
                           'text-sm md:text-base',
                           (position != 'centerLeft' || position != 'topLeft') ??
@@ -216,22 +277,25 @@ function SliderShow({slides = []}) {
                         )}
                       >
                         {description}
-                      </p>
+                      </motion.p>
                     )}
-                    <div className="space-x-2">
-                      <Button
-                        className={clsx(
-                          'capitalize bg-input/5 rounded-full',
-                          mode == 'dark'
-                            ? 'text-white'
-                            : 'text-black border-black hover:border-input',
-                        )}
-                        variant="outline"
-                        asChild
-                      >
-                        <Link to="/collections">lean more</Link>
-                      </Button>
-                      <Button
+                    <motion.div className="space-x-2">
+                      {links?.map(({id, title, url}) => (
+                        <Button
+                          key={id}
+                          className={clsx(
+                            'capitalize bg-input/5 rounded-full',
+                            mode == 'dark'
+                              ? 'text-white'
+                              : 'text-black border-black hover:border-input',
+                          )}
+                          variant="outline"
+                          asChild
+                        >
+                          <Link to={url}>{title}</Link>
+                        </Button>
+                      ))}
+                      {/* <Button
                         className={clsx(
                           'capitalize bg-input/5 rounded-full',
                           mode == 'dark'
@@ -242,17 +306,17 @@ function SliderShow({slides = []}) {
                         asChild
                       >
                         <Link to="/collections">Buy Now</Link>
-                      </Button>
-                    </div>
-                  </div>
-                </div>
+                      </Button> */}
+                    </motion.div>
+                  </motion.div>
+                </motion.div>
               </div>
             </CarouselItem>
           ),
         )}
       </CarouselContent>
-      <CarouselPrevious className="invisible left-4 xl:visible" />
-      <CarouselNext className="invisible right-4 xl:visible" />
+      <CarouselPrevious className="lg:invisible left-4 lg:group-hover/content:visible" />
+      <CarouselNext className="lg:invisible right-4 lg:group-hover/content:visible" />
     </Carousel>
   );
 }
@@ -289,8 +353,8 @@ function FeaturedCollection({collection}) {
  */
 function RecommendedProducts({products}) {
   return (
-    <div className="bg-white">
-      <div className="max-w-2xl px-4 py-16 mx-auto sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+    <div className="bg-white group">
+      <div className="container">
         <div className="md:flex md:items-center md:justify-between">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">
             Recommended Products
@@ -315,9 +379,12 @@ function RecommendedProducts({products}) {
               >
                 <CarouselContent className="mt-10">
                   {products.nodes.map((product) => (
-                    <CarouselItem key={product.id} className="basis-1/4">
-                      <div className="relative group">
-                        <div className="w-full overflow-hidden bg-gray-100 rounded-md aspect-square group-hover:opacity-75">
+                    <CarouselItem
+                      key={product.id}
+                      className="basis-2/3 md:basis-1/3 lg:basis-1/4"
+                    >
+                      <div className="relative group/item">
+                        <div className="w-full overflow-hidden bg-gray-100 rounded-md aspect-square group-hover/item:opacity-75">
                           <Image
                             data={product.images.nodes[0]}
                             aspectRatio="1/1"
@@ -342,8 +409,8 @@ function RecommendedProducts({products}) {
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="left-4 md:-left-10" />
-                <CarouselNext className="right-4 md:-right-10" />
+                <CarouselPrevious className="left-4 2xl:-left-10 lg:invisible lg:group-hover:visible" />
+                <CarouselNext className="right-4 2xl:-right-10 lg:invisible lg:group-hover:visible" />
               </Carousel>
             )}
           </Await>

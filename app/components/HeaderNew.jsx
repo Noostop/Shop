@@ -104,14 +104,14 @@ export function Header({header, isLoggedIn, cart}) {
 
   return (
     <motion.header
-      className="sticky top-0 z-40 bg-white"
+      className="sticky top-0 z-40 bg-white h-14"
       initial={{opacity: 0}}
       whileInView={{opacity: 1}}
       viewport={{once: true}}
       // animate={{background: showMenu ? '#fff' : 'transparent'}}
       transition={{duration: 0.3, ease: 'easeInOut'}}
     >
-      <div className="container flex items-center gap-2 h-14">
+      <div className="container flex items-center h-full gap-2">
         <HeaderMenuMobileToggle className="md:hidden" />
 
         <NavLink prefetch="intent" to="/" end>
@@ -294,7 +294,7 @@ function CartBadge({count, cart}) {
               className="flex-shrink-0 w-6 h-6"
               aria-hidden="true"
             />
-            <span className="absolute inline-flex items-center p-1 text-xs font-medium text-gray-600 rounded-full -top-2 -right-4 bg-gray-50 ring-1 ring-inset ring-gray-500/10">
+            <span className="inline-flex items-center text-xs font-medium text-gray-600 rounded-full lg:absolute lg:p-1 lg:-top-2 lg:-right-4 lg:bg-gray-50 lg:ring-1 lg:ring-inset lg:ring-gray-500/10">
               {count}
             </span>
             <span className="sr-only">items in cart, view bag</span>
