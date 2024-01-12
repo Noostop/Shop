@@ -31,6 +31,8 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  NavigationMenuIndicator,
+  NavigationMenuViewport,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 
@@ -102,11 +104,11 @@ export function Header({header, isLoggedIn, cart}) {
 
   return (
     <motion.header
-      className="sticky top-0 z-40"
+      className="sticky top-0 z-40 bg-white"
       initial={{opacity: 0}}
       whileInView={{opacity: 1}}
       viewport={{once: true}}
-      animate={{background: showMenu ? '#fff' : 'transparent'}}
+      // animate={{background: showMenu ? '#fff' : 'transparent'}}
       transition={{duration: 0.3, ease: 'easeInOut'}}
     >
       <div className="container flex items-center gap-2 h-14">
@@ -186,7 +188,7 @@ function NavigationMen({
   }
 
   return (
-    <NavigationMenu className="hidden py-2 ml-6 md:flex">
+    <NavigationMenu className="hidden py-2 ml-6 lg:flex max-w-none">
       <NavigationMenuList className="space-x-2">
         {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
           if (!item.url) return null;
@@ -214,8 +216,8 @@ function NavigationMen({
                 </NavLink>
               </NavigationMenuTrigger>
 
-              <NavigationMenuContent>
-                <div className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+              <NavigationMenuContent className="w-full">
+                <div className="w-full p-4 bg-white">
                   <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                     <li className="row-span-3">
                       <NavigationMenuLink asChild>
@@ -255,6 +257,10 @@ function NavigationMen({
           );
         })}
       </NavigationMenuList>
+
+      {/* <div className="absolute w-full bg-red-500 top-full">
+        <NavigationMenuViewport />
+      </div> */}
     </NavigationMenu>
   );
 }
