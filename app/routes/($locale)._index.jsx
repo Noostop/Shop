@@ -13,6 +13,7 @@ import {
 
 import {SliderShow} from '../components/SliderShow';
 import {FeaturedCardContent} from '../components/FeaturedCard';
+import {Testimonials} from '../components/Testimonials';
 
 /**
  * @type {MetaFunction}
@@ -215,6 +216,7 @@ export default function Homepage() {
           },
         ]}
       />
+      <Testimonials />
       {/* <FeaturedCollection collection={data.featuredCollection} /> */}
       <RecommendedProducts products={data.recommendedProducts} />
     </div>

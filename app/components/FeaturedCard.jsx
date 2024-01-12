@@ -17,14 +17,14 @@ export function FeaturedCardContent({items}) {
 
 export function FeaturedCard({title, description, image, links, dark}) {
   return (
-    <div className="relative overflow-hidden w-full bg-gray-100 md:col-cols-1 aspect-square lg:aspect-[4/3] xl:aspect-video">
+    <div className="relative overflow-hidden w-full bg-gray-100 md:col-cols-1 aspect-[3/4] lg:aspect-[4/3] xl:aspect-video">
       <Image
         data={image}
         sizes="100vw"
         className="object-cover w-full h-full"
       />
 
-      <div className="absolute inset-0 p-4 text-center lg:p-10">
+      <div className="absolute inset-0 px-4 pt-8 text-center lg:p-10">
         <motion.div
           className="space-y-2 xl:space-y-4"
           initial={{opacity: 0, y: -100, scale: 0.8}}
