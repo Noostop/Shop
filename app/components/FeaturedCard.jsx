@@ -24,8 +24,9 @@ export function FeaturedCard({title, description, image, links, dark}) {
         className="object-cover w-full h-full"
       />
 
-      <div className="absolute inset-0 p-4 space-y-2 text-center xl:space-y-4 lg:p-10">
+      <div className="absolute inset-0 p-4 text-center lg:p-10">
         <motion.div
+          className="space-y-2 xl:space-y-4"
           initial={{opacity: 0, y: -100, scale: 0.8}}
           whileInView={{
             opacity: 1,
