@@ -13,6 +13,10 @@ import {
 import {Button} from '@/components/ui/button';
 import Autoplay from 'embla-carousel-autoplay';
 
+/**
+ * 滚动图片展示
+ * @returns 滚动组件
+ */
 export function SliderShow({autoplay = {}, slides = []}) {
   const contentPosition = {
     topLeft: {

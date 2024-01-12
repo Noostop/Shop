@@ -1,6 +1,6 @@
 import {defer} from '@shopify/remix-oxygen';
-import {Await, useLoaderData, Link, Links} from '@remix-run/react';
-import {Suspense, useState, useEffect, useCallback} from 'react';
+import {Await, useLoaderData, Link} from '@remix-run/react';
+import {Suspense} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
 
 import {
@@ -36,7 +36,7 @@ export default function Homepage() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
   return (
-    <div className="flex-1">
+    <div className="flex flex-col flex-1 gap-y-8 md:gap-y-10">
       <SliderShow
         autoplay
         slides={[
@@ -127,7 +127,9 @@ export default function Homepage() {
           },
         ]}
       />
-      <FeaturedCollection collection={data.featuredCollection} />
+      {/* <FeaturedCollection collection={data.featuredCollection} /> */}
+      <RecommendedProducts products={data.recommendedProducts} />
+      <RecommendedProducts products={data.recommendedProducts} />
       <RecommendedProducts products={data.recommendedProducts} />
     </div>
   );

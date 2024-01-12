@@ -21,6 +21,10 @@ module.exports = {
         '2xl': '6rem',
       },
       screens: {
+        sm: '768px',
+        md: '1100px',
+        lg: '1200px',
+        xl: '1280px',
         '2xl': '1400px',
       },
     },
