@@ -131,9 +131,9 @@ export function SliderShow({autoplay = {}, slides = []}) {
             <CarouselItem key={id} className="relative w-full h-full pl-0">
               <motion.div
                 className="h-full bg-gray-300"
-                initial={{opacity: 0, scale: 1.04}}
-                whileInView={{opacity: 1, scale: 1}}
-                exit={{opacity: 0, scale: 0.8}}
+                // initial={{opacity: 0, scale: 1.04}}
+                // whileInView={{opacity: 1, scale: 1}}
+                // exit={{opacity: 0, scale: 0.8}}
               >
                 {pcImage && (
                   <Image
@@ -169,6 +169,7 @@ export function SliderShow({autoplay = {}, slides = []}) {
                       y: 0,
                       scale: 1,
                     }}
+                    viewport={{once: true}}
                   >
                     {subtitle && <p className="text-gray-300">{subtitle}</p>}
                     <motion.h2 className="text-3xl font-semibold md:text-4xl 2xl:text-5xl">

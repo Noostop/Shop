@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/carousel';
 
 import {SliderShow} from '../components/SliderShow';
+import {FeaturedCardContent} from '../components/FeaturedCard';
 
 /**
  * @type {MetaFunction}
@@ -36,7 +37,7 @@ export default function Homepage() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
   return (
-    <div className="flex flex-col flex-1 gap-y-8 md:gap-y-10">
+    <div className="flex flex-col flex-1 gap-y-2 md:gap-y-4">
       <SliderShow
         autoplay
         slides={[
@@ -127,9 +128,94 @@ export default function Homepage() {
           },
         ]}
       />
+      <FeaturedCardContent
+        items={[
+          {
+            id: '1',
+            title: '便携式发电站',
+            description: '适合公路、露营和移动生活',
+            image: {
+              url: 'https://www.bluettipower.com/cdn/shop/files/eb3a_2512x1392_527-1_2ac5e2aa-4721-42c9-a8c9-42a6e6814679.webp?v=1653648453',
+              width: 2512,
+              height: 1392,
+              alt: '便携式发电站',
+            },
+            links: [
+              {
+                id: '1',
+                title: '了解更多',
+                url: '/collections',
+              },
+              {
+                id: '2',
+                title: '立即购买',
+                url: '/collections',
+              },
+            ],
+          },
+          {
+            id: '2',
+            title: '5000W 移动电源',
+            description: '为停电做好准备',
+            image: {
+              url: 'https://www.bluettipower.com/cdn/shop/files/AC500_B300S_2512x1392_3c58c6d6-5e1c-4f13-9f9d-0009acb4b00a.jpg?v=1688971661',
+              width: 2512,
+              height: 1392,
+              alt: '5000W 移动电源',
+            },
+            links: [
+              {
+                id: '1',
+                title: '了解更多',
+                url: '/collections',
+              },
+            ],
+          },
+          {
+            id: '3',
+            title: '为停电做好准备',
+            description: '为停电做好准备',
+            image: {
+              url: 'https://www.bluettipower.com/cdn/shop/files/Portable_Power_Station_602.webp?v=1654141834',
+              width: 2512,
+              height: 1392,
+              alt: '为停电做好准备',
+            },
+            links: [
+              {
+                id: '1',
+                title: '了解更多',
+                url: '/collections',
+              },
+            ],
+          },
+          {
+            id: '4',
+            title: '磷酸铁锂电池',
+            description: '经久耐用',
+            dark: true,
+            image: {
+              url: 'https://www.bluettipower.com/cdn/shop/files/1_4106f9ae-8644-4d37-b4a1-1b984dcf44e0.jpg?v=1703152235',
+              width: 2512,
+              height: 1392,
+              alt: '磷酸铁锂电池',
+            },
+            links: [
+              {
+                id: '1',
+                title: '了解更多',
+                url: '/collections',
+              },
+              {
+                id: '2',
+                title: '立即购买',
+                url: '/collections',
+              },
+            ],
+          },
+        ]}
+      />
       {/* <FeaturedCollection collection={data.featuredCollection} /> */}
-      <RecommendedProducts products={data.recommendedProducts} />
-      <RecommendedProducts products={data.recommendedProducts} />
       <RecommendedProducts products={data.recommendedProducts} />
     </div>
   );
