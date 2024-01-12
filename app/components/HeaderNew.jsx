@@ -90,7 +90,7 @@ export function Header({header, isLoggedIn, cart}) {
 
   const {scrollY} = useScroll();
 
-  console.log(menu);
+  // console.log(menu);
 
   // useMotionValueEvent(scrollY, 'change', (latest) => {
   //   if (latest > 200) {
