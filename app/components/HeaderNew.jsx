@@ -44,6 +44,7 @@ import {
 
 import {ScrollArea} from '@/components/ui/scroll-area';
 import {CartMain} from '~/components/Cart';
+import {SubNavigation} from '~/components/SubNavigation';
 
 const components = [
   {
@@ -102,49 +103,72 @@ export function Header({header, isLoggedIn, cart}) {
   //   console.log('Page scroll: ', latest, scrollYProgress.current);
   // });
 
+  const hasSubNav = true;
+
   return (
-    <motion.header
-      className="sticky top-0 z-40 bg-white h-14"
-      initial={{opacity: 0}}
-      whileInView={{opacity: 1}}
-      viewport={{once: true}}
-      // animate={{background: showMenu ? '#fff' : 'transparent'}}
-      transition={{duration: 0.3, ease: 'easeInOut'}}
-    >
-      <div className="container flex items-center h-full gap-2">
-        <HeaderMenuMobileToggle className="md:hidden" />
+    <>
+      <motion.header
+        className={clsx(
+          'bg-white h-14',
+          hasSubNav ? 'relative' : 'sticky top-0 z-[3]',
+        )}
+        initial={{opacity: 0}}
+        whileInView={{opacity: 1}}
+        viewport={{once: true}}
+        // animate={{background: showMenu ? '#fff' : 'transparent'}}
+        transition={{duration: 0.3, ease: 'easeInOut'}}
+      >
+        <NavigationMenu className="w-full h-full max-w-none">
+          <div className="container flex items-center h-full gap-2">
+            <HeaderMenuMobileToggle className="md:hidden" />
 
-        <NavLink prefetch="intent" to="/" end>
-          <strong>{shop.name}</strong>
-        </NavLink>
+            <NavLink prefetch="intent" to="/" end>
+              <strong>{shop.name}</strong>
+            </NavLink>
 
-        <NavigationMen
-          shop={shop}
-          menu={menu}
-          isLoggedIn={isLoggedIn}
-          cart={cart}
-          viewport="desktop"
-          primaryDomainUrl={header.shop.primaryDomain.url}
+            <NavigationMen
+              shop={shop}
+              menu={menu}
+              isLoggedIn={isLoggedIn}
+              cart={cart}
+              viewport="desktop"
+              primaryDomainUrl={header.shop.primaryDomain.url}
+            />
+
+            <div className="flex items-center ml-auto">
+              <User isLoggedIn={isLoggedIn} />
+
+              <Search />
+
+              <Suspense fallback={<CartBadge count={0} />}>
+                <Await resolve={cart}>
+                  {(cart) => {
+                    if (!cart) return <CartBadge count={0} />;
+                    return (
+                      <CartBadge count={cart.totalQuantity || 0} cart={cart} />
+                    );
+                  }}
+                </Await>
+              </Suspense>
+            </div>
+          </div>
+        </NavigationMenu>
+      </motion.header>
+
+      {hasSubNav && (
+        <SubNavigation
+          title="AC180"
+          links={[
+            {id: '1', title: '配件', url: '/ac180'},
+            {id: '2', title: '机型对比', url: '/specs'},
+            {id: '3', title: '技术参数', url: '/specs'},
+            {id: '4', title: '视频', url: '/videos'},
+            {id: '5', title: '下载', url: '/downloads'},
+            {id: '5', title: '常见问题', url: '/faqs'},
+          ]}
         />
-
-        <div className="flex items-center ml-auto">
-          <User isLoggedIn={isLoggedIn} />
-
-          <Search />
-
-          <Suspense fallback={<CartBadge count={0} />}>
-            <Await resolve={cart}>
-              {(cart) => {
-                if (!cart) return <CartBadge count={0} />;
-                return (
-                  <CartBadge count={cart.totalQuantity || 0} cart={cart} />
-                );
-              }}
-            </Await>
-          </Suspense>
-        </div>
-      </div>
-    </motion.header>
+      )}
+    </>
   );
 }
 
@@ -188,80 +212,78 @@ function NavigationMen({
   }
 
   return (
-    <NavigationMenu className="hidden py-2 ml-6 lg:flex max-w-none">
-      <NavigationMenuList className="space-x-2">
-        {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
-          if (!item.url) return null;
+    <NavigationMenuList className="max-lg:hidden">
+      {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
+        if (!item.url) return null;
 
-          // if the url is internal, we strip the domain
-          const url =
-            item.url.includes('myshopify.com') ||
-            item.url.includes(publicStoreDomain) ||
-            item.url.includes(primaryDomainUrl)
-              ? new URL(item.url).pathname
-              : item.url;
-          return (
-            <NavigationMenuItem key={item.id}>
-              <NavigationMenuTrigger className="relative bg-transparent hover:bg-transparent data-[active]:bg-transparent data-[state=open]:bg-transparent">
-                <NavLink
-                  className="text-sm font-semibold leading-6 text-gray-900"
-                  key={item.id}
-                  onClick={closeAside}
-                  // prefetch="intent"
-                  // style={activeLinkStyle}
-                  to={url}
-                  end
-                >
-                  {item.title}
-                </NavLink>
-              </NavigationMenuTrigger>
+        // if the url is internal, we strip the domain
+        const url =
+          item.url.includes('myshopify.com') ||
+          item.url.includes(publicStoreDomain) ||
+          item.url.includes(primaryDomainUrl)
+            ? new URL(item.url).pathname
+            : item.url;
+        return (
+          <NavigationMenuItem key={item.id}>
+            <NavigationMenuTrigger className="relative bg-transparent hover:bg-transparent data-[active]:bg-transparent data-[state=open]:bg-transparent">
+              <NavLink
+                className="text-sm font-semibold leading-6 text-gray-900"
+                key={item.id}
+                onClick={closeAside}
+                // prefetch="intent"
+                // style={activeLinkStyle}
+                to={url}
+                end
+              >
+                {item.title}
+              </NavLink>
+            </NavigationMenuTrigger>
 
-              <NavigationMenuContent className="w-full">
-                <div className="w-full p-4 bg-white">
-                  <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                    <li className="row-span-3">
-                      <NavigationMenuLink asChild>
-                        <a
-                          className="flex flex-col justify-end w-full h-full p-6 no-underline rounded-md outline-none select-none bg-gradient-to-b from-muted/50 to-muted focus:shadow-md"
-                          href="/"
-                        >
-                          {/* <Icons.logo className="w-6 h-6" /> */}
-                          <div className="mt-4 mb-2 text-lg font-medium">
-                            shadcn/ui
-                          </div>
-                          <p className="text-sm leading-tight text-muted-foreground">
-                            Beautifully designed components that you can copy
-                            and paste into your apps. Accessible. Customizable.
-                            Open Source.
-                          </p>
-                        </a>
-                      </NavigationMenuLink>
-                    </li>
-                    <ListItem href="/docs" title="Introduction">
-                      Re-usable components built using Radix UI and Tailwind
-                      CSS.
-                    </ListItem>
-                    <ListItem href="/docs/installation" title="Installation">
-                      How to install dependencies and structure your app.
-                    </ListItem>
-                    <ListItem
-                      href="/docs/primitives/typography"
-                      title="Typography"
-                    >
-                      Styles for headings, paragraphs, lists...etc
-                    </ListItem>
-                  </ul>
+            <NavigationMenuContent>
+              <div className="w-screen">
+                <div className="container">
+                  <div className="w-full bg-white">
+                    <ul className="grid gap-3 py-6 w-full lg:grid-cols-[.75fr_1fr]">
+                      <li className="row-span-3">
+                        <NavigationMenuLink asChild>
+                          <a
+                            className="flex flex-col justify-end w-full h-full p-6 no-underline rounded-md outline-none select-none bg-gradient-to-b from-muted/50 to-muted focus:shadow-md"
+                            href="/"
+                          >
+                            {/* <Icons.logo className="w-6 h-6" /> */}
+                            <div className="mt-4 mb-2 text-lg font-medium">
+                              {item.title}
+                            </div>
+                            <p className="text-sm leading-tight text-muted-foreground">
+                              Beautifully designed components that you can copy
+                              and paste into your apps. Accessible.
+                              Customizable. Open Source.
+                            </p>
+                          </a>
+                        </NavigationMenuLink>
+                      </li>
+                      <ListItem href="/docs" title="Introduction">
+                        Re-usable components built using Radix UI and Tailwind
+                        CSS.
+                      </ListItem>
+                      <ListItem href="/docs/installation" title="Installation">
+                        How to install dependencies and structure your app.
+                      </ListItem>
+                      <ListItem
+                        href="/docs/primitives/typography"
+                        title="Typography"
+                      >
+                        Styles for headings, paragraphs, lists...etc
+                      </ListItem>
+                    </ul>
+                  </div>
                 </div>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-          );
-        })}
-      </NavigationMenuList>
-
-      {/* <div className="absolute w-full bg-red-500 top-full">
-        <NavigationMenuViewport />
-      </div> */}
-    </NavigationMenu>
+              </div>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        );
+      })}
+    </NavigationMenuList>
   );
 }
 

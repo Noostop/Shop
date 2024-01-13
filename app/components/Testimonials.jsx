@@ -13,7 +13,7 @@ export function Testimonials() {
           <StarIcon className="flex-none w-5 h-5" aria-hidden="true" />
         </div>
         <blockquote className="mt-10 text-xl font-semibold leading-8 tracking-tight text-gray-900 sm:text-2xl sm:leading-9">
-          <p>
+          <p className='before:contents["“"]'>
             “Qui dolor enim consectetur do et non ex amet culpa sint in ea non
             dolore. Enim minim magna anim id minim eu cillum sunt dolore
             aliquip. Amet elit laborum culpa irure incididunt adipisicing culpa

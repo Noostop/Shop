@@ -27,6 +27,7 @@ export function Layout({cart, children = null, footer, header, isLoggedIn}) {
       <MobileMenuAside menu={header?.menu} shop={header?.shop} /> */}
       <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />
       <motion.main
+        className="flex-1"
         initial={{opacity: 0}}
         whileInView={{opacity: 1}}
         viewport={{once: true}}

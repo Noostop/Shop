@@ -40,7 +40,7 @@ export default function Homepage() {
   return (
     <div className="flex flex-col flex-1 gap-y-2 md:gap-y-4">
       <SliderShow
-        autoplay
+        // autoplay
         slides={[
           {
             id: '1',
