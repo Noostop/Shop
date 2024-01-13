@@ -1,5 +1,5 @@
 import {defer} from '@shopify/remix-oxygen';
-import {Await, useLoaderData, Link} from '@remix-run/react';
+import {Await, useLoaderData} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
 import {SliderShow} from '~/components/SliderShow';
@@ -21,14 +21,17 @@ export const meta = ({data}) => {
 /**
  * @param {LoaderFunctionArgs}
  */
-export async function loader({params, request}) {
+export async function loader({params, request, context}) {
   const {handle = 'ac180'} = params;
+  const {storefront} = context;
+  const {language, country} = storefront.i18n;
+
   // const {storefront} = context;
   // const {collections} = await storefront.query(FEATURED_COLLECTION_QUERY);
   // const featuredCollection = collections.nodes[0];
   // const recommendedProducts = storefront.query(RECOMMENDED_PRODUCTS_QUERY);
 
-  console.log(params, 'handle');
+  console.log(language, country, 'handle');
 
   const products = [
     {

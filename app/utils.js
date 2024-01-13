@@ -1,4 +1,4 @@
-import {useLocation} from '@remix-run/react';
+import {useLocation, useMatches} from '@remix-run/react';
 import {useMemo} from 'react';
 import {clsx} from 'clsx';
 import {twMerge} from 'tailwind-merge';
@@ -54,4 +54,13 @@ export function getVariantUrl({
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
+}
+
+export function usePrefixPathWithLocale(path) {
+  const [root] = useMatches();
+  const selectedLocale = root.data.selectedLocale;
+
+  return selectedLocale
+    ? `${selectedLocale.pathPrefix}${path.startsWith('/') ? path : '/' + path}`
+    : path;
 }

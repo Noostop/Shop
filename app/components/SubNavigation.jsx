@@ -1,5 +1,5 @@
-import {Link} from '@remix-run/react';
 import {Button} from '@/components/ui/button';
+import {Link} from '~/components/Link';
 
 export function SubNavigation({title, links, className, children}) {
   return (

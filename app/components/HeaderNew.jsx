@@ -1,5 +1,5 @@
 import {Suspense, useState, forwardRef, useRef} from 'react';
-import {Await, NavLink, Link} from '@remix-run/react';
+import {Await} from '@remix-run/react';
 import {
   motion,
   AnimatePresence,
@@ -9,6 +9,7 @@ import {
 import clsx from 'clsx';
 import {cn} from '@/lib/utils';
 import {useRootLoaderData} from '~/root';
+import {Link} from '~/components/Link';
 
 import {
   ArrowPathIcon,
@@ -122,9 +123,9 @@ export function Header({header, isLoggedIn, cart}) {
           <div className="container flex items-center h-full gap-2">
             <HeaderMenuMobileToggle className="md:hidden" />
 
-            <NavLink prefetch="intent" to="/" end>
+            <Link prefetch="intent" to="/">
               <strong>{shop.name}</strong>
-            </NavLink>
+            </Link>
 
             <NavigationMen
               shop={shop}
@@ -226,17 +227,16 @@ function NavigationMen({
         return (
           <NavigationMenuItem key={item.id}>
             <NavigationMenuTrigger className="relative bg-transparent hover:bg-transparent data-[active]:bg-transparent data-[state=open]:bg-transparent">
-              <NavLink
+              <Link
                 className="text-sm font-semibold leading-6 text-gray-900"
                 key={item.id}
                 onClick={closeAside}
                 // prefetch="intent"
                 // style={activeLinkStyle}
                 to={url}
-                end
               >
                 {item.title}
-              </NavLink>
+              </Link>
             </NavigationMenuTrigger>
 
             <NavigationMenuContent>
