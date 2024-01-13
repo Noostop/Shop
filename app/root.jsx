@@ -91,6 +91,19 @@ export async function loader({context}) {
     },
   });
 
+  const pages = [
+    {
+      handle: 'ac180',
+      title: 'AC180',
+      description: '1,800W AC Output / 2,700W Power Lifting Mode',
+    },
+    {
+      handle: 'ac60',
+      title: 'AC60',
+      description: '1,800W AC Output / 2,700W Power Lifting Mode',
+    },
+  ];
+
   return defer(
     {
       cart: cartPromise,
@@ -98,6 +111,7 @@ export async function loader({context}) {
       header: await headerPromise,
       isLoggedIn,
       publicStoreDomain,
+      pages,
     },
     {headers},
   );
