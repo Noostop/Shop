@@ -18,15 +18,14 @@ import {motion, MotionConfig, useReducedMotion} from 'framer-motion';
 export function Layout({
   cart,
   children = null,
-  footer,
-  header,
+  shop,
+  headerMenu,
+  footerMenu,
   isLoggedIn,
   pages,
   selectedLocale,
 }) {
   let shouldReduceMotion = useReducedMotion();
-
-  console.log(selectedLocale, 'selectedLocale');
 
   return (
     <MotionConfig
@@ -35,7 +34,12 @@ export function Layout({
       {/* <CartAside cart={cart} />
       <SearchAside />
       <MobileMenuAside menu={header?.menu} shop={header?.shop} /> */}
-      <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />
+      <Header
+        shop={shop}
+        headerMenu={headerMenu}
+        cart={cart}
+        isLoggedIn={isLoggedIn}
+      />
       <motion.main
         className="flex-1"
         initial={{opacity: 0}}
@@ -45,8 +49,8 @@ export function Layout({
         {children}
       </motion.main>
       <Suspense>
-        <Await resolve={footer}>
-          {(footer) => <Footer menu={footer?.menu} shop={header?.shop} />}
+        <Await resolve={footerMenu}>
+          {(footer) => <Footer menu={footer?.menu} shop={shop} />}
         </Await>
       </Suspense>
     </MotionConfig>

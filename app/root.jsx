@@ -1,4 +1,4 @@
-import {useNonce} from '@shopify/hydrogen';
+import {useNonce, Seo} from '@shopify/hydrogen';
 import {defer} from '@shopify/remix-oxygen';
 import {
   Links,
@@ -18,7 +18,8 @@ import tailwindStyles from './styles/tailwind.css';
 import {Layout} from '~/components/Layout';
 import {Link} from '~/components/Link';
 import {Button} from '../@/components/ui/button';
-import {getLocaleFromRequest} from '~/lib/utils';
+import {getLocaleFromRequest, DEFAULT_LOCALE, parseMenu} from '~/lib/utils';
+import {seoPayload} from '~/lib/seo.server';
 
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
@@ -66,7 +67,11 @@ export const useRootLoaderData = () => {
  */
 export async function loader({context, request}) {
   const {storefront, session, cart} = context;
-  const customerAccessToken = await session.get('customerAccessToken');
+  const [customerAccessToken, layout] = await Promise.all([
+    session.get('customerAccessToken'),
+    getLayoutData(context),
+  ]);
+
   const publicStoreDomain = context.env.PUBLIC_STORE_DOMAIN;
 
   // 验证客户访问令牌是否有效
@@ -107,15 +112,18 @@ export async function loader({context, request}) {
     },
   ];
 
+  const seo = seoPayload.root({shop: layout.shop, url: request.url});
+  const selectedLocale = await getLocaleFromRequest(request);
+
   return defer(
     {
-      cart: cartPromise,
-      footer: footerPromise,
-      header: await headerPromise,
-      isLoggedIn,
-      publicStoreDomain,
+      seo,
       pages,
-      selectedLocale: await getLocaleFromRequest(request),
+      ...layout,
+      isLoggedIn,
+      cart: cartPromise,
+      publicStoreDomain,
+      selectedLocale,
     },
     {headers},
   );
@@ -125,13 +133,17 @@ export default function App() {
   const nonce = useNonce();
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
-  const locale = data.selectedLocale;
+  const locale = data.selectedLocale ?? DEFAULT_LOCALE;
 
   return (
-    <html lang="en" className="h-full text-base antialiased bg-neutral-950">
+    <html
+      lang={locale.language}
+      className="h-full text-base antialiased bg-neutral-950"
+    >
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <Seo />
         <Meta />
         <Links />
       </head>
@@ -150,6 +162,7 @@ export default function App() {
 export function ErrorBoundary() {
   const error = useRouteError();
   const rootData = useRootLoaderData();
+  const locale = rootData.selectedLocale ?? DEFAULT_LOCALE;
   const nonce = useNonce();
   let errorMessage = 'Unknown error';
   let errorStatus = 500;
@@ -162,7 +175,10 @@ export function ErrorBoundary() {
   }
 
   return (
-    <html lang="en" className="h-full text-base antialiased bg-neutral-950">
+    <html
+      lang={locale.language}
+      className="h-full text-base antialiased bg-neutral-950"
+    >
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -247,6 +263,104 @@ async function validateCustomerAccessToken(session, customerAccessToken) {
   return {isLoggedIn, headers};
 }
 
+async function getLayoutData({storefront, env}) {
+  const data = await storefront.query(LAYOUT_QUERY, {
+    variables: {
+      headerMenuHandle: 'main-menu',
+      footerMenuHandle: 'footer',
+      language: storefront.i18n.language,
+      country: storefront.i18n.country,
+    },
+  });
+
+  /*
+    Modify specific links/routes (optional)
+    @see: https://shopify.dev/api/storefront/unstable/enums/MenuItemType
+    e.g here we map:
+      - /blogs/news -> /news
+      - /blog/news/blog-post -> /news/blog-post
+      - /collections/all -> /products
+  */
+  const customPrefixes = {BLOG: '', CATALOG: 'products'};
+
+  const headerMenu = data?.headerMenu
+    ? parseMenu(
+        data.headerMenu,
+        data.shop.primaryDomain.url,
+        env,
+        customPrefixes,
+      )
+    : undefined;
+
+  const footerMenu = data?.footerMenu
+    ? parseMenu(
+        data.footerMenu,
+        data.shop.primaryDomain.url,
+        env,
+        customPrefixes,
+      )
+    : undefined;
+
+  return {shop: data.shop, headerMenu, footerMenu};
+}
+
+const LAYOUT_QUERY = `#graphql
+  query layout(
+    $country: CountryCode
+    $language: LanguageCode
+    $headerMenuHandle: String!
+    $footerMenuHandle: String!
+  ) @inContext(language: $language, country: $country) {
+    shop {
+      ...Shop
+    }
+    headerMenu: menu(handle: $headerMenuHandle) {
+      ...Menu
+    }
+    footerMenu: menu(handle: $footerMenuHandle) {
+      ...Menu
+    }
+  }
+  fragment Shop on Shop {
+    id
+    name
+    description
+    primaryDomain {
+      url
+    }
+    brand {
+      logo {
+        image {
+          url
+        }
+      }
+    }
+  }
+  fragment MenuItem on MenuItem {
+    id
+    resourceId
+    tags
+    title
+    type
+    url
+  }
+  fragment ChildMenuItem on MenuItem {
+    ...MenuItem
+  }
+  fragment ParentMenuItem on MenuItem {
+    ...MenuItem
+    items {
+      ...ChildMenuItem
+    }
+  }
+  fragment Menu on Menu {
+    id
+    items {
+      ...ParentMenuItem
+    }
+  }
+`;
+
 const MENU_FRAGMENT = `#graphql
   fragment MenuItem on MenuItem {
     id
@@ -316,8 +430,3 @@ const FOOTER_QUERY = `#graphql
   }
   ${MENU_FRAGMENT}
 `;
-
-/** @typedef {import('@shopify/remix-oxygen').LoaderFunctionArgs} LoaderFunctionArgs */
-/** @typedef {import('@remix-run/react').ShouldRevalidateFunction} ShouldRevalidateFunction */
-/** @typedef {import('@shopify/hydrogen/storefront-api-types').CustomerAccessToken} CustomerAccessToken */
-/** @typedef {import('@shopify/remix-oxygen').SerializeFrom<typeof loader>} LoaderReturnData */

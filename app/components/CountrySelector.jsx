@@ -8,6 +8,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import {Button} from '@/components/ui/button';
+import {ScrollArea} from '@/components/ui/scroll-area';
 
 export function CountrySelector() {
   const [root] = useMatches();
@@ -26,7 +27,10 @@ export function CountrySelector() {
     setCountries(fetcher.data);
   }, [countries, fetcher.data]);
 
-  const strippedPathname = pathname.replace(selectedLocale.pathPrefix, '');
+  const strippedPathname = pathname.replace(
+    selectedLocale.pathPrefix !== '/' ? '/' + selectedLocale.pathPrefix : '/',
+    '',
+  );
 
   return (
     <Dialog>
@@ -37,30 +41,41 @@ export function CountrySelector() {
         <DialogHeader>
           <DialogTitle>选择您的国家/地区</DialogTitle>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          {countries &&
-            Object.keys(countries).map((countryKey) => {
-              const locale = countries[countryKey];
-              const hreflang = `${locale.language}-${locale.country}`;
+        <ScrollArea className="max-h-96">
+          <div className="grid gap-4 py-4">
+            {countries &&
+              Object.keys(countries).map((countryKey) => {
+                const locale = countries[countryKey];
+                const hreflang = `${locale.language}-${locale.country}`;
 
-              return (
-                <Form method="post" action="/locale" key={hreflang}>
-                  <input
-                    type="hidden"
-                    name="language"
-                    value={locale.language}
-                  />
-                  <input type="hidden" name="country" value={locale.country} />
-                  <input
-                    type="hidden"
-                    name="path"
-                    value={`${strippedPathname}${search}`}
-                  />
-                  <button type="submit">{locale.label}</button>
-                </Form>
-              );
-            })}
-        </div>
+                return (
+                  <Form method="post" action="/locale" key={hreflang}>
+                    <input
+                      type="hidden"
+                      name="language"
+                      value={locale.language}
+                    />
+                    <input
+                      type="hidden"
+                      name="country"
+                      value={locale.country}
+                    />
+                    <input
+                      type="hidden"
+                      name="prefix"
+                      value={locale.pathPrefix}
+                    />
+                    <input
+                      type="hidden"
+                      name="path"
+                      value={`${strippedPathname}${search}`}
+                    />
+                    <button type="submit">{locale.label}</button>
+                  </Form>
+                );
+              })}
+          </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

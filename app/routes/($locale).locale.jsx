@@ -1,6 +1,6 @@
 import {redirect} from '@shopify/remix-oxygen';
 import invariant from 'tiny-invariant';
-import {countries} from '~/data/countries';
+import {getCountry} from '~/lib/utils';
 
 export const action = async ({request, context}) => {
   const {session} = context;
@@ -16,11 +16,12 @@ export const action = async ({request, context}) => {
   // 确定相对于用户导航的位置重定向到的位置
   // ie. hydrogen.shop/collections -> ca.hydrogen.shop/collections
   const path = formData.get('path');
-  const toLocale = countries[`${languageCode}-${countryCode}`.toLowerCase()];
+  const prefix = formData.get('prefix');
+  // const toLocale = countries[`${countryCode}-${languageCode}`.toLowerCase()];
 
   const cartId = await session.get('cartId');
 
-  // Update cart buyer's country code if there is a cart id
+  // 如果有购物车 ID，则更新购物车买家的国家/地区代码
   if (cartId) {
     await updateCartBuyerIdentity(context, {
       cartId,
@@ -30,9 +31,15 @@ export const action = async ({request, context}) => {
     });
   }
 
+  const locale = getCountry(prefix);
+
+  const selectPathPrefix = locale.pathPrefix !== '/' ? locale.pathPrefix : '/';
+
+  // 重定向到新的位置
   const redirectUrl = new URL(
-    `${toLocale.pathPrefix || ''}${path}`,
-    `https://${toLocale.host}`,
+    `${selectPathPrefix}${path}`,
+    `http://localhost:3000`,
+    // `https://${toLocale?.host}`,
   );
 
   return redirect(redirectUrl, 302);

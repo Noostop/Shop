@@ -86,8 +86,7 @@ const components = [
   },
 ];
 
-export function Header({header, isLoggedIn, cart}) {
-  const {shop, menu} = header;
+export function Header({shop, headerMenu, isLoggedIn, cart}) {
   const scrollYProgress = useRef(0);
   const [showMenu, setShowMenu] = useState(false);
 
@@ -130,11 +129,11 @@ export function Header({header, isLoggedIn, cart}) {
 
             <NavigationMen
               shop={shop}
-              menu={menu}
+              menu={headerMenu}
               isLoggedIn={isLoggedIn}
               cart={cart}
               viewport="desktop"
-              primaryDomainUrl={header.shop.primaryDomain.url}
+              primaryDomainUrl={shop.primaryDomain.url}
             />
 
             <div className="flex items-center ml-auto">
@@ -163,11 +162,11 @@ export function Header({header, isLoggedIn, cart}) {
           title="AC180"
           links={[
             {id: '1', title: '配件', url: '/ac180'},
-            {id: '2', title: '机型对比', url: '/specs'},
-            {id: '3', title: '技术参数', url: '/specs'},
-            {id: '4', title: '视频', url: '/videos'},
-            {id: '5', title: '下载', url: '/downloads'},
-            {id: '5', title: '常见问题', url: '/faqs'},
+            {id: '2', title: '机型对比', url: '/ac180/specs'},
+            {id: '3', title: '技术参数', url: '/ac180/specs'},
+            {id: '4', title: '视频', url: '/ac180/videos'},
+            {id: '5', title: '下载', url: '/ac180/downloads'},
+            {id: '5', title: '常见问题', url: '/ac180/faqs'},
           ]}
         />
       )}

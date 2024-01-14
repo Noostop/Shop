@@ -7,6 +7,7 @@ import {
   Money,
 } from '@shopify/hydrogen';
 import {useVariantUrl} from '~/lib/utils';
+import {seoPayload} from '~/lib/seo.server';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -38,7 +39,10 @@ export async function loader({request, params, context}) {
       status: 404,
     });
   }
-  return json({collection});
+
+  const seo = seoPayload.collection({collection, url: request.url});
+
+  return json({collection, seo});
 }
 
 export default function Collection() {

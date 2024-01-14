@@ -16,7 +16,7 @@ export function SubNavigation({title, links, className, children}) {
             {links?.map(({id, title, url}) => (
               <li key={id}>
                 <Link
-                  to={'/ac180' + url}
+                  to={url}
                   className="block px-4 py-3 rounded-lg hover:text-gray-300"
                   aria-current="page"
                 >

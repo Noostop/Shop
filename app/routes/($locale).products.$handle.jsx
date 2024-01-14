@@ -10,6 +10,7 @@ import {
   CartForm,
 } from '@shopify/hydrogen';
 import {getVariantUrl} from '~/lib/utils';
+import {seoPayload} from '~/lib/seo.server';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -76,7 +77,17 @@ export async function loader({params, request, context}) {
     variables: {handle},
   });
 
-  return defer({product, variants});
+  const seo = seoPayload.product({
+    product,
+    firstVariant,
+    url: request.url,
+  });
+
+  return defer({
+    product,
+    variants,
+    seo,
+  });
 }
 
 /**

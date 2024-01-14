@@ -15,6 +15,8 @@ import {SliderShow} from '../components/SliderShow';
 import {FeaturedCardContent} from '../components/FeaturedCard';
 import {Testimonials} from '../components/Testimonials';
 
+import {countries} from '~/data/countries';
+
 /**
  * @type {MetaFunction}
  */
@@ -27,16 +29,19 @@ export const meta = () => {
  */
 export async function loader({request, params, context}) {
   const {storefront} = context;
-  const {language, country} = storefront.i18n;
+  // const {language, country} = storefront.i18n;
 
-  if (
-    params.locale &&
-    params.locale.toLowerCase() !== `${language}-${country}`.toLowerCase()
-  ) {
-    // 如果定义了语言环境 URL 参数，但我们仍然使用“EN-US”
-    // locale参数必须无效，发送到404页面
-    throw new Response(null, {status: 404});
-  }
+  // const findCountry = Object.keys(countries).find(
+  //   (key) => key.pathPrefix !== params.locale.toLowerCase(),
+  // );
+
+  // console.log(findCountry, 'findCountry');
+
+  // if (findCountry) {
+  //   // 如果定义了语言环境 URL 参数，但我们仍然使用“EN-US”
+  //   // locale参数必须无效，发送到404页面
+  //   throw new Response(null, {status: 404});
+  // }
 
   const {collections} = await storefront.query(FEATURED_COLLECTION_QUERY);
   const featuredCollection = collections.nodes[0];
