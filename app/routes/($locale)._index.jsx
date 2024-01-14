@@ -1,5 +1,5 @@
 import {defer} from '@shopify/remix-oxygen';
-import {Await, useLoaderData, Link} from '@remix-run/react';
+import {Await, useLoaderData} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
 
@@ -15,13 +15,13 @@ import {SliderShow} from '../components/SliderShow';
 import {FeaturedCardContent} from '../components/FeaturedCard';
 import {Testimonials} from '../components/Testimonials';
 
-import {countries} from '~/data/countries';
+import {Link} from '../components/Link';
 
 /**
  * @type {MetaFunction}
  */
 export const meta = () => {
-  return [{title: 'Hydrogen | Home'}];
+  return [{title: 'BLUETTI | Home'}];
 };
 
 /**
