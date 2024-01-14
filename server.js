@@ -12,6 +12,7 @@ import {
   getStorefrontHeaders,
   createCookieSessionStorage,
 } from '@shopify/remix-oxygen';
+import {getLocaleFromRequest} from '~/lib/utils';
 
 /**
  * Export a fetch handler in module format.
@@ -25,7 +26,7 @@ export default {
   async fetch(request, env, executionContext) {
     try {
       /**
-       * Open a cache instance in the worker and a custom session instance.
+       * 在工作线程中打开一个缓存实例和一个自定义会话实例。
        */
       if (!env?.SESSION_SECRET) {
         throw new Error('SESSION_SECRET environment variable is not set');
@@ -38,7 +39,7 @@ export default {
       ]);
 
       /**
-       * Create Hydrogen's Storefront client.
+       * 创建 Hydrogen 的 Storefront 客户端。
        */
       const {storefront} = createStorefrontClient({
         cache,
@@ -52,8 +53,8 @@ export default {
       });
 
       /*
-       * Create a cart handler that will be used to
-       * create and update the cart in the session.
+       * 创建一个购物车处理程序，用于
+       * 在会话中创建并更新购物车。
        */
       const cart = createCartHandler({
         storefront,
@@ -63,8 +64,8 @@ export default {
       });
 
       /**
-       * Create a Remix request handler and pass
-       * Hydrogen's Storefront client to the loader context.
+       * 创建一个 Remix 请求处理程序并传递
+       * Hydrogen 的 Storefront 客户端到加载器上下文。
        */
       const handleRequest = createRequestHandler({
         build: remixBuild,
@@ -76,9 +77,9 @@ export default {
 
       if (response.status === 404) {
         /**
-         * Check for redirects only when there's a 404 from the app.
-         * If the redirect doesn't exist, then `storefrontRedirect`
-         * will pass through the 404 response.
+         * 仅当应用程序出现 404 错误时才检查重定向。
+         * 如果重定向不存在，则`storefrontRedirect`
+         * 将传递 404 响应。
          */
         return storefrontRedirect({request, response, storefront});
       }
@@ -93,28 +94,9 @@ export default {
 };
 
 /**
- * @returns {I18nLocale}
- * @param {Request} request
- */
-function getLocaleFromRequest(request) {
-  const url = new URL(request.url);
-  const firstPathPart = url.pathname.split('/')[1]?.toUpperCase() ?? '';
-
-  let pathPrefix = '';
-  let [language, country] = ['EN', 'US'];
-
-  if (/^[A-Z]{2}-[A-Z]{2}$/i.test(firstPathPart)) {
-    pathPrefix = '/' + firstPathPart;
-    [language, country] = firstPathPart.split('-');
-  }
-
-  return {language, country, pathPrefix};
-}
-
-/**
- * This is a custom session implementation for your Hydrogen shop.
- * Feel free to customize it to your needs, add helper methods, or
- * swap out the cookie-based implementation with something else!
+ * 这是为您的氢工厂定制的会话实现。
+ * 随意根据您的需求定制它，添加辅助方法，或者
+ * 用其他东西替换基于 cookie 的实现！
  */
 export class HydrogenSession {
   #sessionStorage;

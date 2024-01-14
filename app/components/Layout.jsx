@@ -15,8 +15,18 @@ import {motion, MotionConfig, useReducedMotion} from 'framer-motion';
 /**
  * @param {LayoutProps}
  */
-export function Layout({cart, children = null, footer, header, isLoggedIn}) {
+export function Layout({
+  cart,
+  children = null,
+  footer,
+  header,
+  isLoggedIn,
+  pages,
+  selectedLocale,
+}) {
   let shouldReduceMotion = useReducedMotion();
+
+  console.log(selectedLocale, 'selectedLocale');
 
   return (
     <MotionConfig

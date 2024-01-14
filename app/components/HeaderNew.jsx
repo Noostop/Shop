@@ -46,6 +46,7 @@ import {
 import {ScrollArea} from '@/components/ui/scroll-area';
 import {CartMain} from '~/components/Cart';
 import {SubNavigation} from '~/components/SubNavigation';
+import {CountrySelector} from '~/components/CountrySelector';
 
 const components = [
   {
@@ -137,6 +138,7 @@ export function Header({header, isLoggedIn, cart}) {
             />
 
             <div className="flex items-center ml-auto">
+              <CountrySelector />
               <User isLoggedIn={isLoggedIn} />
 
               <Search />
@@ -226,7 +228,10 @@ function NavigationMen({
             : item.url;
         return (
           <NavigationMenuItem key={item.id}>
-            <NavigationMenuTrigger className="relative bg-transparent hover:bg-transparent data-[active]:bg-transparent data-[state=open]:bg-transparent">
+            <NavigationMenuTrigger
+              className="relative bg-transparent hover:bg-transparent data-[active]:bg-transparent data-[state=open]:bg-transparent"
+              as="div"
+            >
               <Link
                 className="text-sm font-semibold leading-6 text-gray-900"
                 key={item.id}

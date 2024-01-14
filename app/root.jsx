@@ -16,18 +16,21 @@ import favicon from '../public/favicon.svg';
 // import resetStyles from './styles/reset.css';
 import tailwindStyles from './styles/tailwind.css';
 import {Layout} from '~/components/Layout';
+import {Link} from '~/components/Link';
+import {Button} from '../@/components/ui/button';
+import {getLocaleFromRequest} from '~/lib/utils';
 
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
  * @type {ShouldRevalidateFunction}
  */
 export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
-  // revalidate when a mutation is performed e.g add to cart, login...
+  // 执行突变时重新验证，例如添加到购物车、登录...
   if (formMethod && formMethod !== 'GET') {
     return true;
   }
 
-  // revalidate when manually revalidating via useRevalidator
+  // 通过 useRevalidator 手动重新验证时重新验证
   if (currentUrl.toString() === nextUrl.toString()) {
     return true;
   }
@@ -61,29 +64,29 @@ export const useRootLoaderData = () => {
 /**
  * @param {LoaderFunctionArgs}
  */
-export async function loader({context}) {
+export async function loader({context, request}) {
   const {storefront, session, cart} = context;
   const customerAccessToken = await session.get('customerAccessToken');
   const publicStoreDomain = context.env.PUBLIC_STORE_DOMAIN;
 
-  // validate the customer access token is valid
+  // 验证客户访问令牌是否有效
   const {isLoggedIn, headers} = await validateCustomerAccessToken(
     session,
     customerAccessToken,
   );
 
-  // defer the cart query by not awaiting it
+  // 通过不等待来推迟购物车查询
   const cartPromise = cart.get();
 
-  // defer the footer query (below the fold)
+  // 推迟页脚查询（首屏下方）
   const footerPromise = storefront.query(FOOTER_QUERY, {
     cache: storefront.CacheLong(),
     variables: {
-      footerMenuHandle: 'footer', // Adjust to your footer menu handle
+      footerMenuHandle: 'footer', // 调整到页脚菜单句柄
     },
   });
 
-  // await the header query (above the fold)
+  // 等待标题查询（首屏）
   const headerPromise = storefront.query(HEADER_QUERY, {
     cache: storefront.CacheLong(),
     variables: {
@@ -112,6 +115,7 @@ export async function loader({context}) {
       isLoggedIn,
       publicStoreDomain,
       pages,
+      selectedLocale: await getLocaleFromRequest(request),
     },
     {headers},
   );
@@ -121,6 +125,7 @@ export default function App() {
   const nonce = useNonce();
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
+  const locale = data.selectedLocale;
 
   return (
     <html lang="en" className="h-full text-base antialiased bg-neutral-950">
@@ -131,7 +136,7 @@ export default function App() {
         <Links />
       </head>
       <body className="flex flex-col min-h-full">
-        <Layout {...data}>
+        <Layout {...data} key={`${locale.language}-${locale.country}`}>
           <Outlet />
         </Layout>
         <ScrollRestoration nonce={nonce} />
@@ -164,9 +169,32 @@ export function ErrorBoundary() {
         <Meta />
         <Links />
       </head>
-      <body className="flex flex-col min-h-full">
-        <Layout {...rootData}>
-          <div className="route-error">
+      <body className="flex flex-col justify-center min-h-full">
+        {/* <Layout {...rootData}> */}
+        <section className="bg-white">
+          <div className="max-w-screen-xl px-4 py-8 mx-auto lg:py-16 lg:px-6">
+            <div className="max-w-screen-sm mx-auto text-center">
+              <h1 className="mb-4 font-extrabold tracking-tight text-7xl lg:text-9xl text-primary">
+                {errorStatus}
+              </h1>
+              <p className="mb-4 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
+                Something's missing.
+              </p>
+              <p className="mt-4 mb-4 text-lg font-light text-gray-500 ">
+                {errorMessage && (
+                  <fieldset>
+                    <pre>{errorMessage}</pre>
+                  </fieldset>
+                )}
+              </p>
+              <Button asChild className="mt-4">
+                <Link to="/">Back to Homepage</Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* <div className="route-error">
             <h1>Oops</h1>
             <h2>{errorStatus}</h2>
             {errorMessage && (
@@ -174,8 +202,8 @@ export function ErrorBoundary() {
                 <pre>{errorMessage}</pre>
               </fieldset>
             )}
-          </div>
-        </Layout>
+          </div> */}
+        {/* </Layout> */}
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
         <LiveReload nonce={nonce} />

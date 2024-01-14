@@ -17,9 +17,19 @@ export function Link(props) {
 
   if (typeof className === 'function') {
     return (
-      <RemixNavLink to={toWithLocale} className={className} {...resOfProps} />
+      <RemixNavLink
+        to={toWithLocale.toLowerCase()}
+        className={className}
+        {...resOfProps}
+      />
     );
   }
 
-  return <RemixLink to={toWithLocale} className={className} {...resOfProps} />;
+  return (
+    <RemixLink
+      to={toWithLocale.toLowerCase()}
+      className={className}
+      {...resOfProps}
+    />
+  );
 }

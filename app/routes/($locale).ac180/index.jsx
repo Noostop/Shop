@@ -226,7 +226,7 @@ export default function Homepage() {
         slides={[
           {
             id: '1',
-            title: '2024 年新年大促销',
+            title: 'AC180',
             titleWithImage: '',
             subtitle: '新年新气象',
             description: '所有产品均可享受高达 50% 的折扣。 限时优惠。',

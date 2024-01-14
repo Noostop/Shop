@@ -1284,6 +1284,18 @@ export type StoreCollectionsQuery = {
   };
 };
 
+export type CartBuyerIdentityUpdateMutationVariables = StorefrontAPI.Exact<{
+  cartId: StorefrontAPI.Scalars['ID']['input'];
+  buyerIdentity: StorefrontAPI.CartBuyerIdentityInput;
+  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
+}>;
+
+export type CartBuyerIdentityUpdateMutation = {
+  cartBuyerIdentityUpdate?: StorefrontAPI.Maybe<{
+    cart?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Cart, 'id'>>;
+  }>;
+};
+
 export type PageQueryVariables = StorefrontAPI.Exact<{
   language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
   country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
@@ -1921,6 +1933,10 @@ interface GeneratedMutationTypes {
   '#graphql\n  mutation customerReset(\n    $id: ID!,\n    $input: CustomerResetInput!\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    customerReset(id: $id, input: $input) {\n      customerAccessToken {\n        accessToken\n        expiresAt\n      }\n      customerUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
     return: CustomerResetMutation;
     variables: CustomerResetMutationVariables;
+  };
+  '#graphql\n  mutation CartBuyerIdentityUpdate(\n    $cartId: ID!\n    $buyerIdentity: CartBuyerIdentityInput!\n    $country: CountryCode = ZZ\n  ) @inContext(country: $country) {\n    cartBuyerIdentityUpdate(cartId: $cartId, buyerIdentity: $buyerIdentity) {\n      cart {\n        id\n      }\n    }\n  }\n': {
+    return: CartBuyerIdentityUpdateMutation;
+    variables: CartBuyerIdentityUpdateMutationVariables;
   };
 }
 

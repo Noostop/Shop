@@ -1,7 +1,8 @@
-import {useLocation, useMatches} from '@remix-run/react';
-import {useMemo} from 'react';
 import {clsx} from 'clsx';
+import {useMemo} from 'react';
 import {twMerge} from 'tailwind-merge';
+import {useLocation, useMatches} from '@remix-run/react';
+import {countries} from '~/data/countries';
 
 /**
  * @param {string} handle
@@ -64,3 +65,39 @@ export function usePrefixPathWithLocale(path) {
     ? `${selectedLocale.pathPrefix}${path.startsWith('/') ? path : '/' + path}`
     : path;
 }
+
+export function getLocaleFromRequest(request) {
+  const url = new URL(request.url);
+
+  console.log(url.host, 'url.host');
+
+  switch (url.host) {
+    // case 'ca.hydrogen.shop':
+    //   if (/^\/fr($|\/)/.test(url.pathname)) {
+    //     return countries['fr-ca'];
+    //   } else {
+    //     return countries['en-ca'];
+    //   }
+    //   break;
+    // case 'hydrogen.au':
+    //   return countries['en-au'];
+    //   break;
+    default:
+      return countries['default'];
+  }
+}
+
+// export function getLocaleFromRequest(request) {
+//   const url = new URL(request.url);
+//   const firstPathPart = url.pathname.split('/')[1]?.toUpperCase() ?? '';
+
+//   let pathPrefix = '';
+//   let [language, country] = ['EN', 'US'];
+
+//   if (/^[A-Z]{2}-[A-Z]{2}$/i.test(firstPathPart)) {
+//     pathPrefix = '/' + firstPathPart;
+//     [language, country] = firstPathPart.split('-');
+//   }
+
+//   return {language, country, pathPrefix};
+// }

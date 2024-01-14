@@ -1,6 +1,6 @@
 import {CartForm, Image, Money} from '@shopify/hydrogen';
 import {Link} from '@remix-run/react';
-import {useVariantUrl} from '~/utils';
+import {useVariantUrl} from '~/lib/utils';
 import clsx from 'clsx';
 import {Button} from '@/components/ui/button';
 

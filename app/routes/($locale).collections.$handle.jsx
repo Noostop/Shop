@@ -6,7 +6,7 @@ import {
   Image,
   Money,
 } from '@shopify/hydrogen';
-import {useVariantUrl} from '~/utils';
+import {useVariantUrl} from '~/lib/utils';
 
 /**
  * @type {MetaFunction<typeof loader>}

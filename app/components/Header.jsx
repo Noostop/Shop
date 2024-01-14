@@ -18,7 +18,7 @@ import {
   PlayCircleIcon,
 } from '@heroicons/react/20/solid';
 import {motion, AnimatePresence} from 'framer-motion';
-import {useVariantUrl} from '~/utils';
+import {useVariantUrl} from '~/lib/utils';
 import {CartMain} from '~/components/Cart';
 
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';

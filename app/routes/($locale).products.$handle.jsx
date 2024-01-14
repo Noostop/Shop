@@ -9,7 +9,7 @@ import {
   getSelectedProductOptions,
   CartForm,
 } from '@shopify/hydrogen';
-import {getVariantUrl} from '~/utils';
+import {getVariantUrl} from '~/lib/utils';
 
 /**
  * @type {MetaFunction<typeof loader>}
