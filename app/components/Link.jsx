@@ -10,7 +10,7 @@ export function Link(props) {
   const selectedLocale = root.data.selectedLocale;
 
   const selectPathPrefix =
-    selectedLocale.pathPrefix !== '/' ? selectedLocale.pathPrefix + '/' : '/';
+    selectedLocale.pathPrefix !== '/' ? selectedLocale.pathPrefix : '';
 
   let toWithLocale = to;
 
