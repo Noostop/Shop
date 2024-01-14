@@ -38,7 +38,7 @@ export const action = async ({request, context}) => {
   // 重定向到新的位置
   const redirectUrl = new URL(
     `${selectPathPrefix}${path}`,
-    `http://localhost:3000`,
+    `https://shop.iiixys.cc`,
     // `https://${toLocale?.host}`,
   );
 
