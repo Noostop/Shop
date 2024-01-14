@@ -31,8 +31,6 @@ export async function loader({params, request, context}) {
   // const featuredCollection = collections.nodes[0];
   // const recommendedProducts = storefront.query(RECOMMENDED_PRODUCTS_QUERY);
 
-  console.log(language, country, 'handle');
-
   const products = [
     {
       id: 'ac180',
