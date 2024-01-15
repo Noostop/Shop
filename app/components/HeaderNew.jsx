@@ -86,7 +86,7 @@ const components = [
   },
 ];
 
-export function Header({shop, headerMenu, isLoggedIn, cart}) {
+export function Header({shop, headerMenu, haveSubNav, isLoggedIn, cart}) {
   const scrollYProgress = useRef(0);
   const [showMenu, setShowMenu] = useState(false);
 
@@ -104,14 +104,12 @@ export function Header({shop, headerMenu, isLoggedIn, cart}) {
   //   console.log('Page scroll: ', latest, scrollYProgress.current);
   // });
 
-  const hasSubNav = true;
-
   return (
-    <section>
+    <>
       <motion.header
         className={clsx(
           'bg-white h-14',
-          hasSubNav ? 'relative' : 'sticky top-0 z-[3]',
+          haveSubNav ? 'relative' : 'sticky top-0 z-[3]',
         )}
         // initial={{opacity: 0}}
         // whileInView={{opacity: 1}}
@@ -158,7 +156,7 @@ export function Header({shop, headerMenu, isLoggedIn, cart}) {
         </NavigationMenu>
       </motion.header>
 
-      {hasSubNav && (
+      {haveSubNav && (
         <SubNavigation
           title="AC180"
           links={[
@@ -171,7 +169,7 @@ export function Header({shop, headerMenu, isLoggedIn, cart}) {
           ]}
         />
       )}
-    </section>
+    </>
   );
 }
 

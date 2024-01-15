@@ -25,7 +25,7 @@ export function CountrySelector() {
       return;
     }
     setCountries(fetcher.data);
-  }, [countries, fetcher, fetcher.data]);
+  }, [countries, fetcher.data]);
 
   const strippedPathname = pathname?.replace(selectedLocale?.pathPrefix, '');
 

@@ -20,6 +20,7 @@ import {Link} from '~/components/Link';
 import {Button} from '../@/components/ui/button';
 import {getLocaleFromRequest, parseMenu} from '~/lib/utils';
 import {seoPayload} from '~/lib/seo.server';
+import {pages} from '~/data/pages';
 
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
@@ -98,19 +99,6 @@ export async function loader({context, request}) {
       headerMenuHandle: 'main-menu', // Adjust to your header menu handle
     },
   });
-
-  const pages = [
-    {
-      handle: 'ac180',
-      title: 'AC180',
-      description: '1,800W AC Output / 2,700W Power Lifting Mode',
-    },
-    {
-      handle: 'ac60',
-      title: 'AC60',
-      description: '1,800W AC Output / 2,700W Power Lifting Mode',
-    },
-  ];
 
   const seo = seoPayload.root({shop: layout.shop, url: request.url});
   const selectedLocale = await getLocaleFromRequest(request);

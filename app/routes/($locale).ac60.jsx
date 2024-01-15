@@ -20,7 +20,7 @@ export const meta = ({data}) => {
 };
 
 export const handle = {
-  handle: 'ac180',
+  handle: 'ac60',
 };
 
 /**
@@ -35,7 +35,7 @@ export async function loader({params, request, context}) {
   // const recommendedProducts = storefront.query(RECOMMENDED_PRODUCTS_QUERY);
 
   try {
-    const product = pages.find((p) => p.handle === 'ac180');
+    const product = pages.find((p) => p.handle === 'ac60');
     return defer(product);
   } catch (error) {
     throw new Response(`${new URL(request.url).pathname} not found`, {

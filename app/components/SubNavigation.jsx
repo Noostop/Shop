@@ -3,7 +3,7 @@ import {Link} from '~/components/Link';
 
 export function SubNavigation({title, links, className, children}) {
   return (
-    <nav className="sticky top-0 z-[4] w-full text-white bg-black/60 backdrop-blur">
+    <nav className="sticky top-0 z-[4] w-full text-white bg-black/60 backdrop-blur -mb-14">
       <div className="container">
         <div className="flex items-center justify-between h-14">
           <div className="">

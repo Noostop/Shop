@@ -1,4 +1,4 @@
-import {Await} from '@remix-run/react';
+import {Await, useLocation, useMatches} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Aside} from '~/components/Aside';
 import {Footer} from '~/components/Footer';
@@ -27,6 +27,10 @@ export function Layout({
 }) {
   let shouldReduceMotion = useReducedMotion();
 
+  const {pathname} = useLocation();
+
+  const haveSubNav = pages.some((page) => pathname.includes(page.handle));
+
   return (
     <MotionConfig
       transition={shouldReduceMotion ? {duration: 0} : {duration: 1}}
@@ -38,6 +42,7 @@ export function Layout({
         shop={shop}
         headerMenu={headerMenu}
         cart={cart}
+        haveSubNav={haveSubNav}
         isLoggedIn={isLoggedIn}
       />
       <main className="flex-1">{children}</main>

@@ -10,7 +10,7 @@ import {
 
 import {Button} from '@/components/ui/button';
 import {ScrollArea} from '@radix-ui/react-scroll-area';
-
+import {pages} from '~/data/pages';
 /**
  * @type {MetaFunction}
  */
@@ -31,111 +31,8 @@ export const meta = ({data}) => {
 export async function loader({params, request}) {
   const {handle} = params;
 
-  const products = [
-    {
-      id: 'ac180',
-      handle: 'ac180',
-      title: 'AC180 Specs',
-      description: '1,800W AC Output / 2,700W Power Lifting Mode',
-      videos: [
-        {
-          id: '13432',
-          title: '介绍视频',
-          lists: [
-            {
-              id: '16534',
-              title: 'DJI Mavic 3 Pro | 介绍视频',
-              description: '',
-              video: {
-                postImage: {
-                  url: 'https://www.bluettipower.com/cdn/shop/files/BLUETTI_AC200L_f8.png?v=1701053352',
-                  width: 770,
-                  height: 462,
-                  alt: 'DJI Mavic 3 Pro | 介绍视频',
-                },
-                url: 'https://cn-videos.dji.net/video_trans/24a7f6f1990141789920877fed8b3a33/720.mp4',
-                width: 1280,
-                height: 720,
-              },
-            },
-          ],
-        },
-        {
-          id: '2423423',
-          title: '教学视频',
-          lists: [
-            {
-              id: '1243411',
-              title: 'DJI Mavic 3 Pro/Pro Cine｜开箱指引',
-              description: '',
-              video: {
-                postImage: {
-                  url: 'https://www.bluettipower.com/cdn/shop/files/BLUETTI_AC200L_f8.png?v=1701053352',
-                  width: 770,
-                  height: 462,
-                  alt: 'DJI Mavic 3 Pro/Pro Cine｜开箱指引',
-                },
-                url: 'https://cn-videos.dji.net/video_trans/24a7f6f1990141789920877fed8b3a33/720.mp4',
-                width: 1280,
-                height: 720,
-              },
-            },
-            {
-              id: '424243',
-              title: 'DJI Mavic 3 Pro/Pro Cine｜首次飞行指引',
-              description: '',
-              video: {
-                postImage: {
-                  url: 'https://www.bluettipower.com/cdn/shop/files/BLUETTI_AC200L_f8.png?v=1701053352',
-                  width: 770,
-                  height: 462,
-                  alt: 'DJI Mavic 3 Pro/Pro Cine｜首次飞行指引',
-                },
-                url: 'https://cn-videos.dji.net/video_trans/24a7f6f1990141789920877fed8b3a33/720.mp4',
-                width: 1280,
-                height: 720,
-              },
-            },
-            {
-              id: '423112',
-              title: 'DJI Mavic 3 Pro/Pro Cine｜相机新功能',
-              description: '',
-              video: {
-                postImage: {
-                  url: 'https://www.bluettipower.com/cdn/shop/files/BLUETTI_AC200L_f8.png?v=1701053352',
-                  width: 770,
-                  height: 462,
-                  alt: 'DJI Mavic 3 Pro/Pro Cine｜相机新功能',
-                },
-                url: 'https://cn-videos.dji.net/video_trans/24a7f6f1990141789920877fed8b3a33/720.mp4',
-                width: 1280,
-                height: 720,
-              },
-            },
-            {
-              id: '4324232',
-              title: 'DJI Mavic 3 Pro/Pro Cine｜多焦段场景玩法',
-              description: '',
-              video: {
-                postImage: {
-                  url: 'https://www.bluettipower.com/cdn/shop/files/BLUETTI_AC200L_f8.png?v=1701053352',
-                  width: 770,
-                  height: 462,
-                  alt: 'DJI Mavic 3 Pro/Pro Cine｜多焦段场景玩法',
-                },
-                url: 'https://cn-videos.dji.net/video_trans/24a7f6f1990141789920877fed8b3a33/720.mp4',
-                width: 1280,
-                height: 720,
-              },
-            },
-          ],
-        },
-      ],
-    },
-  ];
-
   try {
-    const product = products.find((p) => p.handle === handle);
+    const product = pages.find((p) => p.handle === handle);
     return defer(product);
   } catch (error) {
     throw new Response(`${new URL(request.url).pathname} not found`, {
