@@ -218,13 +218,13 @@ function NavigationMen({
       {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
         if (!item.url) return null;
 
-        // if the url is internal, we strip the domain
-        const url =
-          item.url.includes('myshopify.com') ||
-          item.url.includes(publicStoreDomain) ||
-          item.url.includes(primaryDomainUrl)
-            ? new URL(item.url).pathname
-            : item.url;
+        // 如果 url 是内部的，我们会删除域名
+        // const url =
+        //   item.url.includes('myshopify.com') ||
+        //   item.url.includes(publicStoreDomain) ||
+        //   item.url.includes(primaryDomainUrl)
+        //     ? new URL(item.url).pathname
+        //     : item.url;
         return (
           <NavigationMenuItem key={item.id}>
             <NavigationMenuTrigger
@@ -237,7 +237,7 @@ function NavigationMen({
                 onClick={closeAside}
                 // prefetch="intent"
                 // style={activeLinkStyle}
-                to={url}
+                to={item.to}
               >
                 {item.title}
               </Link>

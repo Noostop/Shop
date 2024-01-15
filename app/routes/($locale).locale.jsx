@@ -1,6 +1,8 @@
-import {redirect} from '@shopify/remix-oxygen';
 import invariant from 'tiny-invariant';
-import {getCountry} from '~/lib/utils';
+import {redirect} from '@shopify/remix-oxygen';
+import {knowledgeCountry} from '~/lib/cookies.server';
+import {DEFAULT_LOCALE} from '~/lib/utils';
+import {countries} from '~/data/countries';
 
 export const action = async ({request, context}) => {
   const {session} = context;
@@ -14,10 +16,9 @@ export const action = async ({request, context}) => {
   invariant(countryCode, 'Missing country');
 
   // 确定相对于用户导航的位置重定向到的位置
-  // ie. hydrogen.shop/collections -> ca.hydrogen.shop/collections
   const path = formData.get('path');
-  const prefix = formData.get('prefix');
-  // const toLocale = countries[`${countryCode}-${languageCode}`.toLowerCase()];
+  const toLocale =
+    countries[`${countryCode}-${languageCode}`.toLowerCase()] ?? DEFAULT_LOCALE;
 
   const cartId = await session.get('cartId');
 
@@ -31,18 +32,17 @@ export const action = async ({request, context}) => {
     });
   }
 
-  const locale = getCountry(prefix);
-
-  const selectPathPrefix = locale.pathPrefix !== '/' ? locale.pathPrefix : '/';
-
-  // 重定向到新的位置
   const redirectUrl = new URL(
-    `${selectPathPrefix}${path}`,
-    `https://shop.iiixys.cc`,
-    // `https://${toLocale?.host}`,
+    `${toLocale.pathPrefix || ''}${path}`,
+    `${toLocale?.host}`,
   );
 
-  return redirect(redirectUrl, 302);
+  return redirect(redirectUrl, {
+    status: 302,
+    headers: {
+      'Set-Cookie': await knowledgeCountry.serialize(toLocale),
+    },
+  });
 };
 
 async function updateCartBuyerIdentity({storefront}, {cartId, buyerIdentity}) {

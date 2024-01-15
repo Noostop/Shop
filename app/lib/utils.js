@@ -1,8 +1,10 @@
 import {clsx} from 'clsx';
 import {useMemo} from 'react';
 import {twMerge} from 'tailwind-merge';
+import {redirect} from '@shopify/remix-oxygen';
 import {useLocation, useMatches} from '@remix-run/react';
 import {countries} from '~/data/countries';
+import {knowledgeCountry} from '~/lib/cookies.server';
 
 /**
  * @param {string} handle
@@ -62,71 +64,16 @@ export function usePrefixPathWithLocale(path) {
   const selectedLocale = root.data.selectedLocale;
 
   return selectedLocale
-    ? `${selectedLocale.pathPrefix}${path.startsWith('/') ? path : '/' + path}`
+    ? `${selectedLocale.pathPrefix || ''}${
+        path.startsWith('/') ? path : '/' + path
+      }`
     : path;
 }
 
-// export function getLocaleFromRequest(request) {
-//   const url = new URL(request.url);
-
-//   console.log(url.host, 'url.host');
-
-//   switch (url.host) {
-//     case 'shop.iiixys.cc':
-//       if (/^\/fr($|\/)/.test(url.pathname)) {
-//         return countries['fr-ca'];
-//       } else {
-//         return countries['en-ca'];
-//       }
-//       break;
-//     // case 'hydrogen.au':
-//     //   return countries['en-au'];
-//     //   break;
-//     default:
-//       return countries['default'];
-//   }
-// }
-
-export function getCountry(prefix) {
-  let locale = '';
-  switch (prefix) {
-    case 'ca':
-      locale = countries['/ca-en'];
-      break;
-    case 'cn':
-      locale = countries['/zh-cn'];
-      break;
-    case 'de':
-      locale = countries['/de-de'];
-      break;
-    case 'fr-en':
-      locale = countries['/fr-en'];
-      break;
-    case 'fr':
-      locale = countries['/fr'];
-      break;
-    case 'jp':
-      locale = countries['/jp'];
-      break;
-    default:
-      locale = countries.default;
-  }
-
-  return locale;
-}
-
-export function getLocaleFromRequest(request) {
-  const url = new URL(request.url);
-  const firstPathPart = url.pathname.split('/')[1]?.toLowerCase() ?? '';
-  const locale = getCountry(firstPathPart);
-
-  // if (/^[a-z]{2}-[a-z]{2}$/i.test(firstPathPart)) {
-  //   pathPrefix = '/' + firstPathPart;
-  //   countries[pathPrefix] && ([language, country] = firstPathPart.split('-'));
-  //   // [language, country] = firstPathPart.split('-');
-  // }
-
-  return locale;
+// 获取以存储的语言信息
+export async function getLocaleFromRequest(request) {
+  const cookieHeader = request.headers.get('Cookie');
+  return (await knowledgeCountry.parse(cookieHeader)) ?? DEFAULT_LOCALE;
 }
 
 // 读取请求头中的语言信息
@@ -152,6 +99,7 @@ export function getApproximateLocaleFromRequest(request) {
   };
 }
 
+// 默认地址信息
 export const DEFAULT_LOCALE = Object.freeze({
   ...countries.default,
 });

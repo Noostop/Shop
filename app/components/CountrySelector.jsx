@@ -25,17 +25,16 @@ export function CountrySelector() {
       return;
     }
     setCountries(fetcher.data);
-  }, [countries, fetcher.data]);
+  }, [countries, fetcher, fetcher.data]);
 
-  const strippedPathname = pathname.replace(
-    selectedLocale.pathPrefix !== '/' ? '/' + selectedLocale.pathPrefix : '/',
-    '',
-  );
+  const strippedPathname = pathname?.replace(selectedLocale?.pathPrefix, '');
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">{selectedLocale.label}</Button>
+        <Button variant="outline">
+          {selectedLocale.countryText} - {selectedLocale.langText}
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-xl">
         <DialogHeader>
@@ -62,15 +61,12 @@ export function CountrySelector() {
                     />
                     <input
                       type="hidden"
-                      name="prefix"
-                      value={locale.pathPrefix}
-                    />
-                    <input
-                      type="hidden"
                       name="path"
                       value={`${strippedPathname}${search}`}
                     />
-                    <button type="submit">{locale.label}</button>
+                    <Button type="submit">
+                      {locale.countryText} - {locale.langText}
+                    </Button>
                   </Form>
                 );
               })}

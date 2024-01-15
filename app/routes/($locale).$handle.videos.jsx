@@ -39,7 +39,7 @@ export async function loader({params, request}) {
       description: '1,800W AC Output / 2,700W Power Lifting Mode',
       videos: [
         {
-          id: '1',
+          id: '13432',
           title: '介绍视频',
           lists: [
             {
@@ -48,7 +48,7 @@ export async function loader({params, request}) {
               description: '',
               video: {
                 postImage: {
-                  url: 'https://www1.djicdn.com/cms/uploads/947376bb67033c0b6d5c7ad2266b01c4@770*462.jpg',
+                  url: 'https://www.bluettipower.com/cdn/shop/files/BLUETTI_AC200L_f8.png?v=1701053352',
                   width: 770,
                   height: 462,
                   alt: 'DJI Mavic 3 Pro | 介绍视频',
@@ -61,16 +61,16 @@ export async function loader({params, request}) {
           ],
         },
         {
-          id: '2',
+          id: '2423423',
           title: '教学视频',
           lists: [
             {
-              id: '111',
+              id: '1243411',
               title: 'DJI Mavic 3 Pro/Pro Cine｜开箱指引',
               description: '',
               video: {
                 postImage: {
-                  url: 'https://www1.djicdn.com/cms/uploads/947376bb67033c0b6d5c7ad2266b01c4@770*462.jpg',
+                  url: 'https://www.bluettipower.com/cdn/shop/files/BLUETTI_AC200L_f8.png?v=1701053352',
                   width: 770,
                   height: 462,
                   alt: 'DJI Mavic 3 Pro/Pro Cine｜开箱指引',
@@ -81,12 +81,12 @@ export async function loader({params, request}) {
               },
             },
             {
-              id: '423',
+              id: '424243',
               title: 'DJI Mavic 3 Pro/Pro Cine｜首次飞行指引',
               description: '',
               video: {
                 postImage: {
-                  url: 'https://www1.djicdn.com/cms/uploads/947376bb67033c0b6d5c7ad2266b01c4@770*462.jpg',
+                  url: 'https://www.bluettipower.com/cdn/shop/files/BLUETTI_AC200L_f8.png?v=1701053352',
                   width: 770,
                   height: 462,
                   alt: 'DJI Mavic 3 Pro/Pro Cine｜首次飞行指引',
@@ -102,7 +102,7 @@ export async function loader({params, request}) {
               description: '',
               video: {
                 postImage: {
-                  url: 'https://www1.djicdn.com/cms/uploads/947376bb67033c0b6d5c7ad2266b01c4@770*462.jpg',
+                  url: 'https://www.bluettipower.com/cdn/shop/files/BLUETTI_AC200L_f8.png?v=1701053352',
                   width: 770,
                   height: 462,
                   alt: 'DJI Mavic 3 Pro/Pro Cine｜相机新功能',
@@ -113,12 +113,12 @@ export async function loader({params, request}) {
               },
             },
             {
-              id: '432',
+              id: '4324232',
               title: 'DJI Mavic 3 Pro/Pro Cine｜多焦段场景玩法',
               description: '',
               video: {
                 postImage: {
-                  url: 'https://www1.djicdn.com/cms/uploads/947376bb67033c0b6d5c7ad2266b01c4@770*462.jpg',
+                  url: 'https://www.bluettipower.com/cdn/shop/files/BLUETTI_AC200L_f8.png?v=1701053352',
                   width: 770,
                   height: 462,
                   alt: 'DJI Mavic 3 Pro/Pro Cine｜多焦段场景玩法',

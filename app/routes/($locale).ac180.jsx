@@ -24,8 +24,6 @@ export const meta = ({data}) => {
 export async function loader({params, request, context}) {
   const {handle = 'ac180'} = params;
   const {storefront} = context;
-  const {language, country} = storefront.i18n;
-
   // const {storefront} = context;
   // const {collections} = await storefront.query(FEATURED_COLLECTION_QUERY);
   // const featuredCollection = collections.nodes[0];

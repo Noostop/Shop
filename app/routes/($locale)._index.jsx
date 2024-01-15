@@ -1,4 +1,4 @@
-import {defer} from '@shopify/remix-oxygen';
+import {defer, redirect} from '@shopify/remix-oxygen';
 import {Await, useLoaderData} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
@@ -29,18 +29,19 @@ export const meta = () => {
  */
 export async function loader({request, params, context}) {
   const {storefront} = context;
-  // const {language, country} = storefront.i18n;
 
-  // const findCountry = Object.keys(countries).find(
-  //   (key) => key.pathPrefix !== params.locale.toLowerCase(),
-  // );
-
-  // console.log(findCountry, 'findCountry');
-
-  // if (findCountry) {
+  // if (firstPathPart !== cookie.pathPrefix) {
   //   // 如果定义了语言环境 URL 参数，但我们仍然使用“EN-US”
   //   // locale参数必须无效，发送到404页面
-  //   throw new Response(null, {status: 404});
+  //   // throw new Response(null, {status: 404});
+  //   const redirectUrl = new URL(
+  //     `${cookie.pathPrefix}`,
+  //     'http://localhost:3000',
+  //     // `https://shop.iiixys.cc`,
+  //     // `https://${toLocale?.host}`,
+  //   );
+
+  //   return redirect(redirectUrl);
   // }
 
   const {collections} = await storefront.query(FEATURED_COLLECTION_QUERY);

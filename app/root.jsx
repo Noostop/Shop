@@ -18,7 +18,7 @@ import tailwindStyles from './styles/tailwind.css';
 import {Layout} from '~/components/Layout';
 import {Link} from '~/components/Link';
 import {Button} from '../@/components/ui/button';
-import {getLocaleFromRequest, DEFAULT_LOCALE, parseMenu} from '~/lib/utils';
+import {getLocaleFromRequest, parseMenu} from '~/lib/utils';
 import {seoPayload} from '~/lib/seo.server';
 
 /**
@@ -133,7 +133,7 @@ export default function App() {
   const nonce = useNonce();
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
-  const locale = data.selectedLocale ?? DEFAULT_LOCALE;
+  const locale = data.selectedLocale;
 
   return (
     <html
@@ -162,7 +162,7 @@ export default function App() {
 export function ErrorBoundary() {
   const error = useRouteError();
   const rootData = useRootLoaderData();
-  const locale = rootData.selectedLocale ?? DEFAULT_LOCALE;
+  const locale = rootData.selectedLocale;
   const nonce = useNonce();
   let errorMessage = 'Unknown error';
   let errorStatus = 500;

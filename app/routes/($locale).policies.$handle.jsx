@@ -28,6 +28,7 @@ export async function loader({params, context}) {
       refundPolicy: false,
       [policyName]: true,
       language: context.storefront.i18n?.language,
+      country: context.storefront.i18n?.country,
     },
   });
 

@@ -1,27 +1,16 @@
-import {
-  Link as RemixLink,
-  NavLink as RemixNavLink,
-  useMatches,
-} from '@remix-run/react';
+import {Link as RemixLink, NavLink as RemixNavLink} from '@remix-run/react';
+
+import {usePrefixPathWithLocale} from '~/lib/utils';
 
 export function Link(props) {
   const {to, className, ...resOfProps} = props;
-  const [root] = useMatches();
-  const selectedLocale = root.data.selectedLocale;
 
-  const selectPathPrefix =
-    selectedLocale.pathPrefix !== '/' ? selectedLocale.pathPrefix : '';
-
-  let toWithLocale = to;
-
-  if (typeof to === 'string') {
-    toWithLocale = selectedLocale ? `${selectPathPrefix}${to}` : to;
-  }
+  const selectPath = usePrefixPathWithLocale(to);
 
   if (typeof className === 'function') {
     return (
       <RemixNavLink
-        to={toWithLocale.toLowerCase()}
+        to={selectPath.toLowerCase()}
         className={className}
         {...resOfProps}
       />
@@ -30,7 +19,7 @@ export function Link(props) {
 
   return (
     <RemixLink
-      to={toWithLocale.toLowerCase()}
+      to={selectPath.toLowerCase()}
       className={className}
       {...resOfProps}
     />

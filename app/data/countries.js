@@ -1,51 +1,54 @@
+// const HOST = 'http://localhost:3000';
+const HOST = 'https://shop.iiixys.cc';
+
 export const countries = {
   default: {
-    label: 'United States (USD $)',
-    language: 'EN',
     country: 'US',
+    language: 'EN',
+    countryText: '美国',
+    langText: '英语',
     currency: 'USD',
-    pathPrefix: '/',
+    alias: ' US',
+    host: HOST,
   },
-  '/ca-en': {
-    label: 'Canada (CAD $)',
-    language: 'EN',
-    country: 'CA',
-    currency: 'CAD',
-    pathPrefix: 'ca',
-  },
-  '/zh-cn': {
-    label: 'China (CNY ¥)',
-    language: 'ZH',
+  'cn-zh': {
     country: 'CN',
+    language: 'ZH',
+    countryText: '中国',
+    langText: '简体中文',
     currency: 'CNY',
-    pathPrefix: 'cn',
+    alias: 'CN',
+    pathPrefix: '/cn',
+    host: HOST,
   },
-  '/de-de': {
-    label: 'Germany (EUR €)',
-    language: 'DE',
-    country: 'DE',
-    currency: 'EUR',
-    pathPrefix: '/de',
-  },
-  '/fr-en': {
-    label: 'France EN(EUR €)',
+  'fr-en': {
+    country: 'FR',
     language: 'EN',
-    country: 'FR',
+    countryText: '法国',
+    langText: '英语',
     currency: 'EUR',
-    pathPrefix: 'fr-en',
+    alias: 'FR-EN',
+    pathPrefix: '/fr-en',
+    host: HOST,
   },
-  '/fr': {
-    label: 'France FR(EUR €)',
+  'fr-fr': {
+    country: 'FR',
     language: 'FR',
-    country: 'FR',
+    countryText: '法国',
+    langText: '法语',
     currency: 'EUR',
-    pathPrefix: 'fr',
+    alias: 'FR=FR',
+    pathPrefix: '/fr',
+    host: HOST,
   },
-  '/jp': {
-    label: 'Japan (JPY ¥)',
-    language: 'JA',
+  'jp-ja': {
     country: 'JP',
+    language: 'JA',
+    countryText: '日本',
+    langText: '日语',
     currency: 'JPY',
-    pathPrefix: 'jp',
+    alias: 'JP',
+    pathPrefix: '/jp',
+    host: HOST,
   },
 };

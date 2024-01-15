@@ -44,12 +44,13 @@ export default {
       const {storefront} = createStorefrontClient({
         cache,
         waitUntil,
-        i18n: getLocaleFromRequest(request),
+        i18n: await getLocaleFromRequest(request),
         publicStorefrontToken: env.PUBLIC_STOREFRONT_API_TOKEN,
         privateStorefrontToken: env.PRIVATE_STOREFRONT_API_TOKEN,
         storeDomain: env.PUBLIC_STORE_DOMAIN,
         storefrontId: env.PUBLIC_STOREFRONT_ID,
         storefrontHeaders: getStorefrontHeaders(request),
+        storefrontApiVersion: '2023-10',
       });
 
       /*
