@@ -64,7 +64,7 @@ export async function loader({params, request, context}) {
     // if no selected variant was returned from the selected options,
     // we redirect to the first variant's url with it's selected options applied
     if (!product.selectedVariant) {
-      throw redirectToFirstVariant({product, request});
+      throw await redirectToFirstVariant({product, request});
     }
   }
 
@@ -96,12 +96,13 @@ export async function loader({params, request, context}) {
  *   request: Request;
  * }}
  */
-function redirectToFirstVariant({product, request}) {
+async function redirectToFirstVariant({product, request}) {
   const url = new URL(request.url);
   const firstVariant = product.variants.nodes[0];
 
   return redirect(
-    getVariantUrl({
+    await getVariantUrl({
+      request,
       pathname: url.pathname,
       handle: product.handle,
       selectedOptions: firstVariant.selectedOptions,

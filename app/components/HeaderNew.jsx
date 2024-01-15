@@ -107,17 +107,17 @@ export function Header({shop, headerMenu, isLoggedIn, cart}) {
   const hasSubNav = true;
 
   return (
-    <>
+    <section>
       <motion.header
         className={clsx(
           'bg-white h-14',
           hasSubNav ? 'relative' : 'sticky top-0 z-[3]',
         )}
-        initial={{opacity: 0}}
-        whileInView={{opacity: 1}}
-        viewport={{once: true}}
+        // initial={{opacity: 0}}
+        // whileInView={{opacity: 1}}
+        // viewport={{once: true}}
         // animate={{background: showMenu ? '#fff' : 'transparent'}}
-        transition={{duration: 0.3, ease: 'easeInOut'}}
+        // transition={{duration: 0.3, ease: 'easeInOut'}}
       >
         <NavigationMenu className="w-full h-full max-w-none">
           <div className="container flex items-center h-full gap-2">
@@ -138,6 +138,7 @@ export function Header({shop, headerMenu, isLoggedIn, cart}) {
 
             <div className="flex items-center ml-auto">
               <CountrySelector />
+
               <User isLoggedIn={isLoggedIn} />
 
               <Search />
@@ -161,16 +162,16 @@ export function Header({shop, headerMenu, isLoggedIn, cart}) {
         <SubNavigation
           title="AC180"
           links={[
-            {id: '1', title: '配件', url: '/ac180'},
-            {id: '2', title: '机型对比', url: '/ac180/specs'},
-            {id: '3', title: '技术参数', url: '/ac180/specs'},
-            {id: '4', title: '视频', url: '/ac180/videos'},
-            {id: '5', title: '下载', url: '/ac180/downloads'},
-            {id: '5', title: '常见问题', url: '/ac180/faqs'},
+            {id: '10756867868', title: '配件', url: '/ac180'},
+            {id: '23456645654', title: '机型对比', url: '/ac180/specs'},
+            {id: '31341234124', title: '技术参数', url: '/ac180/specs'},
+            {id: '44343243444', title: '视频', url: '/ac180/videos'},
+            {id: '53131231254', title: '下载', url: '/ac180/downloads'},
+            {id: '58563453454', title: '常见问题', url: '/ac180/faqs'},
           ]}
         />
       )}
-    </>
+    </section>
   );
 }
 

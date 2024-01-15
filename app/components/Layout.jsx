@@ -40,14 +40,7 @@ export function Layout({
         cart={cart}
         isLoggedIn={isLoggedIn}
       />
-      <motion.main
-        className="flex-1"
-        initial={{opacity: 0}}
-        whileInView={{opacity: 1}}
-        viewport={{once: true}}
-      >
-        {children}
-      </motion.main>
+      <main className="flex-1">{children}</main>
       <Suspense>
         <Await resolve={footerMenu}>
           {(footer) => <Footer menu={footer?.menu} shop={shop} />}

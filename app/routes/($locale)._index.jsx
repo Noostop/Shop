@@ -55,12 +55,12 @@ export default function Homepage() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
   return (
-    <div className="flex flex-col flex-1 gap-y-2 md:gap-y-4">
+    <section className="flex flex-col flex-1 gap-y-2 md:gap-y-4">
       <SliderShow
         // autoplay
         slides={[
           {
-            id: '1',
+            id: '1534543543',
             title: '2024 年新年大促销',
             titleWithImage: '',
             subtitle: '新年新气象',
@@ -81,14 +81,14 @@ export default function Homepage() {
             },
             links: [
               {
-                id: '1',
+                id: '112331231',
                 title: '立即参与',
                 url: '/collections',
               },
             ],
           },
           {
-            id: '2',
+            id: '253426346345',
             title: '照亮非洲家庭，我们需要您的双手',
             description: '可靠的电力安全，应对任何紧急情况',
             position: 'topCenter',
@@ -107,19 +107,19 @@ export default function Homepage() {
             },
             links: [
               {
-                id: '1',
+                id: '1423423',
                 title: '立即购买',
                 url: '/collections',
               },
               {
-                id: '2',
+                id: '2313131',
                 title: '查看更多',
                 url: '/collections',
               },
             ],
           },
           {
-            id: '3',
+            id: '384567345634',
             title: '创新的家庭备份解决方案',
             description: '可靠的电力安全，应对任何紧急情况',
             position: 'topLeft',
@@ -138,7 +138,7 @@ export default function Homepage() {
             },
             links: [
               {
-                id: '2',
+                id: '254634524',
                 title: '查看更多',
                 url: '/collections',
               },
@@ -149,7 +149,7 @@ export default function Homepage() {
       <FeaturedCardContent
         items={[
           {
-            id: '1',
+            id: '1243546454353',
             title: '便携式发电站',
             description: '适合公路、露营和移动生活',
             image: {
@@ -160,19 +160,19 @@ export default function Homepage() {
             },
             links: [
               {
-                id: '1',
+                id: '15673454',
                 title: '了解更多',
                 url: '/collections',
               },
               {
-                id: '2',
+                id: '2754623',
                 title: '立即购买',
                 url: '/collections',
               },
             ],
           },
           {
-            id: '2',
+            id: '27453562',
             title: '5000W 移动电源',
             description: '为停电做好准备',
             image: {
@@ -183,14 +183,14 @@ export default function Homepage() {
             },
             links: [
               {
-                id: '1',
+                id: '17453226',
                 title: '了解更多',
                 url: '/collections',
               },
             ],
           },
           {
-            id: '3',
+            id: '374256745',
             title: '为停电做好准备',
             description: '为停电做好准备',
             image: {
@@ -201,14 +201,14 @@ export default function Homepage() {
             },
             links: [
               {
-                id: '1',
+                id: '15723466346',
                 title: '了解更多',
                 url: '/collections',
               },
             ],
           },
           {
-            id: '4',
+            id: '47856856',
             title: '磷酸铁锂电池',
             description: '经久耐用',
             dark: true,
@@ -220,12 +220,12 @@ export default function Homepage() {
             },
             links: [
               {
-                id: '1',
+                id: '1967967',
                 title: '了解更多',
                 url: '/collections',
               },
               {
-                id: '2',
+                id: '25654764767',
                 title: '立即购买',
                 url: '/collections',
               },
@@ -236,15 +236,10 @@ export default function Homepage() {
       <Testimonials />
       {/* <FeaturedCollection collection={data.featuredCollection} /> */}
       <RecommendedProducts products={data.recommendedProducts} />
-    </div>
+    </section>
   );
 }
 
-/**
- * @param {{
- *   collection: FeaturedCollectionFragment;
- * }}
- */
 function FeaturedCollection({collection}) {
   if (!collection) return null;
   const image = collection?.image;
@@ -321,9 +316,9 @@ function RecommendedProducts({products}) {
                           </Link>
                         </h3>
                         {/* <p className="mt-1 text-sm text-gray-500">{product.color}</p> */}
-                        <p className="mt-1 text-sm font-medium text-gray-900">
+                        <div className="mt-1 text-sm font-medium text-gray-900">
                           <Money data={product.priceRange.minVariantPrice} />
-                        </p>
+                        </div>
                       </div>
                     </CarouselItem>
                   ))}

@@ -31,17 +31,21 @@ export function useVariantUrl(handle, selectedOptions) {
  *   selectedOptions: SelectedOption[];
  * }}
  */
-export function getVariantUrl({
+export async function getVariantUrl({
+  request,
   handle,
   pathname,
   searchParams,
   selectedOptions,
 }) {
-  const match = /(\/[a-zA-Z]{2}-[a-zA-Z]{2}\/)/g.exec(pathname);
-  const isLocalePathname = match && match.length > 0;
+  const cookieHeader = request.headers.get('Cookie');
+  const locale = (await knowledgeCountry.parse(cookieHeader)) ?? DEFAULT_LOCALE;
 
-  const path = isLocalePathname
-    ? `${match[0]}products/${handle}`
+  // const match = /(\/[a-zA-Z]{2}-[a-zA-Z]{2}\/)/g.exec(pathname);
+  // const isLocalePathname = match && match.length > 0;
+
+  const path = locale
+    ? `${locale.pathPrefix || ''}/products/${handle}`
     : `/products/${handle}`;
 
   selectedOptions.forEach((option) => {
