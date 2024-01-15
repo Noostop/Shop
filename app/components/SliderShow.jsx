@@ -2,14 +2,13 @@ import {useState, useEffect, useCallback} from 'react';
 import {Image} from '@shopify/hydrogen';
 import clsx from 'clsx';
 import {motion} from 'framer-motion';
-import {Link} from '@remix-run/react';
 import {ChevronLeftIcon, ChevronRightIcon} from '@heroicons/react/24/outline';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel';
-
+import {Link} from '../components/Link';
 import {Button} from '@/components/ui/button';
 import Autoplay from 'embla-carousel-autoplay';
 

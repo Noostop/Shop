@@ -1,7 +1,7 @@
 import {Await, useLocation, useMatches} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Aside} from '~/components/Aside';
-import {Footer} from '~/components/Footer';
+import {Footer} from '~/components/FooterNew';
 import {NavMenu} from '~/components/Header';
 import {CartMain} from '~/components/Cart';
 import {

@@ -10,11 +10,12 @@ import {knowledgeCountry} from '~/lib/cookies.server';
  * @param {string} handle
  * @param {SelectedOption[]} selectedOptions
  */
-export function useVariantUrl(handle, selectedOptions) {
+export function useVariantUrl(handle, request, selectedOptions) {
   const {pathname} = useLocation();
 
   return useMemo(() => {
     return getVariantUrl({
+      request,
       handle,
       pathname,
       searchParams: new URLSearchParams(),

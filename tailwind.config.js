@@ -84,6 +84,9 @@ module.exports = {
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
     },
+    maxHeight: {
+      'drawer-sm': 'calc(100vh - 14rem)',
+    },
   },
   plugins: [require('tailwindcss-animate')],
 };
