@@ -1,7 +1,7 @@
 export const pages = [
   {
     handle: 'ac180',
-    title: 'AC180',
+    title: 'AC180 Portable power station',
     description: '1,800W AC Output / 2,700W Power Lifting Mode',
     nav: [
       {id: '10756867868', title: '配件', url: '/ac180'},
@@ -303,7 +303,7 @@ export const pages = [
       description: '',
       faqs: [
         {
-          id: '41234123',
+          id: '5345345',
           title: '产品',
           description: '',
           lists: [
@@ -322,7 +322,7 @@ export const pages = [
           ],
         },
         {
-          id: '41234123',
+          id: '53451234523',
           title: '相机',
           description: '',
           lists: [
@@ -341,7 +341,7 @@ export const pages = [
           ],
         },
         {
-          id: '41234123',
+          id: '5345345',
           title: '遥控 & 图传',
           description: '',
           lists: [
@@ -360,7 +360,7 @@ export const pages = [
           ],
         },
         {
-          id: '41234123',
+          id: '534543534',
           title: '飞行性能',
           description: '',
           lists: [
@@ -379,7 +379,7 @@ export const pages = [
           ],
         },
         {
-          id: '41234123',
+          id: '5345345',
           title: '安全 & 避障',
           description: '',
           lists: [
@@ -398,7 +398,7 @@ export const pages = [
           ],
         },
         {
-          id: '41234123',
+          id: '5623464236',
           title: '智能功能',
           description: '',
           lists: [
@@ -417,7 +417,7 @@ export const pages = [
           ],
         },
         {
-          id: '41234123',
+          id: '3655',
           title: '配件',
           description: '',
           lists: [
@@ -440,7 +440,7 @@ export const pages = [
   },
   {
     handle: 'ac60',
-    title: 'AC60',
+    title: 'AC60 Portable power station',
     description: '1,800W AC Output / 2,700W Power Lifting Mode',
     nav: [
       {id: '31341234124', title: '技术参数', url: '/ac60/specs'},
@@ -684,7 +684,7 @@ export const pages = [
       description: '',
       faqs: [
         {
-          id: '41234123',
+          id: '4123374123',
           title: '产品',
           description: '',
           lists: [
@@ -703,7 +703,7 @@ export const pages = [
           ],
         },
         {
-          id: '41234123',
+          id: '4123412a3',
           title: '相机',
           description: '',
           lists: [
@@ -722,7 +722,7 @@ export const pages = [
           ],
         },
         {
-          id: '41234123',
+          id: '41234123123',
           title: '遥控 & 图传',
           description: '',
           lists: [
@@ -741,7 +741,7 @@ export const pages = [
           ],
         },
         {
-          id: '41234123',
+          id: '412341287683',
           title: '飞行性能',
           description: '',
           lists: [
@@ -760,7 +760,7 @@ export const pages = [
           ],
         },
         {
-          id: '41234123',
+          id: '4123412386786',
           title: '安全 & 避障',
           description: '',
           lists: [
@@ -779,7 +779,7 @@ export const pages = [
           ],
         },
         {
-          id: '41234123',
+          id: '41234128678673',
           title: '智能功能',
           description: '',
           lists: [
@@ -798,7 +798,7 @@ export const pages = [
           ],
         },
         {
-          id: '41234123',
+          id: '41234123373',
           title: '配件',
           description: '',
           lists: [

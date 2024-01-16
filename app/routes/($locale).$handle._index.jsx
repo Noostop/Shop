@@ -6,6 +6,8 @@ import {SliderShow} from '~/components/SliderShow';
 import {pages} from '~/data/pages';
 
 import {LayoutTopics} from '~/components/LayoutTopics';
+import {AC180} from '~/pages/AC180';
+import {AC60} from '~/pages/AC60';
 
 /**
  * @type {MetaFunction}
@@ -43,15 +45,8 @@ export default function Homepage() {
 
   return (
     <LayoutTopics {...data}>
-      <div className="flex-1 bg-gray-100">
-        <Outlet />
-      </div>
-
-      <div className="flex flex-col flex-1 gap-y-2 md:gap-y-4 pt-14">
-        <div className="h-screen bg-pink-500"></div>
-        <div className="h-screen bg-yellow-500"></div>
-        <div className="h-screen bg-green-500"></div>
-      </div>
+      {data.handle === 'ac180' && <AC180 />}
+      {data.handle === 'ac60' && <AC60 />}
     </LayoutTopics>
   );
 }

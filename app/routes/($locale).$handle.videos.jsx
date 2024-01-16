@@ -49,7 +49,7 @@ export default function Specs() {
 
   return (
     <LayoutTopics {...data}>
-      <div className="h-full py-20 bg-gray-50">
+      <div className="h-full py-20 bg-gray-50 mt-14">
         <div className="container">
           <h1 className="text-4xl font-semibold">视频</h1>
 

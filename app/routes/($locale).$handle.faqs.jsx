@@ -12,6 +12,8 @@ import {Button} from '@/components/ui/button';
 import {ScrollArea} from '@radix-ui/react-scroll-area';
 import {Link} from '~/components/Link';
 import {pages} from '~/data/pages';
+import {LayoutTopics} from '~/components/LayoutTopics';
+
 /**
  * @type {MetaFunction}
  */
@@ -44,37 +46,39 @@ export async function loader({params, request}) {
 
 export default function Specs() {
   /** @type {LoaderReturnData} */
-  const {faq} = useLoaderData();
-  const {title, faqs} = faq;
+  const data = useLoaderData();
+  const {title, faqs} = data.faq;
 
   return (
-    <div className="h-full py-20 bg-gray-50">
-      <div className="container">
-        <h1 className="text-4xl font-semibold">{title}</h1>
+    <LayoutTopics {...data}>
+      <div className="h-full py-20 bg-gray-50 mt-14">
+        <div className="container">
+          <h1 className="text-4xl font-semibold">{title}</h1>
 
-        <div className="flex flex-col gap-8 pt-8 mt-8 border-t border-gray-300">
-          {faqs.map(({id, title, lists}) => (
-            <div key={id} className="flex flex-col gap-4" id={`co_${title}`}>
-              <h3 className="text-3xl font-semibold">{title}</h3>
+          <div className="flex flex-col gap-8 pt-8 mt-8 border-t border-gray-300">
+            {faqs.map(({id, title, lists}) => (
+              <div key={id} className="flex flex-col gap-4" id={`co_${title}`}>
+                <h3 className="text-3xl font-semibold">{title}</h3>
 
-              <ul className="flex flex-col gap-1">
-                {lists.map(({id, title, description}) => (
-                  <li
-                    key={id}
-                    className="flex flex-col gap-8 px-4 py-4 rounded odd:bg-gray-100"
-                  >
-                    <h4 className="font-medium">{title}</h4>
-                    <p
-                      className="prose-sm prose"
-                      dangerouslySetInnerHTML={{__html: description}}
-                    ></p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+                <ul className="flex flex-col gap-1">
+                  {lists.map(({id, title, description}) => (
+                    <li
+                      key={id}
+                      className="flex flex-col gap-8 px-4 py-4 rounded odd:bg-gray-100"
+                    >
+                      <h4 className="font-medium">{title}</h4>
+                      <p
+                        className="prose-sm prose"
+                        dangerouslySetInnerHTML={{__html: description}}
+                      ></p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </LayoutTopics>
   );
 }
