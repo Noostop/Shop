@@ -70,7 +70,7 @@ export function usePrefixPathWithLocale(path) {
 
   return selectedLocale
     ? `${selectedLocale.pathPrefix || ''}${
-        path.startsWith('/') ? path : '/' + path
+        path?.startsWith('/') ? path : '/' + path
       }`
     : path;
 }

@@ -146,10 +146,7 @@ export function ErrorBoundary() {
   }
 
   return (
-    <html
-      lang={locale.language}
-      className="h-full text-base antialiased bg-neutral-950"
-    >
+    <html lang={locale.language} className="antialiased bg-neutral-950">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -157,30 +154,26 @@ export function ErrorBoundary() {
         <Links />
       </head>
       <body>
-        <Layout {...rootData}>
-          <section className="flex items-center justify-center h-[50vh]">
-            <div className="max-w-screen-xl px-4 py-8 mx-auto lg:py-16 lg:px-6">
-              <div className="max-w-screen-sm mx-auto text-center">
-                <h1 className="mb-4 font-extrabold tracking-tight text-red-500 text-7xl lg:text-9xl">
-                  {errorStatus}
-                </h1>
-                <p className="mb-4 text-3xl font-bold tracking-tight text-gray-600 md:text-4xl">
-                  Something&apos;s missing.
-                </p>
-                <dic className="mt-4 mb-4 text-lg font-light text-red-500 ">
-                  {errorMessage && (
-                    <fieldset>
-                      <pre>{errorMessage}</pre>
-                    </fieldset>
-                  )}
-                </dic>
-                <Button asChild className="mt-4">
-                  <Link to="/">Back to Homepage</Link>
-                </Button>
+        {/* <Layout {...rootData}> */}
+        <section className="flex items-center justify-center h-screen">
+          <div className="max-w-screen-xl px-4 py-8 mx-auto lg:py-16 lg:px-6">
+            <div className="max-w-screen-sm mx-auto text-center">
+              <h1 className="mb-4 font-extrabold tracking-tight text-gray-600 text-7xl lg:text-9xl">
+                {errorStatus}
+              </h1>
+              <p className="mb-4 text-3xl font-bold tracking-tight text-gray-600 md:text-4xl">
+                Something&apos;s missing.
+              </p>
+              <div className="mb-4 prose text-red-600">
+                <code>{errorMessage}</code>
               </div>
+              <Button asChild variant="destructive" className="mt-8">
+                <Link to="/">Back to Homepage</Link>
+              </Button>
             </div>
-          </section>
-        </Layout>
+          </div>
+        </section>
+        {/* </Layout> */}
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
         <LiveReload nonce={nonce} />

@@ -188,6 +188,7 @@ function NavigationMen({
                 onClick={closeAside}
                 // prefetch="intent"
                 // style={activeLinkStyle}
+                reloadDocument
                 to={item.to}
               >
                 {item.title}

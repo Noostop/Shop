@@ -11,7 +11,6 @@ import {
 import {Button} from '@/components/ui/button';
 import {ScrollArea} from '@radix-ui/react-scroll-area';
 import {pages} from '~/data/pages';
-import {LayoutTopics} from '~/components/LayoutTopics';
 
 /**
  * @type {MetaFunction}
@@ -48,62 +47,57 @@ export default function Specs() {
   const data = useLoaderData();
 
   return (
-    <LayoutTopics {...data}>
-      <div className="h-full py-20 bg-gray-50 mt-14">
-        <div className="container">
-          <h1 className="text-4xl font-semibold">视频</h1>
+    <div className="h-full py-20 bg-gray-50 mt-14">
+      <div className="container">
+        <h1 className="text-4xl font-semibold">视频</h1>
 
-          <div className="flex flex-col gap-8 pt-8 mt-8 border-t border-gray-300">
-            {data.videos.map(({id, title, lists}) => (
-              <div
-                key={id}
-                className="flex flex-col gap-6 p-4 bg-white rounded"
-                id={`co_${title}`}
-              >
-                <h3 className="text-3xl font-semibold">{title}</h3>
+        <div className="flex flex-col gap-8 pt-8 mt-8 border-t border-gray-300">
+          {data.videos.map(({id, title, lists}) => (
+            <div
+              key={id}
+              className="flex flex-col gap-6 p-4 bg-white rounded"
+              id={`co_${title}`}
+            >
+              <h3 className="text-3xl font-semibold">{title}</h3>
 
-                <ul className="flex flex-wrap gap-4">
-                  {lists.map(({id, title, description, video}) => (
-                    <li key={id} className="lg:basis-1/3">
-                      <div className="relative space-y-4 group">
-                        <div className="relative aspect-video">
-                          <Image
-                            data={video.postImage}
-                            className="object-cover w-full h-full overflow-hidden rounded"
-                          />
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <Button
-                              size="icon"
-                              variant="secondary"
-                              className="rounded-full shadow opacity-60 group-hover:opacity-100"
-                            >
-                              <span className="sr-only">Open menu</span>
-                              <PlayIcon
-                                className="w-4 h-4"
-                                aria-hidden="true"
-                              />
-                            </Button>
-                          </div>
-                        </div>
-                        <h4 className="font-medium md:basis-60 line-clamp-2">
-                          {title}
-                        </h4>
-                        <p
-                          className="text-sm text-gray-500 line-clamp-3"
-                          dangerouslySetInnerHTML={{__html: description}}
+              <ul className="flex flex-wrap gap-4">
+                {lists.map(({id, title, description, video}) => (
+                  <li key={id} className="lg:basis-1/3">
+                    <div className="relative space-y-4 group">
+                      <div className="relative aspect-video">
+                        <Image
+                          data={video.postImage}
+                          className="object-cover w-full h-full overflow-hidden rounded"
                         />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <Button
+                            size="icon"
+                            variant="secondary"
+                            className="rounded-full shadow opacity-60 group-hover:opacity-100"
+                          >
+                            <span className="sr-only">Open menu</span>
+                            <PlayIcon className="w-4 h-4" aria-hidden="true" />
+                          </Button>
+                        </div>
                       </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+                      <h4 className="font-medium md:basis-60 line-clamp-2">
+                        {title}
+                      </h4>
+                      <p
+                        className="text-sm text-gray-500 line-clamp-3"
+                        dangerouslySetInnerHTML={{__html: description}}
+                      />
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-
-        <FixedNav videos={data.videos} />
       </div>
-    </LayoutTopics>
+
+      <FixedNav videos={data.videos} />
+    </div>
   );
 }
 
