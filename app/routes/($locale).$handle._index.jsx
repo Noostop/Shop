@@ -2,7 +2,8 @@ import {Suspense} from 'react';
 import {defer} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Outlet} from '@remix-run/react';
 import {pages} from '~/data/pages';
-import {LayoutTopics} from '~/components/LayoutTopics';
+import {AC180} from '~/pages/AC180';
+import {AC60} from '~/pages/AC60';
 
 /**
  * @type {MetaFunction}
@@ -36,19 +37,18 @@ export async function loader({params, request, context}) {
 
 export default function Handle() {
   /** @type {LoaderReturnData} */
-  const data = useLoaderData();
+  const {handle} = useLoaderData();
 
   // if (handle) {
-  //   throw new Response(`${pathUrl} not found`, {
+  //   throw new Response(`${handle} not found`, {
   //     status: 404,
   //   });
   // }
 
   return (
-    data.handle && (
-      <LayoutTopics {...data}>
-        <Outlet />
-      </LayoutTopics>
-    )
+    <>
+      {handle === 'ac180' && <AC180 />}
+      {handle === 'ac60' && <AC60 />}
+    </>
   );
 }

@@ -30,6 +30,7 @@ export const meta = () => {
 export async function loader({request, params, context}) {
   const {locale} = params;
   const {storefront} = context;
+  const {language, country} = storefront.i18n;
 
   if (locale) {
     const selectLang = Object.keys(countries).find(
