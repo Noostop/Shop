@@ -120,7 +120,7 @@ function classNames(...classes) {
 
 export function AC180() {
   return (
-    <div className="bg-white">
+    <div className="bg-white my-14">
       {/* Hero section */}
       <div className="relative isolate pt-14">
         <svg

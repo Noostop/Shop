@@ -32,27 +32,29 @@ export function Layout({
   const haveSubNav = pages.some((page) => pathname.includes(page.handle));
 
   return (
-    <MotionConfig
-      transition={shouldReduceMotion ? {duration: 0} : {duration: 1}}
-    >
-      {/* <CartAside cart={cart} />
+    <div className="flex flex-col min-h-screen">
+      <MotionConfig
+        transition={shouldReduceMotion ? {duration: 0} : {duration: 1}}
+      >
+        {/* <CartAside cart={cart} />
       <SearchAside />
       <MobileMenuAside menu={header?.menu} shop={header?.shop} /> */}
-      <Header
-        pages={pages}
-        shop={shop}
-        headerMenu={headerMenu}
-        cart={cart}
-        haveSubNav={haveSubNav}
-        isLoggedIn={isLoggedIn}
-      />
-      <main className="flex-1">{children}</main>
-      <Suspense>
-        <Await resolve={footerMenu}>
-          {(footer) => <Footer menu={footer?.menu} shop={shop} />}
-        </Await>
-      </Suspense>
-    </MotionConfig>
+        <Header
+          pages={pages}
+          shop={shop}
+          headerMenu={headerMenu}
+          cart={cart}
+          haveSubNav={haveSubNav}
+          isLoggedIn={isLoggedIn}
+        />
+        <main className="flex-grow">{children}</main>
+        <Suspense>
+          <Await resolve={footerMenu}>
+            {(footer) => <Footer menu={footer?.menu} shop={shop} />}
+          </Await>
+        </Suspense>
+      </MotionConfig>
+    </div>
   );
 }
 
@@ -120,17 +122,3 @@ function MobileMenuAside({menu, shop}) {
     )
   );
 }
-
-/**
- * @typedef {{
- *   cart: Promise<CartApiQueryFragment | null>;
- *   children?: React.ReactNode;
- *   footer: Promise<FooterQuery>;
- *   header: HeaderQuery;
- *   isLoggedIn: boolean;
- * }} LayoutProps
- */
-
-/** @typedef {import('storefrontapi.generated').CartApiQueryFragment} CartApiQueryFragment */
-/** @typedef {import('storefrontapi.generated').FooterQuery} FooterQuery */
-/** @typedef {import('storefrontapi.generated').HeaderQuery} HeaderQuery */

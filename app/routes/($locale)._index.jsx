@@ -14,7 +14,6 @@ import {
 import {SliderShow} from '../components/SliderShow';
 import {FeaturedCardContent} from '../components/FeaturedCard';
 import {Testimonials} from '../components/Testimonials';
-
 import {Link} from '../components/Link';
 
 /**
@@ -29,19 +28,17 @@ export const meta = () => {
  */
 export async function loader({request, params, context}) {
   const {storefront} = context;
+  const {language, country} = storefront.i18n;
 
-  // if (firstPathPart !== cookie.pathPrefix) {
+  console.log(language, country, 'params');
+
+  // if (
+  //   params.locale &&
+  //   params.locale.toLowerCase() !== `${language}-${country}`.toLowerCase()
+  // ) {
   //   // 如果定义了语言环境 URL 参数，但我们仍然使用“EN-US”
   //   // locale参数必须无效，发送到404页面
-  //   // throw new Response(null, {status: 404});
-  //   const redirectUrl = new URL(
-  //     `${cookie.pathPrefix}`,
-  //     'http://localhost:3000',
-  //     // `https://shop.iiixys.cc`,
-  //     // `https://${toLocale?.host}`,
-  //   );
-
-  //   return redirect(redirectUrl);
+  //   throw new Response(null, {status: 404});
   // }
 
   const {collections} = await storefront.query(FEATURED_COLLECTION_QUERY);
@@ -51,9 +48,10 @@ export async function loader({request, params, context}) {
   return defer({featuredCollection, recommendedProducts});
 }
 
-export default function Homepage() {
+export default function Home() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
+
   return (
     <section className="flex flex-col flex-1 gap-y-2 md:gap-y-4">
       <SliderShow
@@ -397,9 +395,3 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
     }
   }
 `;
-
-/** @typedef {import('@shopify/remix-oxygen').LoaderFunctionArgs} LoaderFunctionArgs */
-/** @template T @typedef {import('@remix-run/react').MetaFunction<T>} MetaFunction */
-/** @typedef {import('storefrontapi.generated').FeaturedCollectionFragment} FeaturedCollectionFragment */
-/** @typedef {import('storefrontapi.generated').RecommendedProductsQuery} RecommendedProductsQuery */
-/** @typedef {import('@shopify/remix-oxygen').SerializeFrom<typeof loader>} LoaderReturnData */

@@ -117,7 +117,7 @@ function classNames(...classes) {
 
 export function AC60() {
   return (
-    <div className="bg-white">
+    <div className="bg-white my-14">
       {/* Hero section */}
       <div className="relative pb-16 overflow-hidden bg-gray-900 isolate pt-14 sm:pb-20">
         <img
