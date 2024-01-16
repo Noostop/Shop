@@ -7,7 +7,7 @@ import {Link} from '../components/Link';
 
 export function FeaturedCardContent({items}) {
   return (
-    <div className="grid gap-2 mt-24 md:gap-4 md:grid-cols-2">
+    <div className="grid gap-2 md:gap-4 md:grid-cols-2">
       {items?.map(({id, ...props}) => (
         <FeaturedCard key={id} {...props} />
       ))}

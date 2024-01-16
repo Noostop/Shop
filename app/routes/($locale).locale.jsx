@@ -17,8 +17,16 @@ export const action = async ({request, context}) => {
 
   // 确定相对于用户导航的位置重定向到的位置
   const path = formData.get('path');
-  const toLocale =
-    countries[`${countryCode}-${languageCode}`.toLowerCase()] ?? DEFAULT_LOCALE;
+  let toLocale = DEFAULT_LOCALE; //countries[`${countryCode}-${languageCode}`.toLowerCase()] ?? DEFAULT_LOCALE;
+
+  Object.keys(countries).map((countryKey) => {
+    const locale = countries[countryKey];
+    if (locale.country === countryCode && locale.language === languageCode) {
+      toLocale = locale;
+    }
+  });
+
+  console.log(toLocale, 'd');
 
   const cartId = await session.get('cartId');
 

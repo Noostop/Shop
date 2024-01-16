@@ -39,6 +39,7 @@ export function Layout({
       <SearchAside />
       <MobileMenuAside menu={header?.menu} shop={header?.shop} /> */}
       <Header
+        pages={pages}
         shop={shop}
         headerMenu={headerMenu}
         cart={cart}

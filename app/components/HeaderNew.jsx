@@ -1,4 +1,4 @@
-import {Suspense, useState, forwardRef, useRef} from 'react';
+import {Suspense, useState, forwardRef, useEffect, useRef} from 'react';
 import {Await} from '@remix-run/react';
 import {
   motion,
@@ -47,51 +47,19 @@ import {ScrollArea} from '@/components/ui/scroll-area';
 import {CartMain} from '~/components/Cart';
 import {SubNavigation} from '~/components/SubNavigation';
 import {CountrySelector} from '~/components/CountrySelector';
+import {isMobileDevice} from '~/lib/utils';
 
-const components = [
-  {
-    title: 'Alert Dialog',
-    href: '/docs/primitives/alert-dialog',
-    description:
-      'A modal dialog that interrupts the user with important content and expects a response.',
-  },
-  {
-    title: 'Hover Card',
-    href: '/docs/primitives/hover-card',
-    description:
-      'For sighted users to preview content available behind a link.',
-  },
-  {
-    title: 'Progress',
-    href: '/docs/primitives/progress',
-    description:
-      'Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.',
-  },
-  {
-    title: 'Scroll-area',
-    href: '/docs/primitives/scroll-area',
-    description: 'Visually or semantically separates content.',
-  },
-  {
-    title: 'Tabs',
-    href: '/docs/primitives/tabs',
-    description:
-      'A set of layered sections of content—known as tab panels—that are displayed one at a time.',
-  },
-  {
-    title: 'Tooltip',
-    href: '/docs/primitives/tooltip',
-    description:
-      'A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.',
-  },
-];
-
-export function Header({shop, headerMenu, haveSubNav, isLoggedIn, cart}) {
+export function Header({
+  pages,
+  shop,
+  headerMenu,
+  haveSubNav,
+  isLoggedIn,
+  cart,
+}) {
   const scrollYProgress = useRef(0);
   const [showMenu, setShowMenu] = useState(false);
-
   const {scrollY} = useScroll();
-
   // console.log(menu);
 
   // useMotionValueEvent(scrollY, 'change', (latest) => {
@@ -105,71 +73,55 @@ export function Header({shop, headerMenu, haveSubNav, isLoggedIn, cart}) {
   // });
 
   return (
-    <>
-      <motion.header
-        className={clsx(
-          'bg-white h-14',
-          haveSubNav ? 'relative' : 'sticky top-0 z-[3]',
-        )}
-        // initial={{opacity: 0}}
-        // whileInView={{opacity: 1}}
-        // viewport={{once: true}}
-        // animate={{background: showMenu ? '#fff' : 'transparent'}}
-        // transition={{duration: 0.3, ease: 'easeInOut'}}
-      >
-        <NavigationMenu className="w-full h-full max-w-none">
-          <div className="container flex items-center h-full gap-2">
-            <HeaderMenuMobileToggle className="md:hidden" />
-
-            <Link prefetch="intent" to="/">
-              <strong>{shop.name}</strong>
-            </Link>
-
-            <NavigationMen
-              shop={shop}
-              menu={headerMenu}
-              isLoggedIn={isLoggedIn}
-              cart={cart}
-              viewport="desktop"
-              primaryDomainUrl={shop.primaryDomain.url}
-            />
-
-            <div className="flex items-center ml-auto">
-              <CountrySelector />
-
-              <User isLoggedIn={isLoggedIn} />
-
-              <Search />
-
-              <Suspense fallback={<CartBadge count={0} />}>
-                <Await resolve={cart}>
-                  {(cart) => {
-                    if (!cart) return <CartBadge count={0} />;
-                    return (
-                      <CartBadge count={cart.totalQuantity || 0} cart={cart} />
-                    );
-                  }}
-                </Await>
-              </Suspense>
-            </div>
-          </div>
-        </NavigationMenu>
-      </motion.header>
-
-      {haveSubNav && (
-        <SubNavigation
-          title="AC180"
-          links={[
-            {id: '10756867868', title: '配件', url: '/ac180'},
-            {id: '23456645654', title: '机型对比', url: '/ac180/specs'},
-            {id: '31341234124', title: '技术参数', url: '/ac180/specs'},
-            {id: '44343243444', title: '视频', url: '/ac180/videos'},
-            {id: '53131231254', title: '下载', url: '/ac180/downloads'},
-            {id: '58563453454', title: '常见问题', url: '/ac180/faqs'},
-          ]}
-        />
+    <motion.header
+      className={clsx(
+        'bg-white h-14',
+        haveSubNav ? 'relative' : 'sticky top-0 z-[3]',
       )}
-    </>
+      // initial={{opacity: 0}}
+      // whileInView={{opacity: 1}}
+      // viewport={{once: true}}
+      // animate={{background: showMenu ? '#fff' : 'transparent'}}
+      // transition={{duration: 0.3, ease: 'easeInOut'}}
+    >
+      <NavigationMenu className="w-full h-full max-w-none">
+        <div className="container flex items-center h-full gap-2">
+          <HeaderMenuMobileToggle className="md:hidden" />
+
+          <Link prefetch="intent" to="/">
+            <strong>{shop.name}</strong>
+          </Link>
+
+          <NavigationMen
+            shop={shop}
+            menu={headerMenu}
+            isLoggedIn={isLoggedIn}
+            cart={cart}
+            viewport="desktop"
+            primaryDomainUrl={shop.primaryDomain.url}
+          />
+
+          <div className="flex items-center ml-auto">
+            <CountrySelector />
+
+            <User isLoggedIn={isLoggedIn} />
+
+            <Search />
+
+            <Suspense fallback={<CartBadge count={0} />}>
+              <Await resolve={cart}>
+                {(cart) => {
+                  if (!cart) return <CartBadge count={0} />;
+                  return (
+                    <CartBadge count={cart.totalQuantity || 0} cart={cart} />
+                  );
+                }}
+              </Await>
+            </Suspense>
+          </div>
+        </div>
+      </NavigationMenu>
+    </motion.header>
   );
 }
 
@@ -309,21 +261,58 @@ function HeaderMenuMobileToggle({className}) {
 /**
  * @param {{count: number}}
  */
-function CartBadge({count, cart}) {
+function CartBadge({count, cart, ...props}) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(isMobileDevice());
+  }, []);
+
+  if (isMobile) {
+    return (
+      <div className="flow-root ml-4 lg:ml-6">
+        <Link
+          to="/cart"
+          className="relative flex items-center p-2 -m-2 md:group"
+        >
+          <ShoppingBagIcon
+            className="flex-shrink-0 w-6 h-6"
+            aria-hidden="true"
+          />
+          {count > 0 && (
+            <span className="absolute inset-0 flex items-end justify-center pb-3 md:hidden">
+              <span className="w-2 h-2 origin-center bg-red-500 rounded-full animate-bounce"></span>
+            </span>
+          )}
+          <span className="sr-only">items in cart, view bag</span>
+        </Link>
+      </div>
+    );
+  }
   return (
     <HoverCard openDelay={0}>
       <HoverCardTrigger asChild>
-        <div className="relative flow-root ml-4 lg:ml-6">
-          <a href="/cart" className="flex items-center p-2 -m-2 group">
+        <div className="flow-root ml-4 lg:ml-6">
+          <Link
+            to="/cart"
+            className="relative flex items-center p-2 -m-2 md:group"
+          >
             <ShoppingBagIcon
               className="flex-shrink-0 w-6 h-6"
               aria-hidden="true"
             />
-            <span className="inline-flex items-center text-xs font-medium text-gray-600 rounded-full lg:absolute lg:p-1 lg:-top-2 lg:-right-4 lg:bg-gray-50 lg:ring-1 lg:ring-inset lg:ring-gray-500/10">
-              {count}
-            </span>
+            {count > 0 && (
+              <>
+                <span className="absolute top-0 items-center justify-center hidden w-5 h-5 p-1 font-mono text-xs font-medium text-red-500 rounded-full md:flex -right-1 bg-red-50">
+                  {count > 99 ? '99+' : count}
+                </span>
+                <span className="absolute inset-0 flex items-end justify-center pb-3 md:hidden">
+                  <span className="w-2 h-2 origin-center bg-red-500 rounded-full animate-bounce"></span>
+                </span>
+              </>
+            )}
             <span className="sr-only">items in cart, view bag</span>
-          </a>
+          </Link>
         </div>
       </HoverCardTrigger>
       <HoverCardContent className="p-0" sideOffset={20} align="end">

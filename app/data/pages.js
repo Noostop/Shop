@@ -3,6 +3,14 @@ export const pages = [
     handle: 'ac180',
     title: 'AC180',
     description: '1,800W AC Output / 2,700W Power Lifting Mode',
+    nav: [
+      {id: '10756867868', title: '配件', url: '/ac180'},
+      {id: '23456645654', title: '机型对比', url: '/ac180/specs'},
+      {id: '31341234124', title: '技术参数', url: '/ac180/specs'},
+      {id: '44343243444', title: '视频', url: '/ac180/videos'},
+      {id: '53131231254', title: '下载', url: '/ac180/downloads'},
+      {id: '58563453454', title: '常见问题', url: '/ac180/faqs'},
+    ],
     specs: [
       {
         id: '1534534',
@@ -434,6 +442,12 @@ export const pages = [
     handle: 'ac60',
     title: 'AC60',
     description: '1,800W AC Output / 2,700W Power Lifting Mode',
+    nav: [
+      {id: '31341234124', title: '技术参数', url: '/ac60/specs'},
+      {id: '44343243444', title: '视频', url: '/ac60/videos'},
+      {id: '53131231254', title: '下载', url: '/ac60/downloads'},
+      {id: '58563453454', title: '常见问题', url: '/ac60/faqs'},
+    ],
     specs: [
       {
         id: '19874645',
