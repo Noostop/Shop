@@ -20,7 +20,7 @@ export const meta = ({data}) => {
   const {title, description} = data;
 
   return [
-    {title: `BLUETTI | ${title}`},
+    {title: `BLUETTI Video | ${title}`},
     {
       description,
     },
@@ -91,7 +91,7 @@ export default function Specs() {
                         <p
                           className="text-sm text-gray-500 line-clamp-3"
                           dangerouslySetInnerHTML={{__html: description}}
-                        ></p>
+                        />
                       </div>
                     </li>
                   ))}
@@ -101,7 +101,7 @@ export default function Specs() {
           </div>
         </div>
 
-        <FixedNav specs={data.videos} />
+        <FixedNav videos={data.videos} />
       </div>
     </LayoutTopics>
   );

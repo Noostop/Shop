@@ -105,7 +105,7 @@ export async function loader({context, request}) {
 
   return defer(
     {
-      seo,
+      // seo,
       pages,
       ...layout,
       isLoggedIn,

@@ -19,7 +19,7 @@ export const meta = ({data}) => {
   const {title, description} = data;
 
   return [
-    {title: `BLUETTI | ${title}`},
+    {title: `BLUETTI Specs | ${title}`},
     {
       description,
     },
@@ -66,9 +66,9 @@ export default function Specs() {
                     >
                       <h4 className="font-medium md:basis-60">{title}</h4>
                       <div
-                        className="w-full"
+                        className="w-full prose"
                         dangerouslySetInnerHTML={{__html: description}}
-                      ></div>
+                      />
                     </li>
                   ))}
                 </ul>

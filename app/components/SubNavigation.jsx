@@ -1,14 +1,14 @@
 import {Button} from '@/components/ui/button';
 import {Link} from '~/components/Link';
 
-export function SubNavigation({title, nav, className, children}) {
+export function SubNavigation({title, nav, handle, className}) {
   return (
     <nav className="sticky top-0 z-[4] w-full text-white bg-black/60 backdrop-blur -mb-14">
       <div className="container">
         <div className="flex items-center justify-between h-14">
           <div className="">
             <h2 className="text-lg font-semibold">
-              <Link to="/ac180">{title}</Link>
+              <Link to={handle}>{title}</Link>
             </h2>
           </div>
 
@@ -18,7 +18,6 @@ export function SubNavigation({title, nav, className, children}) {
                 <Link
                   to={url}
                   className="block px-4 py-3 rounded-lg hover:text-gray-300"
-                  aria-current="page"
                 >
                   {title}
                 </Link>

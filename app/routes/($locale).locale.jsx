@@ -26,8 +26,6 @@ export const action = async ({request, context}) => {
     }
   });
 
-  console.log(toLocale, 'd');
-
   const cartId = await session.get('cartId');
 
   // 如果有购物车 ID，则更新购物车买家的国家/地区代码

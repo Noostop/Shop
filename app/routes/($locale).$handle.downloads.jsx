@@ -1,15 +1,7 @@
 import {defer} from '@shopify/remix-oxygen';
 import {Await, useLoaderData} from '@remix-run/react';
 import {Image} from '@shopify/hydrogen';
-import {Bars3Icon, PlayIcon} from '@heroicons/react/24/outline';
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from '@/components/ui/hover-card';
 
-import {Button} from '@/components/ui/button';
-import {ScrollArea} from '@radix-ui/react-scroll-area';
 import {Link} from '~/components/Link';
 import {pages} from '~/data/pages';
 import {LayoutTopics} from '~/components/LayoutTopics';
@@ -21,7 +13,7 @@ export const meta = ({data}) => {
   const {title, description} = data;
 
   return [
-    {title: `BLUETTI | ${title}`},
+    {title: `BLUETTI Download | ${title}`},
     {
       description,
     },
