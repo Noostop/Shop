@@ -1,8 +1,28 @@
 import {Suspense} from 'react';
-import {defer} from '@shopify/remix-oxygen';
+import {defer, redirect} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Outlet} from '@remix-run/react';
 import {pages} from '~/data/pages';
 import {LayoutTopics} from '~/components/LayoutTopics';
+import {countries} from '~/data/countries';
+
+// export function shouldRevalidate({
+//   currentParams,
+//   nextParams,
+//   defaultShouldRevalidate,
+// }) {
+//   const currentId = currentParams.slug.split('--')[1];
+//   const nextId = nextParams.slug.split('--')[1];
+
+//   console.log('currentId', currentParams);
+//   console.log('nextId', nextParams);
+
+//   // if (currentId === nextId) {
+//   //   return false;
+//   // }
+
+//   // return defaultShouldRevalidate;
+//   return true;
+// }
 
 /**
  * @type {MetaFunction}
@@ -22,7 +42,13 @@ export const meta = ({data}) => {
  * @param {LoaderFunctionArgs}
  */
 export async function loader({params, request, context}) {
-  const {handle} = params;
+  const {locale, handle} = params;
+
+  console.log(locale, handle, '$handle');
+
+  if (!locale) {
+    return redirect(`/`);
+  }
 
   try {
     const page = pages.find((p) => p.handle === handle);
@@ -38,17 +64,9 @@ export default function Handle() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
 
-  // if (handle) {
-  //   throw new Response(`${pathUrl} not found`, {
-  //     status: 404,
-  //   });
-  // }
-
   return (
-    data.handle && (
-      <LayoutTopics {...data}>
-        <Outlet />
-      </LayoutTopics>
-    )
+    <LayoutTopics {...data}>
+      <Outlet />
+    </LayoutTopics>
   );
 }

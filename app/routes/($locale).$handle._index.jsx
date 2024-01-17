@@ -5,6 +5,25 @@ import {pages} from '~/data/pages';
 import {AC180} from '~/pages/AC180';
 import {AC60} from '~/pages/AC60';
 
+// export function shouldRevalidate({
+//   currentParams,
+//   nextParams,
+//   defaultShouldRevalidate,
+// }) {
+//   const currentId = currentParams.slug.split('--')[1];
+//   const nextId = nextParams.slug.split('--')[1];
+
+//   console.log('currentId', currentParams);
+//   console.log('nextId', nextParams);
+
+//   // if (currentId === nextId) {
+//   //   return false;
+//   // }
+
+//   // return defaultShouldRevalidate;
+//   return false;
+// }
+
 /**
  * @type {MetaFunction}
  */
@@ -22,8 +41,10 @@ export const meta = ({data}) => {
 /**
  * @param {LoaderFunctionArgs}
  */
-export async function loader({params, request, context}) {
-  const {handle} = params;
+export async function loader({params, request}) {
+  const {locale, handle} = params;
+
+  console.log(locale, handle, '$handle._index');
 
   try {
     const page = pages.find((p) => p.handle === handle);

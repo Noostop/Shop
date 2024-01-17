@@ -779,11 +779,11 @@ export const pages = [
         ],
       },
       {
-        id: '13123123',
+        id: '133123123',
         title: '教学视频',
         lists: [
           {
-            id: '424234',
+            id: '43424234',
             title: 'AC180｜开箱指引',
             description: '',
             video: {
@@ -799,7 +799,7 @@ export const pages = [
             },
           },
           {
-            id: '2423423',
+            id: '24232423',
             title: 'AC180｜首次使用指引',
             description: '',
             video: {
@@ -815,7 +815,7 @@ export const pages = [
             },
           },
           {
-            id: '242342',
+            id: '24211342',
             title: 'AC180｜新功能',
             description: '',
             video: {
@@ -831,7 +831,7 @@ export const pages = [
             },
           },
           {
-            id: '532423',
+            id: '5312423',
             title: 'AC180｜多场景玩法',
             description: '',
             video: {

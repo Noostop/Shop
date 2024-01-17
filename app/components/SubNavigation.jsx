@@ -2,78 +2,60 @@ import {useEffect, useState} from 'react';
 import {Button} from '@/components/ui/button';
 import {Link} from '~/components/Link';
 import {isMobileDevice} from '~/lib/utils';
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import {ChevronDownIcon} from '@heroicons/react/24/solid';
 import {ScrollArea} from '@radix-ui/react-scroll-area';
+import {AnimatePresence, motion} from 'framer-motion';
+import clsx from 'clsx';
 
-export function SubNavigation({
-  title,
-  handle,
-  navBars: {navs, actions},
-  className,
-}) {
+export function SubNavigation({title, handle, navBars, className}) {
+  const {navs, actions} = navBars;
+
   const [isMobile, setIsMobile] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     setIsMobile(isMobileDevice());
   }, []);
 
+  function closeAside(event) {
+    event.preventDefault();
+    window.location.href = event.currentTarget.href;
+  }
+
   if (isMobile) {
     return (
-      <nav className="sticky top-0 z-[4] w-full text-white bg-black/80 backdrop-blur -mb-14 h-16">
+      <motion.nav
+        layout
+        className="sticky top-0 z-20 w-full h-16 text-white bg-black/80 backdrop-blur -mb-14"
+      >
         <div className="container">
-          <div className="flex items-center justify-between gap-2 py-4">
-            <h2 className="flex items-center gap-2 basis-3/5">
+          <div className="flex items-center justify-between h-16 gap-2">
+            <h2 className="flex items-center justify-between w-full gap-2">
               <Link
                 to={handle}
-                className="text-sm font-semibold leading-4 line-clamp-2"
-                reloadDocument
+                onClick={closeAside}
+                prefetch="intent"
+                className="text-base font-semibold leading-4 line-clamp-2"
               >
                 {title}
               </Link>
-              <DropdownMenu side="top">
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="hover:bg-transparent hover:text-transparent"
-                  >
-                    <span className="sr-only">Open {title}</span>
-                    <ChevronDownIcon className="w-4 h-4 text-gray-300" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  sideOffset={12}
-                  className="w-screen text-white bg-black border-none rounded-none"
-                >
-                  <div className="container">
-                    {navs?.map(({id, title, url}) => (
-                      <DropdownMenuItem key={id} asChild>
-                        <Link to={url} reloadDocument>
-                          {title}
-                        </Link>
-                      </DropdownMenuItem>
-                    ))}
-                  </div>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <Button
+                variant="ghost"
+                size="icon"
+                className={clsx('hover:bg-transparent hover:text-transparent')}
+                onClick={() => setShowMenu(!showMenu)}
+              >
+                <span className="sr-only">Open {title}</span>
+                <ChevronDownIcon
+                  className={clsx(
+                    'w-4 h-4 text-gray-300 transition-transform',
+                    showMenu && 'rotate-90',
+                  )}
+                />
+              </Button>
             </h2>
 
-            <div className="flex items-center justify-end ml-auto gap-x-2">
+            <div className="flex items-center justify-end gap-x-2">
               {actions?.map(({id, title, url, type}) =>
                 type === 'buy' ? (
                   <Button size="sm" key={id} asChild>
@@ -94,63 +76,96 @@ export function SubNavigation({
             </div>
           </div>
         </div>
-      </nav>
+
+        <AnimatePresence>
+          {showMenu && (
+            <motion.div
+              className="w-full text-white bg-black"
+              initial={{opacity: 0, height: 0}}
+              animate={{opacity: 1, height: 'auto'}}
+              exit={{opacity: 0, height: 0}}
+              transition={{
+                duration: 0.2,
+                ease: 'easeInOut',
+                staggerChildren: 0.1,
+              }}
+            >
+              <div className="container py-2">
+                {navs?.map(({id, title, url}) => (
+                  <motion.div
+                    key={id}
+                    className="space-y-2"
+                    initial={{opacity: 0, y: -10}}
+                    animate={{opacity: 1, y: 0}}
+                    transition={{
+                      duration: 0.2,
+                      // delay: 0.2,
+                    }}
+                  >
+                    <Button
+                      asChild
+                      variant="ghost"
+                      className="pl-0 hover:bg-transparent hover:text-gray-100"
+                    >
+                      <Link to={url} onClick={closeAside} prefetch="intent">
+                        {title}
+                      </Link>
+                    </Button>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.nav>
     );
   }
 
   return (
-    <nav className="sticky top-0 z-[4] w-full text-white bg-black/80 backdrop-blur -mb-14">
+    <nav className="sticky top-0 z-20 w-full text-white bg-black/80 backdrop-blur -mb-14">
       <div className="container">
-        <div className="flex flex-wrap items-center justify-between lg:flex-nowrap">
+        <div className="flex flex-wrap items-center justify-between lg:flex-nowrap gap-x-8">
           <div className="flex items-center flex-shrink-0 h-14">
             <h2 className="text-lg font-semibold">
-              <Link to={handle} reloadDocument>
-                {title}
-              </Link>
+              <Link to={handle}>{title}</Link>
             </h2>
           </div>
 
-          <div className="flex-row order-2 w-full text-sm font-medium lg:flex-1 lg:ml-auto md:flex md:order-2">
-            <ScrollArea className="w-full">
-              <ul className="flex justify-end w-full text-sm font-medium">
-                {navs?.map(({id, title, url}) => (
-                  <li key={id}>
-                    <Link
-                      to={url}
-                      className="flex-1 block px-4 py-3 rounded-lg hover:text-gray-300"
-                      reloadDocument
-                    >
-                      {title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </ScrollArea>
-          </div>
-
-          <div className="flex items-center order-2 gap-2 ml-8 lg:order-3">
-            {actions?.map(({id, title, url, type}) =>
-              type === 'buy' ? (
-                <Button size="sm" key={id} asChild>
-                  <Link to={url} reloadDocument>
+          <div className="order-2 ml-auto text-sm font-medium md:order-2">
+            <ul className="flex text-sm font-medium w-max gap-x-8">
+              {navs?.map(({id, title, url}) => (
+                <li key={id} className="flex-shrink-0">
+                  <Link
+                    to={url}
+                    className="block py-3 rounded-lg hover:text-gray-300"
+                  >
                     {title}
                   </Link>
-                </Button>
-              ) : (
-                <Button
-                  key={id}
-                  size="sm"
-                  asChild
-                  variant="outline"
-                  className="text-black"
-                >
-                  <Link to={url} reloadDocument>
-                    {title}
-                  </Link>
-                </Button>
-              ),
-            )}
+                </li>
+              ))}
+            </ul>
           </div>
+          {actions && (
+            <div className="flex items-center order-2 gap-4 lg:order-3">
+              {actions?.map(({id, title, url, type}) =>
+                type === 'buy' ? (
+                  <Button size="sm" key={id} asChild>
+                    <Link to={url}>{title}</Link>
+                  </Button>
+                ) : (
+                  <Button
+                    key={id}
+                    size="sm"
+                    asChild
+                    variant="outline"
+                    className="text-black"
+                  >
+                    <Link to={url}>{title}</Link>
+                  </Button>
+                ),
+              )}
+            </div>
+          )}
         </div>
       </div>
     </nav>

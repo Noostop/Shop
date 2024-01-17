@@ -23,7 +23,7 @@ import {seoPayload} from '~/lib/seo.server';
 import {pages} from '~/data/pages';
 
 /**
- * This is important to avoid re-fetching root queries on sub-navigations
+ * 这对于避免在子导航上重新获取根查询非常重要
  * @type {ShouldRevalidateFunction}
  */
 export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {

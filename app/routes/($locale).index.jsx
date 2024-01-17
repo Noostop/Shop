@@ -11,11 +11,10 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 
-import {SliderShow} from '~/components/SliderShow';
-import {FeaturedCardContent} from '~/components/FeaturedCard';
-import {Testimonials} from '~/components/Testimonials';
-import {Link} from '~/components/Link';
-import {countries} from '~/data/countries';
+import {SliderShow} from '../components/SliderShow';
+import {FeaturedCardContent} from '../components/FeaturedCard';
+import {Testimonials} from '../components/Testimonials';
+import {Link} from '../components/Link';
 
 /**
  * @type {MetaFunction}
@@ -28,23 +27,23 @@ export const meta = () => {
  * @param {LoaderFunctionArgs}
  */
 export async function loader({request, params, context}) {
-  const {locale, handle} = params;
   const {storefront} = context;
   const {language, country} = storefront.i18n;
 
-  console.log(locale, handle, '_index');
+  // console.log(language, country, 'params');
 
-  if (locale) {
-    const selectLang = Object.keys(countries).find(
-      (countryKey) => countryKey.toLowerCase() === locale.toLowerCase(),
-    );
+  const {locale, handle} = params;
 
-    if (locale !== selectLang) {
-      throw new Response(`${new URL(request.url).pathname} not found`, {
-        status: 404,
-      });
-    }
-  }
+  console.log(locale, handle, ' -- +++++ 1');
+
+  // if (
+  //   params.locale &&
+  //   params.locale.toLowerCase() !== `${language}-${country}`.toLowerCase()
+  // ) {
+  //   // 如果定义了语言环境 URL 参数，但我们仍然使用“EN-US”
+  //   // locale参数必须无效，发送到404页面
+  //   throw new Response(null, {status: 404});
+  // }
 
   const {collections} = await storefront.query(FEATURED_COLLECTION_QUERY);
   const featuredCollection = collections.nodes[0];

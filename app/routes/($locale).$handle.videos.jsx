@@ -68,6 +68,7 @@ export default function Specs() {
                         <Image
                           data={video.postImage}
                           className="object-cover w-full h-full overflow-hidden rounded"
+                          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                         />
                         <div className="absolute inset-0 flex items-center justify-center">
                           <Button
@@ -113,19 +114,19 @@ function FixedNav({videos}) {
       <HoverCardContent sideOffset={20} align="end">
         <ScrollArea className="w-full overflow-x-hidden overflow-y-auto h-60">
           {videos?.map(({id, title}, index) => (
-            <>
-              <div key={`nav_${id}`}>
+            <div key={id}>
+              <>
                 <Link
                   to={`/ac180/specs#co_${title}`}
                   className="block w-full px-2 py-1 rounded-md hover:bg-gray-100"
                 >
                   {index + 1}.{title}
                 </Link>
-              </div>
+              </>
               {index < videos.length - 1 && (
                 <hr className="block w-full h-0 my-2 bg-gray-100" />
               )}
-            </>
+            </div>
           ))}
         </ScrollArea>
       </HoverCardContent>

@@ -1,9 +1,9 @@
 import {SubNavigation} from '~/components/SubNavigation';
 
-export function LayoutTopics({children = null, ...props}) {
+export function LayoutSupport({children = null, page}) {
   return (
     <>
-      <SubNavigation {...props} />
+      <SubNavigation {...page} />
       {children}
     </>
   );
