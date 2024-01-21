@@ -47,6 +47,7 @@ export function Layout({
           haveSubNav={haveSubNav}
           isLoggedIn={isLoggedIn}
         />
+
         <main className="flex-grow">{children}</main>
         <Suspense>
           <Await resolve={footerMenu}>

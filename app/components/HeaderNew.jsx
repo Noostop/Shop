@@ -38,6 +38,13 @@ import {
 } from '@/components/ui/navigation-menu';
 
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+
+import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
@@ -60,6 +67,7 @@ export function Header({
   const scrollYProgress = useRef(0);
   const [showMenu, setShowMenu] = useState(false);
   const {scrollY} = useScroll();
+  const [isShowMobileMenu, setIsShowMobileMenu] = useState(false);
   // console.log(menu);
 
   // useMotionValueEvent(scrollY, 'change', (latest) => {
@@ -72,56 +80,77 @@ export function Header({
   //   console.log('Page scroll: ', latest, scrollYProgress.current);
   // });
 
+  const handleCloseMobileMenu = () => {
+    isShowMobileMenu
+      ? document.body.classList.remove('overflow-hidden')
+      : document.body.classList.add('overflow-hidden');
+    setIsShowMobileMenu(!isShowMobileMenu);
+  };
+
   return (
-    <motion.header
-      className={clsx(
-        'bg-white h-14',
-        haveSubNav ? 'relative' : 'sticky top-0 z-[3]',
-      )}
-      // initial={{opacity: 0}}
-      // whileInView={{opacity: 1}}
-      // viewport={{once: true}}
-      // animate={{background: showMenu ? '#fff' : 'transparent'}}
-      // transition={{duration: 0.3, ease: 'easeInOut'}}
-    >
-      <NavigationMenu className="w-full h-full max-w-none">
-        <div className="container flex items-center h-full gap-2">
-          <HeaderMenuMobileToggle className="md:hidden" />
+    <>
+      <motion.header
+        className={clsx(
+          'bg-white h-14',
+          haveSubNav ? 'relative' : 'sticky top-0 z-30',
+        )}
+        // initial={{opacity: 0}}
+        // whileInView={{opacity: 1}}
+        // viewport={{once: true}}
+        // animate={{background: showMenu ? '#fff' : 'transparent'}}
+        // transition={{duration: 0.3, ease: 'easeInOut'}}
+      >
+        <NavigationMenu className="z-30 w-full h-full max-w-none">
+          <div className="container flex items-center h-full gap-2">
+            <HeaderMenuMobileToggle
+              className="md:hidden"
+              onClick={handleCloseMobileMenu}
+            />
 
-          <Link prefetch="intent" to="/">
-            <strong>{shop.name}</strong>
-          </Link>
+            <Link prefetch="intent" to="/">
+              <strong>{shop.name}</strong>
+            </Link>
 
-          <NavigationMen
-            shop={shop}
-            menu={headerMenu}
-            isLoggedIn={isLoggedIn}
-            cart={cart}
-            viewport="desktop"
-            primaryDomainUrl={shop.primaryDomain.url}
-          />
+            <NavigationMen
+              shop={shop}
+              menu={headerMenu}
+              isLoggedIn={isLoggedIn}
+              cart={cart}
+              viewport="desktop"
+              primaryDomainUrl={shop.primaryDomain.url}
+            />
 
-          <div className="flex items-center ml-auto">
-            <CountrySelector />
+            <div className="flex items-center ml-auto">
+              <div className="hidden md:block">
+                <CountrySelector />
+              </div>
 
-            <User isLoggedIn={isLoggedIn} />
+              <User isLoggedIn={isLoggedIn} />
 
-            <Search />
+              <Search />
 
-            <Suspense fallback={<CartBadge count={0} />}>
-              <Await resolve={cart}>
-                {(cart) => {
-                  if (!cart) return <CartBadge count={0} />;
-                  return (
-                    <CartBadge count={cart.totalQuantity || 0} cart={cart} />
-                  );
-                }}
-              </Await>
-            </Suspense>
+              <Suspense fallback={<CartBadge count={0} />}>
+                <Await resolve={cart}>
+                  {(cart) => {
+                    if (!cart) return <CartBadge count={0} />;
+                    return (
+                      <CartBadge count={cart.totalQuantity || 0} cart={cart} />
+                    );
+                  }}
+                </Await>
+              </Suspense>
+            </div>
           </div>
-        </div>
-      </NavigationMenu>
-    </motion.header>
+        </NavigationMenu>
+      </motion.header>
+
+      {/* 侧边栏菜单 */}
+      <SidebarMenu
+        menu={headerMenu}
+        isOpen={isShowMobileMenu}
+        onClose={handleCloseMobileMenu}
+      />
+    </>
   );
 }
 
@@ -218,6 +247,24 @@ function NavigationMen({
                           </a>
                         </NavigationMenuLink>
                       </li>
+                      <li className="row-span-3">
+                        <NavigationMenuLink asChild>
+                          <a
+                            className="flex flex-col justify-end w-full h-full p-6 no-underline rounded-md outline-none select-none bg-gradient-to-b from-muted/50 to-muted focus:shadow-md"
+                            href="/"
+                          >
+                            {/* <Icons.logo className="w-6 h-6" /> */}
+                            <div className="mt-4 mb-2 text-lg font-medium">
+                              {item.title}
+                            </div>
+                            <p className="text-sm leading-tight text-muted-foreground">
+                              Beautifully designed components that you can copy
+                              and paste into your apps. Accessible.
+                              Customizable. Open Source.
+                            </p>
+                          </a>
+                        </NavigationMenuLink>
+                      </li>
                       <ListItem href="/docs" title="Introduction">
                         Re-usable components built using Radix UI and Tailwind
                         CSS.
@@ -243,19 +290,104 @@ function NavigationMen({
   );
 }
 
-function HeaderMenuMobileToggle({className}) {
+function HeaderMenuMobileToggle({className, ...props}) {
   return (
     <button
-      type="button"
       className={clsx(
         'inline-flex items-center justify-center p-1 text-gray-400 rounded-md',
         className,
       )}
-      // onClick={() => setOpen(false)}
+      {...props}
     >
       <span className="sr-only">Open menu</span>
       <Bars3Icon className="w-6 h-6" aria-hidden="true" />
     </button>
+  );
+}
+
+function SidebarMenu({menu, isOpen = false, onClose, ...props}) {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.aside
+          className="fixed inset-0 z-50 w-full h-full bg-white pb-14"
+          initial={{opacity: 0, left: '-100%'}}
+          animate={{opacity: 1, left: 0}}
+          exit={{opacity: 0, left: '-100%'}}
+          transition={{
+            duration: 0.2,
+            ease: 'easeInOut',
+            staggerChildren: 0.1,
+          }}
+        >
+          <div className="container sticky top-0 z-10 flex items-center justify-between bg-white border-b border-gray-200 h-14">
+            <button
+              className={clsx(
+                'inline-flex items-center justify-center p-1 text-gray-400 rounded-md',
+              )}
+              onClick={onClose}
+            >
+              <span className="sr-only">Close menu</span>
+              <XMarkIcon className="w-6 h-6" aria-hidden="true" />
+            </button>
+
+            <CountrySelector />
+          </div>
+
+          <ScrollArea className="h-full">
+            <Accordion type="multiple">
+              {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
+                if (!item.url) return null;
+
+                // 如果 url 是内部的，我们会删除域名
+                // const url =
+                //   item.url.includes('myshopify.com') ||
+                //   item.url.includes(publicStoreDomain) ||
+                //   item.url.includes(primaryDomainUrl)
+                //     ? new URL(item.url).pathname
+                //     : item.url;
+                return (
+                  <AccordionItem key={item.id} value={item.id}>
+                    <AccordionTrigger className="container hover:no-underline hover:text-parimary">
+                      {item.title}
+                    </AccordionTrigger>
+
+                    <AccordionContent>
+                      <div className="container">
+                        <ul className="grid gap-3 py-6 px-4 bg-gray-100 rounded-lg w-full lg:grid-cols-[.75fr_1fr]">
+                          <li className="row-span-3">
+                            <div>
+                              <Link
+                                className="text-sm font-semibold leading-6 text-primary"
+                                key={item.id}
+                                // prefetch="intent"
+                                // style={activeLinkStyle}
+                                reloadDocument
+                                to={item.to}
+                              >
+                                {item.title}
+                              </Link>
+                            </div>
+                          </li>
+                          <li>
+                            Re-usable components built using Radix UI and
+                            Tailwind CSS.
+                          </li>
+                          <li>
+                            How to install dependencies and structure your app.
+                          </li>
+                          <li>Styles for headings, paragraphs, lists...etc</li>
+                        </ul>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                );
+              })}
+            </Accordion>
+          </ScrollArea>
+        </motion.aside>
+      )}
+    </AnimatePresence>
   );
 }
 
