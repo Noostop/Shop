@@ -5,8 +5,13 @@ export const pages = [
     description: '1,800W AC Output / 2,700W Power Lifting Mode',
     navBars: {
       navs: [
-        {id: '10756867868', title: '配件', url: '/ac180'},
-        {id: '23456645654', title: '机型对比', url: '/ac180/compare'},
+        {id: '10756867868', title: '配件', url: '/ac180', disable: true},
+        {
+          id: '23456645654',
+          title: '机型对比',
+          url: '/ac180/compare',
+          disable: true,
+        },
         {id: '31341234124', title: '技术参数', url: '/ac180/specs'},
         {id: '44343243444', title: '视频', url: '/ac180/videos'},
         {id: '53131231254', title: '下载', url: '/ac180/downloads'},
@@ -14,13 +19,13 @@ export const pages = [
       ],
       actions: [
         {
-          id: '123123',
+          id: '12311123',
           title: '订阅',
           url: '/ac180',
           type: 'subscription',
         },
         {
-          id: '123123',
+          id: '123122313',
           title: '购买',
           url: '/ac180',
           type: 'buy',
@@ -425,7 +430,7 @@ export const pages = [
       description: '',
       faqs: [
         {
-          id: '5345345',
+          id: '131243124',
           title: '产品',
           description: '',
           lists: [
@@ -463,7 +468,7 @@ export const pages = [
           ],
         },
         {
-          id: '5345345',
+          id: '53452321345',
           title: '遥控 & 图传',
           description: '',
           lists: [
@@ -501,7 +506,7 @@ export const pages = [
           ],
         },
         {
-          id: '5345345',
+          id: '53453495',
           title: '安全 & 避障',
           description: '',
           lists: [
@@ -573,7 +578,7 @@ export const pages = [
       ],
       actions: [
         {
-          id: '123123',
+          id: 'a231',
           title: '订阅',
           url: '/ac180',
           type: 'subscription',
@@ -1056,5 +1061,10 @@ export const pages = [
         },
       ],
     },
+  },
+  {
+    handle: 'support',
+    title: 'support',
+    description: '1,800W AC Output / 2,700W Power Lifting Mode',
   },
 ];

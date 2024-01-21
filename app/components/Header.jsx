@@ -388,6 +388,10 @@ function SearchToggle() {
  * @param {{count: number}}
  */
 function CartBadge({count, cart}) {
+  if (!cart) {
+    return null;
+  }
+
   return (
     <HoverCard openDelay={0}>
       <HoverCardTrigger asChild>
@@ -406,13 +410,7 @@ function CartBadge({count, cart}) {
       </HoverCardTrigger>
       <HoverCardContent className="p-0" sideOffset={20} align="end">
         <ScrollArea className={clsx('pt-4', count === 0 ? 'h-0' : 'h-96')}>
-          <Suspense fallback={<p>Loading cart ...</p>}>
-            <Await resolve={cart}>
-              {(cart) => {
-                return <CartMain layout="aside" cart={cart} />;
-              }}
-            </Await>
-          </Suspense>
+          <CartMain layout="aside" cart={cart} />
         </ScrollArea>
       </HoverCardContent>
     </HoverCard>
@@ -424,11 +422,11 @@ function CartBadge({count, cart}) {
  */
 function CartToggle({cart}) {
   return (
-    <Suspense fallback={<CartBadge count={0} />}>
+    <Suspense fallback={<div>loadding</div>}>
       <Await resolve={cart}>
         {(cart) => {
-          if (!cart) return <CartBadge count={0} />;
-          return <CartBadge count={cart.totalQuantity || 0} cart={cart} />;
+          if (!cart) return <div>null</div>;
+          return <CartBadge count={cart.totalQuantity} cart={cart} />;
         }}
       </Await>
     </Suspense>

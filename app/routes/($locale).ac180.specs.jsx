@@ -32,7 +32,7 @@ export async function loader({params, request}) {
   const {handle} = params;
 
   try {
-    const product = pages.find((p) => p.handle === handle);
+    const product = pages.find((p) => p.handle === 'ac180');
     return defer(product);
   } catch (error) {
     throw new Response(`${new URL(request.url).pathname} not found`, {
@@ -107,5 +107,6 @@ function FixedNav({specs}) {
         </ScrollArea>
       </HoverCardContent>
     </HoverCard>
-  );s
+  );
+  s;
 }

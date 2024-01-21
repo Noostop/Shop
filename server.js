@@ -8,6 +8,7 @@ import {
   storefrontRedirect,
 } from '@shopify/hydrogen';
 import {
+  redirect,
   createRequestHandler,
   getStorefrontHeaders,
   createCookieSessionStorage,
@@ -88,7 +89,13 @@ export default {
          * 如果重定向不存在，则`storefrontRedirect`
          * 将传递 404 响应。
          */
-        return storefrontRedirect({request, response, storefront});
+        const url = new URL(request.url);
+        const redirectUrl = new URL(
+          `/404?from=${url.pathname}`,
+          `${url.origin}`,
+        );
+        return redirect(redirectUrl, 302);
+        // return storefrontRedirect({request, response, storefront});
       }
 
       return response;

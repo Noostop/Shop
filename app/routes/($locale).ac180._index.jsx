@@ -44,10 +44,8 @@ export const meta = ({data}) => {
 export async function loader({params, request}) {
   const {locale, handle} = params;
 
-  console.log(locale, handle, '$handle._index');
-
   try {
-    const page = pages.find((p) => p.handle === handle);
+    const page = pages.find((p) => p.handle === 'ac180');
     return defer(page);
   } catch (error) {
     throw new Response(`${new URL(request.url).pathname} not found`, {

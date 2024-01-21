@@ -71,17 +71,7 @@ export const countries = {
     pathPrefix: '/id',
     host: HOST,
   },
-  'fr-en': {
-    country: 'FR',
-    language: 'EN',
-    countryText: 'France',
-    langText: 'English',
-    currency: 'EUR',
-    alias: 'FR-EN',
-    pathPrefix: '/fr-en',
-    host: HOST,
-  },
-  'fr-fr': {
+  fr: {
     country: 'FR',
     language: 'FR',
     countryText: 'France',
