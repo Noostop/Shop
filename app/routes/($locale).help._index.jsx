@@ -29,25 +29,24 @@ export async function loader({params, request, context}) {
 export default function Support() {
   const {questionList} = useLoaderData();
 
-  console.log(questionList, 'questionList');
-
   return (
     <section>
-      <ul className="space-y-4 divide-y divide-gray-200">
+      <div className="space-y-4 divide-y divide-gray-200">
         {questionList.records.map((item) => (
-          <li key={item.id}>
-            <QuestionBox item={item} />
-          </li>
+          <QuestionBox item={item} key={item.id} className="odd:bg-gray-100" />
         ))}
-      </ul>
+      </div>
     </section>
   );
 }
 
-const QuestionBox = ({item}) => {
+const QuestionBox = ({item, className}) => {
   return (
     <Link
-      className="flex flex-col gap-2 p-4 py-4 transition-colors rounded hover:bg-gray-100"
+      className={clsx(
+        'flex flex-col gap-2 p-4 py-4 transition-colors rounded md:hover:bg-gray-100',
+        className,
+      )}
       to={`/help/${item.id}`}
     >
       <h3

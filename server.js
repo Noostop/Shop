@@ -55,7 +55,13 @@ export default {
         storefrontApiVersion: '2023-10',
       });
 
-      const bluetti = createBluettiClient({cache, waitUntil});
+      const bluetti = createBluettiClient({
+        cache,
+        waitUntil,
+        i18n: await getLocaleFromRequest(request),
+        serverDomain: 'https://srv0.bluettipower.com',
+        serverAPiVersion: 'v1',
+      });
 
       /*
        * 创建一个购物车处理程序，用于

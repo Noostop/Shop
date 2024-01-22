@@ -1,8 +1,12 @@
 import {createWithCache, CacheLong} from '@shopify/hydrogen';
 
-const HOST = 'https://srv0.bluettipower.com';
-
-export function createBluettiClient({cache, waitUntil}) {
+export function createBluettiClient({
+  serverDomain,
+  serverAPiVersion,
+  i18n,
+  cache,
+  waitUntil,
+}) {
   const withCache = createWithCache({cache, waitUntil});
 
   async function post(query, options = {cache: CacheLong()}) {
@@ -10,8 +14,7 @@ export function createBluettiClient({cache, waitUntil}) {
       ['r&m', JSON.stringify(query)],
       options.cache,
       async function () {
-        // call to the API
-        const response = await fetch(HOST, {
+        const response = await fetch(`${serverDomain}`, {
           method: 'POST',
           headers: {
             'Content-type': 'application/json',
@@ -34,8 +37,7 @@ export function createBluettiClient({cache, waitUntil}) {
 
   async function get(query, options = {cache: CacheLong()}) {
     return withCache(['r&m', query], options.cache, async function () {
-      // call to the API
-      const response = await fetch(`${HOST}${query}`, {
+      const response = await fetch(`${serverDomain}${query}`, {
         method: 'GET',
         headers: {
           'Content-type': 'application/json',

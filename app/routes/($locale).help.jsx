@@ -34,10 +34,10 @@ export async function loader({params, request, context}) {
   console.log(searchTerm, 'searchTerm');
 
   const support = await bluetti.get(
-    '/supportapi/support/directoryList?current=&size=&shopName=bluettipower&id=&directoryType=&language=en&isTree=true&country=US',
+    '/supportapi/support/directoryList?current=1&size=20&shopName=bluettipower&id=&directoryType=&language=en&isTree=true&country=US',
   );
 
-  return defer({support, id});
+  return defer({support});
 }
 
 // TODO: 搜索事件
@@ -54,7 +54,7 @@ export default function Support() {
 
   return (
     <section className="container py-8">
-      <section className="flex justify-center pt-32">
+      <section className="flex py-8 justify-cente">
         <form action="/help" className="">
           <div className="flex items-center mb-3">
             <div className="relative mr-3 max-sm:w-full">
@@ -109,12 +109,19 @@ export default function Support() {
         </form>
       </section>
       <div className="grid gap-10 pt-10 mt-10 border-t border-gray-100 lg:grid-cols-12">
-        <aside className="xl:col-span-3">
-          <div className="p-4 bg-gray-200 rounded">
-            <Menu menuData={records.children} onItemClick={handleItemClick} />
-          </div>
-        </aside>
-        <div className="xl:col-span-9">
+        <AsideMenu
+          items={records?.children}
+          onItemClick={handleItemClick}
+          defaultValu={[
+            '6586c50555b57154dcd3dbae',
+            '65ae1f54dfdfd80771ff54b3',
+            '65ae158fdfdfd80771ff545d',
+            '65ae157ddfdfd80771ff545b',
+            '65ae15d5dfdfd80771ff5461',
+          ]}
+        />
+
+        <div className="lg:col-span-9">
           <Outlet />
         </div>
       </div>
@@ -151,21 +158,32 @@ const MenuItem = ({item, onItemClick}) => {
   );
 };
 
-const Menu = ({menuData, onItemClick}) => {
+const Menu = ({menuData, defaultValu, onItemClick}) => {
   return (
     <Accordion
       type="multiple"
+      collapsible={menuData.id}
       className="w-full space-y-2"
-      defaultValue={[
-        '6586c50555b57154dcd3dbae',
-        '65ae1f54dfdfd80771ff54b3',
-        '65ae158fdfdfd80771ff545d',
-      ]}
+      defaultValue={defaultValu}
       onValueChange={onItemClick}
     >
-      {menuData.map((menuItem) => (
+      {menuData?.map((menuItem) => (
         <MenuItem key={menuItem.id} item={menuItem} onItemClick={onItemClick} />
       ))}
     </Accordion>
+  );
+};
+
+const AsideMenu = ({items, onItemClick, defaultValu}) => {
+  return (
+    <aside className="hidden lg:block lg:col-span-3">
+      <div className="p-4 bg-gray-200 rounded">
+        <Menu
+          menuData={items}
+          onItemClick={onItemClick}
+          defaultValu={defaultValu}
+        />
+      </div>
+    </aside>
   );
 };

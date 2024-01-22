@@ -92,7 +92,9 @@ export function Header({
       <motion.header
         className={clsx(
           'bg-white h-14',
-          haveSubNav ? 'relative' : 'sticky top-0 z-30',
+          haveSubNav
+            ? 'relative'
+            : 'sticky top-0 z-30 border-b border-gray-200',
         )}
         // initial={{opacity: 0}}
         // whileInView={{opacity: 1}}
@@ -129,6 +131,7 @@ export function Header({
 
               <Search />
 
+              {/* TODO: 服务器数据和客户端数据不一致 */}
               <Suspense fallback={<CartBadge count={0} />}>
                 <Await resolve={cart}>
                   {(cart) => {
