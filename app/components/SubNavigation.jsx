@@ -26,7 +26,7 @@ export function SubNavigation({title, handle, navBars, className}) {
     return (
       <motion.nav
         layout
-        className="sticky top-0 z-20 w-full h-16 text-white bg-black/80 backdrop-blur -mb-14"
+        className="sticky top-0 z-20 w-full h-16 text-white bg-black/80 backdrop-blur"
       >
         <div className="container">
           <div className="flex items-center justify-between h-16 gap-2">
@@ -122,7 +122,7 @@ export function SubNavigation({title, handle, navBars, className}) {
   }
 
   return (
-    <nav className="sticky top-0 z-20 w-full text-white bg-black/80 backdrop-blur -mb-14">
+    <nav className="sticky top-0 z-20 w-full text-white bg-black/80 backdrop-blur">
       <div className="container">
         <div className="flex flex-wrap items-center justify-between lg:flex-nowrap gap-x-8">
           <div className="flex items-center flex-shrink-0 h-14">

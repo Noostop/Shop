@@ -14,6 +14,7 @@ import {
   createCookieSessionStorage,
 } from '@shopify/remix-oxygen';
 import {getLocaleFromRequest} from '~/lib/utils';
+import {createBluettiClient} from '~/lib/createBluettiClient.server';
 
 /**
  * Export a fetch handler in module format.
@@ -54,6 +55,8 @@ export default {
         storefrontApiVersion: '2023-10',
       });
 
+      const bluetti = createBluettiClient({cache, waitUntil});
+
       /*
        * 创建一个购物车处理程序，用于
        * 在会话中创建并更新购物车。
@@ -75,6 +78,7 @@ export default {
         getLoadContext: () => ({
           session,
           storefront,
+          bluetti,
           cart,
           env,
           waitUntil,
