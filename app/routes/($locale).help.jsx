@@ -24,6 +24,14 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
+
+import {Button} from '@/components/ui/button';
+
 export async function loader({params, request, context}) {
   const {locale, id} = params;
   const {bluetti} = context;
@@ -46,11 +54,6 @@ export default function Support() {
   const records = support.records.find(
     (item) => item.id === '65864e8555b57154dcd3db90',
   );
-
-  const handleItemClick = (item) => {
-    console.log(item);
-    // 在这里可以执行其他点击事件的逻辑
-  };
 
   return (
     <section className="container py-8">
@@ -109,17 +112,7 @@ export default function Support() {
         </form>
       </section>
       <div className="grid gap-10 pt-10 mt-10 border-t border-gray-100 lg:grid-cols-12">
-        <AsideMenu
-          items={records?.children}
-          onItemClick={handleItemClick}
-          defaultValu={[
-            '6586c50555b57154dcd3dbae',
-            '65ae1f54dfdfd80771ff54b3',
-            '65ae158fdfdfd80771ff545d',
-            '65ae157ddfdfd80771ff545b',
-            '65ae15d5dfdfd80771ff5461',
-          ]}
-        />
+        <AsideMenu items={records?.children} />
 
         <div className="lg:col-span-9">
           <Outlet />
@@ -129,60 +122,69 @@ export default function Support() {
   );
 }
 
-const MenuItem = ({item, onItemClick}) => {
+const MenuItem = ({item}) => {
   const hasChildren = item.children && item.children.length > 0;
 
   if (hasChildren) {
     return (
-      <AccordionItem value={item.id}>
-        <AccordionTrigger className="px-2 py-2 rounded hover:no-underline hover:text-parimary hover:bg-gray-100">
-          {item.name}
-        </AccordionTrigger>
+      <div>
+        <CollapsibleTrigger asChild>
+          <Button
+            variant="ghost"
+            className="justify-between w-full px-2 py-2 rounded hover:bg-gray-100"
+            asChild
+          >
+            <Link to={`help?id=${item.id}`}>
+              <span>{item.name}</span>
+              <ChevronDownIcon className="w-4 h-4" />
+            </Link>
+          </Button>
+        </CollapsibleTrigger>
 
         {/* 递归渲染子菜单 */}
         {hasChildren && (
-          <AccordionContent className="pb-0 pl-2">
-            <Menu menuData={item.children} onItemClick={onItemClick} />
-          </AccordionContent>
+          <CollapsibleContent className="pb-0 pl-2">
+            <Menu menuData={item.children} />
+          </CollapsibleContent>
         )}
-      </AccordionItem>
+      </div>
     );
   }
 
   return (
-    <AccordionItem value={item.id} className={clsx(hasChildren && 'pl-4')}>
-      <AccordionTrigger className="py-2 hover:no-underline !hover:text-parimary [&>svg]:hidden hover:bg-gray-100 rounded px-2">
-        {item.name}
-      </AccordionTrigger>
-    </AccordionItem>
+    <div className={clsx(hasChildren && 'pl-4')}>
+      <Button
+        variant="ghost"
+        className="justify-between w-full px-2 py-2 rounded hover:bg-gray-100"
+        asChild
+      >
+        <Link to={`help?id=${item.id}`}>{item.name}</Link>
+      </Button>
+    </div>
   );
 };
 
-const Menu = ({menuData, defaultValu, onItemClick}) => {
+const Menu = ({menuData}) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <Accordion
-      type="multiple"
-      collapsible={menuData.id}
+    <Collapsible
+      open={isOpen}
+      onOpenChange={setIsOpen}
       className="w-full space-y-2"
-      defaultValue={defaultValu}
-      onValueChange={onItemClick}
     >
       {menuData?.map((menuItem) => (
-        <MenuItem key={menuItem.id} item={menuItem} onItemClick={onItemClick} />
+        <MenuItem key={menuItem.id} item={menuItem} />
       ))}
-    </Accordion>
+    </Collapsible>
   );
 };
 
-const AsideMenu = ({items, onItemClick, defaultValu}) => {
+const AsideMenu = ({items}) => {
   return (
     <aside className="hidden lg:block lg:col-span-3">
       <div className="p-4 bg-gray-200 rounded">
-        <Menu
-          menuData={items}
-          onItemClick={onItemClick}
-          defaultValu={defaultValu}
-        />
+        <Menu menuData={items} />
       </div>
     </aside>
   );
