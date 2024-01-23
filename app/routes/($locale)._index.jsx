@@ -33,21 +33,21 @@ export async function loader({request, params, context}) {
   const cookieHeader = request.headers.get('Cookie');
   // const cookie = (await knowledgeCountry.parse(cookieHeader)) || {};
 
-  if (locale) {
-    // 如果定义了语言环境 URL 参数，但我们仍然使用“EN-US”
-    // locale参数必须无效，发送到404页面
-    // throw new Response(null, {status: 404});
-    const findLocalePath = Object.keys(countries).find(
-      (countryKey) => countryKey.toLowerCase() === locale.toLowerCase(),
-    );
+  // if (locale) {
+  //   // 如果定义了语言环境 URL 参数，但我们仍然使用“EN-US”
+  //   // locale参数必须无效，发送到404页面
+  //   // throw new Response(null, {status: 404});
+  //   const findLocalePath = Object.keys(countries).find(
+  //     (countryKey) => countryKey.toLowerCase() === locale.toLowerCase(),
+  //   );
 
-    if (!findLocalePath) {
-      throw new Response(null, {status: 404});
-    } else {
-      // await knowledgeCountry.serialize(cookie);
-      // TODO: 需要重定向到当前语言环境的首页
-    }
-  }
+  //   if (!findLocalePath) {
+  //     throw new Response(null, {status: 404});
+  //   } else {
+  //     // await knowledgeCountry.serialize(cookie);
+  //     // TODO: 需要重定向到当前语言环境的首页
+  //   }
+  // }
 
   const {collections} = await storefront.query(FEATURED_COLLECTION_QUERY);
   const featuredCollection = collections.nodes[0];

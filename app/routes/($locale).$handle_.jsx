@@ -24,6 +24,12 @@ export const meta = ({data}) => {
 export async function loader({params, request, context}) {
   const {locale, handle} = params;
 
+  console.log('handle1', locale, handle);
+
+  if (handle) {
+    handle == 'cn' && redirect('/');
+  }
+
   try {
     const page = pages.find((p) => p.handle === 'ac180');
     return defer(page);
