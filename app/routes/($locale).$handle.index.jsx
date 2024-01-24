@@ -46,7 +46,7 @@ export async function loader({params, request}) {
   console.log('handle', locale, handle);
 
   try {
-    const page = pages.find((p) => p.handle === handle);
+    const page = pages.find((p) => p.handle === 'ac180');
     return defer({page, handle});
   } catch (error) {
     throw new Response(`${new URL(request.url).pathname} not found`, {
