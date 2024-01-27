@@ -9,7 +9,7 @@ export function createBluettiClient({
 }) {
   const withCache = createWithCache({cache, waitUntil});
 
-  async function post(query, options = {cache: CacheLong()}) {
+  async function post(query, country, options = {cache: CacheLong()}) {
     return withCache(
       ['r&m', JSON.stringify(query)],
       options.cache,

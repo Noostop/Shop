@@ -30,11 +30,12 @@ export const meta = ({data}) => {
 /**
  * @param {LoaderFunctionArgs}
  */
-export async function loader({params, request}) {
+export async function loader({params, request, context}) {
   const {handle} = params;
+  const {bluetti} = context;
 
   try {
-    const product = pages.find((p) => p.handle === 'ac180');
+    const product = await bluetti.get(`/supportapi/product/detail/${handle}`);
     return defer(product);
   } catch (error) {
     throw new Response(`${new URL(request.url).pathname} not found`, {
@@ -46,28 +47,32 @@ export async function loader({params, request}) {
 export default function Specs() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
-  const {title, faqs} = data.faq;
+  const {commonQuestions} = data;
 
   return (
     <div className="h-full py-20 bg-gray-50 mt-14">
       <div className="container">
-        <h1 className="text-4xl font-semibold">{title}</h1>
+        <h1 className="text-4xl font-semibold">视频</h1>
 
         <div className="flex flex-col gap-8 pt-8 mt-8 border-t border-gray-300">
-          {faqs.map(({id, title, lists}) => (
-            <div key={id} className="flex flex-col gap-4" id={`co_${title}`}>
-              <h3 className="text-3xl font-semibold">{title}</h3>
+          {commonQuestions?.map(({groupName, commonQuestionDetails}) => (
+            <div
+              key={groupName}
+              className="flex flex-col gap-4"
+              id={`co_${groupName}`}
+            >
+              <h3 className="text-3xl font-semibold">{groupName}</h3>
 
               <ul className="flex flex-col gap-1">
-                {lists.map(({id, title, description}) => (
+                {commonQuestionDetails?.map(({answer, question}) => (
                   <li
-                    key={id}
+                    key={answer}
                     className="flex flex-col gap-8 px-4 py-4 rounded odd:bg-gray-100"
                   >
-                    <h4 className="font-medium">{title}</h4>
+                    <h4 className="font-medium">{answer}</h4>
                     <div
                       className="prose-sm prose"
-                      dangerouslySetInnerHTML={{__html: description}}
+                      dangerouslySetInnerHTML={{__html: question}}
                     />
                   </li>
                 ))}

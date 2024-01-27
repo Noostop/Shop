@@ -9,9 +9,9 @@ import clsx from 'clsx';
 
 export function SubNavigation({
   title,
-  handle,
   navigationInfos,
   shopProductId,
+  urlHandle,
   className,
 }) {
   const [isMobile, setIsMobile] = useState(false);
@@ -131,7 +131,7 @@ export function SubNavigation({
         <div className="flex flex-wrap items-center justify-between lg:flex-nowrap gap-x-8">
           <div className="flex items-center flex-shrink-0 h-14">
             <h2 className="text-lg font-semibold">
-              <Link to={handle}>{title}</Link>
+              <Link to={urlHandle}>{title}</Link>
             </h2>
           </div>
 

@@ -47,6 +47,8 @@ export default function Specs() {
   const data = useLoaderData();
   const {technicalParameters} = data;
 
+  console.log(data, 'data');
+
   return (
     <div className="flex flex-col flex-1 gap-y-2 md:gap-y-4 my-14">
       <div className="container mt-20">

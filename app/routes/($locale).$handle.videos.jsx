@@ -29,11 +29,12 @@ export const meta = ({data}) => {
 /**
  * @param {LoaderFunctionArgs}
  */
-export async function loader({params, request}) {
+export async function loader({params, request, context}) {
   const {handle} = params;
+  const {bluetti} = context;
 
   try {
-    const product = pages.find((p) => p.handle === handle);
+    const product = await bluetti.get(`/supportapi/product/detail/${handle}`);
     return defer(product);
   } catch (error) {
     throw new Response(`${new URL(request.url).pathname} not found`, {
@@ -52,21 +53,24 @@ export default function Specs() {
         <h1 className="text-4xl font-semibold">视频</h1>
 
         <div className="flex flex-col gap-8 pt-8 mt-8 border-t border-gray-300">
-          {data.videos.map(({id, title, lists}) => (
+          {data.videos.map(({title, videoDetails}) => (
             <div
-              key={id}
+              key={title}
               className="flex flex-col gap-6 p-4 bg-white rounded"
               id={`co_${title}`}
             >
               <h3 className="text-3xl font-semibold">{title}</h3>
 
               <ul className="flex flex-wrap gap-4">
-                {lists.map(({id, title, description, video}) => (
+                {videoDetails?.map(({id, videoName, describe, cover}) => (
                   <li key={id} className="lg:basis-1/3">
                     <div className="relative space-y-4 group">
                       <div className="relative aspect-video">
                         <Image
-                          data={video.postImage}
+                          data={{
+                            url: cover,
+                            alt: videoName,
+                          }}
                           className="object-cover w-full h-full overflow-hidden rounded"
                           sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                         />
@@ -82,11 +86,11 @@ export default function Specs() {
                         </div>
                       </div>
                       <h4 className="font-medium md:basis-60 line-clamp-2">
-                        {title}
+                        {videoName}
                       </h4>
                       <p
                         className="text-sm text-gray-500 line-clamp-3"
-                        dangerouslySetInnerHTML={{__html: description}}
+                        dangerouslySetInnerHTML={{__html: describe}}
                       />
                     </div>
                   </li>
