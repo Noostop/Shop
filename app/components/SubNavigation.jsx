@@ -7,9 +7,13 @@ import {ScrollArea} from '@radix-ui/react-scroll-area';
 import {AnimatePresence, motion} from 'framer-motion';
 import clsx from 'clsx';
 
-export function SubNavigation({title, handle, navBars, className}) {
-  const {navs, actions} = navBars;
-
+export function SubNavigation({
+  title,
+  handle,
+  navigationInfos,
+  shopProductId,
+  className,
+}) {
   const [isMobile, setIsMobile] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
@@ -133,7 +137,7 @@ export function SubNavigation({title, handle, navBars, className}) {
 
           <div className="order-2 ml-auto text-sm font-medium md:order-2">
             <ul className="flex text-sm font-medium w-max gap-x-8">
-              {navs?.map(({id, title, url}) => (
+              {navigationInfos?.map(({id, title, url}) => (
                 <li key={id} className="flex-shrink-0">
                   <Link
                     to={url}
@@ -145,27 +149,23 @@ export function SubNavigation({title, handle, navBars, className}) {
               ))}
             </ul>
           </div>
-          {actions && (
-            <div className="flex items-center order-2 gap-4 lg:order-3">
-              {actions?.map(({id, title, url, type}) =>
-                type === 'buy' ? (
-                  <Button size="sm" key={id} asChild>
-                    <Link to={url}>{title}</Link>
-                  </Button>
-                ) : (
-                  <Button
-                    key={id}
-                    size="sm"
-                    asChild
-                    variant="outline"
-                    className="text-black"
-                  >
-                    <Link to={url}>{title}</Link>
-                  </Button>
-                ),
-              )}
-            </div>
-          )}
+
+          <div className="flex items-center order-2 gap-4 lg:order-3">
+            {shopProductId ? (
+              <Button size="sm" asChild>
+                <Link to={`/${shopProductId}`}>购买</Link>
+              </Button>
+            ) : (
+              <Button
+                size="sm"
+                asChild
+                variant="outline"
+                className="text-black"
+              >
+                订阅
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </nav>

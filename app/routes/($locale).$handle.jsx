@@ -23,12 +23,11 @@ export const meta = ({data}) => {
  */
 export async function loader({params, request, context}) {
   const {locale, handle} = params;
-
-  console.log('handle1', locale, handle);
+  const {bluetti} = context;
 
   try {
-    const page = pages.find((p) => p.handle === 'ac180');
-    return defer(page);
+    const product = await bluetti.get(`/supportapi/product/detail/${handle}`);
+    return defer(product);
   } catch (error) {
     throw new Response(`${new URL(request.url).pathname} not found`, {
       status: 404,

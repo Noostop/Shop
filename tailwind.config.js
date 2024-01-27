@@ -88,5 +88,5 @@ module.exports = {
       'drawer-sm': 'calc(100vh - 14rem)',
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('@tailwindcss/typography'), require('tailwindcss-animate')],
 };

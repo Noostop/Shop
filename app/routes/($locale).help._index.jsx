@@ -17,10 +17,8 @@ export async function loader({params, request, context}) {
   const searchParams = new URLSearchParams(url.search);
   const searchTerm = String(searchParams.get('id') || '');
 
-  console.log(searchTerm, 'searchTerm');
-
   const questionList = await bluetti.get(
-    '/supportapi/supportQuestion/QuestionList?current=&size=&shopName=bluettipower&id=&directoryType=&language=en&isTree=true&country=US',
+    '/supportapi/supportQuestion/QuestionList?current=&size=&shopName=bluettipower-develop&language=en&isTree=true&country=US',
   );
 
   return defer({questionList});
@@ -51,11 +49,11 @@ const QuestionBox = ({item, className}) => {
     >
       <h3
         className="text-lg font-semibold"
-        dangerouslySetInnerHTML={{__html: item.questionDetail}}
+        dangerouslySetInnerHTML={{__html: item.name}}
       />
       <div
         className="text-gray-600 line-clamp-2"
-        dangerouslySetInnerHTML={{__html: item.answer}}
+        dangerouslySetInnerHTML={{__html: item.questionDetail}}
       />
       <div className="text-sm text-gray-500">适用产品： DJI Mini 3 Pro</div>
     </Link>
