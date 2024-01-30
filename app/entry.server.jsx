@@ -2,6 +2,8 @@ import {RemixServer} from '@remix-run/react';
 import isbot from 'isbot';
 import {renderToReadableStream} from 'react-dom/server';
 import {createContentSecurityPolicy} from '@shopify/hydrogen';
+import {I18nProvider} from 'remix-i18n';
+import {i18n} from './lib/i18n.server';
 
 /**
  * @param {Request} request
@@ -35,7 +37,9 @@ export default async function handleRequest(
 
   const body = await renderToReadableStream(
     <NonceProvider>
-      <RemixServer context={remixContext} url={request.url} />
+      <I18nProvider i18n={i18n}>
+        <RemixServer context={remixContext} url={request.url} />
+      </I18nProvider>
     </NonceProvider>,
     {
       nonce,

@@ -3496,6 +3496,11 @@
   dependencies:
     "@types/ms" "*"
 
+"@types/dlv@^1.1.2":
+  version "1.1.4"
+  resolved "https://registry.npmmirror.com/@types/dlv/-/dlv-1.1.4.tgz#e92f76b78adf2b118b5a807956f36434baefbab0"
+  integrity sha512-m8KmImw4Jt+4rIgupwfivrWEOnj1LzkmKkqbh075uG13eTQ1ZxHWT6T0vIdSQhLIjQCiR0n0lZdtyDOPO1x2Mw==
+
 "@types/eslint@^8.4.10":
   version "8.56.2"
   resolved "https://registry.npmmirror.com/@types/eslint/-/eslint-8.56.2.tgz#1c72a9b794aa26a8b94ad26d5b9aa51c8a6384bb"
@@ -11126,6 +11131,15 @@ remedial@^1.0.7:
   resolved "https://registry.npmmirror.com/remedial/-/remedial-1.0.8.tgz#a5e4fd52a0e4956adbaf62da63a5a46a78c578a0"
   integrity sha512-/62tYiOe6DzS5BqVsNpH/nkGlX45C/Sp6V+NtiN6JQNS1Viay7cWkazmRkrQrdFj2eshDe96SIQNIoMxqhzBOg==
 
+remix-i18n@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmmirror.com/remix-i18n/-/remix-i18n-1.0.1.tgz#020c5a906b2e00a41dbafeb19fd4d8fcf1df33a5"
+  integrity sha512-ZzS9ESOKqH/DCbgR3oobepSdqe1YTDKQVNCQkOBNbnGoaqzK4Qf2+bD8ejrx1nMdfucT0411Ls1ZE2M2+R7yOw==
+  dependencies:
+    "@types/dlv" "^1.1.2"
+    dlv "^1.1.3"
+    templite "^1.2.0"
+
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
   resolved "https://registry.npmmirror.com/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz#c24bce2a283adad5bc3f58e0d48249b92379d8ef"
@@ -12044,6 +12058,11 @@ temp-dir@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmmirror.com/temp-dir/-/temp-dir-2.0.0.tgz#bde92b05bdfeb1516e804c9c00ad45177f31321e"
   integrity sha512-aoBAniQmmwtcKp/7BzsH8Cxzv8OL736p7v1ihGb5e9DJ9kTwGWHrQrVB5+lfVDzfGrdRzXch+ig7LHaY1JTOrg==
+
+templite@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npmmirror.com/templite/-/templite-1.2.0.tgz#ac1781cfc46e3bed3b2c17297b3ce3b129d4a590"
+  integrity sha512-O9BpPXF44a9Pg84Be6mjzlrqOtbP2I/B5PNLWu5hb1n9UQ1GTLsjdMg1z5ROCkF6NFXsO5LQfRXEpgTGrZ7Q0Q==
 
 tempy@3.0.0:
   version "3.0.0"

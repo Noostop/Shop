@@ -1,6 +1,7 @@
+import {Suspense} from 'react';
 import {defer, redirect} from '@shopify/remix-oxygen';
 import {Await, useLoaderData} from '@remix-run/react';
-import {Suspense} from 'react';
+import {useI18n} from 'remix-i18n';
 import {Image, Money} from '@shopify/hydrogen';
 
 import {
@@ -63,8 +64,12 @@ export default function Home() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
 
+  const {t} = useI18n();
+
   return (
     <section className="flex flex-col flex-1 gap-y-2 md:gap-y-4">
+      <h1>{t('general.password_page.login_form_heading')}</h1>
+
       <SliderShow
         // autoplay
         slides={[
