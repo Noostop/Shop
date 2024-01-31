@@ -47,7 +47,10 @@ export function CountrySelector() {
     setIsMobile(isMobileDevice());
   }, []);
 
-  const strippedPathname = pathname?.replace(selectedLocale?.pathPrefix, '');
+  const strippedPathname = pathname?.replace(
+    `/${selectedLocale.pathPrefix}`,
+    '',
+  );
 
   if (isMobile) {
     return (

@@ -76,9 +76,12 @@ export function usePrefixPathWithLocale(path) {
 }
 
 // 获取以存储的语言信息
-export async function getLocaleFromRequest(request) {
-  const cookieHeader = request.headers.get('Cookie');
-  return (await knowledgeCountry.parse(cookieHeader)) ?? DEFAULT_LOCALE;
+export async function getLocaleFromRequest(session) {
+  const country = await session.get('country');
+
+  console.log(country, 'country++++++++');
+
+  return country;
 }
 
 // 读取请求头中的语言信息
@@ -106,7 +109,7 @@ export function getApproximateLocaleFromRequest(request) {
 
 // 默认地址信息
 export const DEFAULT_LOCALE = Object.freeze({
-  ...countries.default,
+  ...countries.us,
 });
 
 function resolveToFromType({customPrefixes, pathname, type}) {

@@ -34,24 +34,7 @@ export async function loader({request, params, context}) {
   const cookieHeader = request.headers.get('Cookie');
   // const cookie = (await knowledgeCountry.parse(cookieHeader)) || {};
 
-  console.log(locale, handle, 'locale, handle');
-
-  if (locale) {
-    // 如果定义了语言环境 URL 参数，但我们仍然使用“EN-US”
-    // locale参数必须无效，发送到404页面
-    // throw new Response(null, {status: 404});
-    const findLocalePath = Object.keys(countries).find(
-      (countryKey) => countryKey.toLowerCase() === locale.toLowerCase(),
-    );
-
-    if (!findLocalePath) {
-      // throw new Response(null, {status: 404});
-      // redirect(`/en/${locale}`);
-    } else {
-      // await knowledgeCountry.serialize(cookie);
-      // TODO: 需要重定向到当前语言环境的首页
-    }
-  }
+  // console.log(locale, handle, 'locale, handle');
 
   const {collections} = await storefront.query(FEATURED_COLLECTION_QUERY);
   const featuredCollection = collections.nodes[0];
@@ -64,12 +47,10 @@ export default function Home() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
 
-  const {t} = useI18n();
+  // const {t} = useI18n();
 
   return (
     <section className="flex flex-col flex-1 gap-y-2 md:gap-y-4">
-      <h1>{t('general.password_page.login_form_heading')}</h1>
-
       <SliderShow
         // autoplay
         slides={[

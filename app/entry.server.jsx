@@ -3,10 +3,10 @@ import isbot from 'isbot';
 import {renderToReadableStream} from 'react-dom/server';
 import {createContentSecurityPolicy} from '@shopify/hydrogen';
 import {I18nProvider} from 'remix-i18n';
-import {i18n} from './lib/i18n.server';
+import {i18n, getLocale} from './lib/i18n';
 
 /**
- * @param {Request} request
+' * @param {Request} request
  * @param {number} responseStatusCode
  * @param {Headers} responseHeaders
  * @param {EntryContext} remixContext
@@ -34,6 +34,9 @@ export default async function handleRequest(
       '*.youtube.com',
     ],
   });
+
+  const locale = getLocale(new URL(request.url).pathname);
+  i18n.locale(locale);
 
   const body = await renderToReadableStream(
     <NonceProvider>

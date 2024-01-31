@@ -3,10 +3,10 @@ import {startTransition, StrictMode} from 'react';
 import {hydrateRoot} from 'react-dom/client';
 
 import {I18nProvider} from 'remix-i18n';
-import {i18n} from './lib/i18n.server';
+import {i18n, getLocale} from './lib/i18n';
 
-// const locale = getLocale(window.location.pathname);
-i18n.locale('zh');
+const locale = getLocale(window.location.pathname);
+i18n.locale(locale);
 
 startTransition(() => {
   hydrateRoot(

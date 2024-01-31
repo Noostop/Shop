@@ -1,14 +1,14 @@
-const HOST = 'http://localhost:3000';
-// const HOST = 'https://shop.iiixys.cc';
+const HOST = 'http:localhost:3000';
+// const HOST = 'https:shop.iiixys.cc';
 
 export const countries = {
-  default: {
+  us: {
     country: 'US',
     language: 'EN',
     countryText: 'United States',
     langText: 'English',
     currency: 'USD',
-    alias: ' US',
+    pathPrefix: 'us',
     host: HOST,
   },
   cn: {
@@ -38,7 +38,7 @@ export const countries = {
     langText: '繁体中文',
     currency: 'HKD',
     alias: 'HK',
-    pathPrefix: '/hk',
+    pathPrefix: 'hk',
     host: HOST,
   },
   'hk-en': {
@@ -48,7 +48,7 @@ export const countries = {
     langText: 'English',
     currency: 'HKD',
     alias: 'HK',
-    pathPrefix: '/hk-en',
+    pathPrefix: 'hk-en',
     host: HOST,
   },
   kr: {
@@ -58,7 +58,7 @@ export const countries = {
     langText: '한국어',
     currency: 'KRW',
     alias: 'KR',
-    pathPrefix: '/kr',
+    pathPrefix: 'kr',
     host: HOST,
   },
   id: {
@@ -68,7 +68,7 @@ export const countries = {
     langText: 'English',
     currency: 'IDR',
     alias: 'ID',
-    pathPrefix: '/id',
+    pathPrefix: 'id',
     host: HOST,
   },
   fr: {
@@ -78,7 +78,7 @@ export const countries = {
     langText: 'Français',
     currency: 'EUR',
     alias: 'FR-FR',
-    pathPrefix: '/fr',
+    pathPrefix: 'fr',
     host: HOST,
   },
   de: {
@@ -88,7 +88,7 @@ export const countries = {
     langText: 'Deutsch',
     currency: 'EUR',
     alias: 'DE',
-    pathPrefix: '/de',
+    pathPrefix: 'de',
     host: HOST,
   },
   au: {
@@ -98,7 +98,7 @@ export const countries = {
     langText: 'English',
     currency: 'AUD',
     alias: 'AU',
-    pathPrefix: '/au',
+    pathPrefix: 'au',
     host: HOST,
   },
   ca: {
@@ -108,7 +108,7 @@ export const countries = {
     langText: 'English',
     currency: 'CAD',
     alias: 'CA',
-    pathPrefix: '/ca',
+    pathPrefix: 'ca',
     host: HOST,
   },
   'ca-fr': {
@@ -118,7 +118,7 @@ export const countries = {
     langText: 'Français',
     currency: 'CAD',
     alias: 'CA',
-    pathPrefix: '/ca-fr',
+    pathPrefix: 'ca-fr',
     host: HOST,
   },
   it: {
@@ -128,7 +128,7 @@ export const countries = {
     langText: 'Italiano',
     currency: 'EUR',
     alias: 'IT',
-    pathPrefix: '/it',
+    pathPrefix: 'it',
     host: HOST,
   },
   es: {
@@ -138,7 +138,7 @@ export const countries = {
     langText: 'Español',
     currency: 'EUR',
     alias: 'ES',
-    pathPrefix: '/es',
+    pathPrefix: 'es',
     host: HOST,
   },
   at: {
@@ -148,7 +148,7 @@ export const countries = {
     langText: 'Deutsch',
     currency: 'EUR',
     alias: 'AT',
-    pathPrefix: '/at',
+    pathPrefix: 'at',
     host: HOST,
   },
   jp: {
@@ -158,7 +158,7 @@ export const countries = {
     langText: '日本語',
     currency: 'JPY',
     alias: 'JP',
-    pathPrefix: '/jp',
+    pathPrefix: 'jp',
     host: HOST,
   },
   ae: {
@@ -168,7 +168,7 @@ export const countries = {
     langText: 'English',
     currency: 'AED',
     alias: 'AE',
-    pathPrefix: '/ae',
+    pathPrefix: 'ae',
     host: HOST,
   },
   bh: {
@@ -178,7 +178,7 @@ export const countries = {
     langText: 'English',
     currency: 'BHD',
     alias: 'BH',
-    pathPrefix: '/bh',
+    pathPrefix: 'bh',
     host: HOST,
   },
   ar: {
@@ -188,7 +188,7 @@ export const countries = {
     langText: 'Español',
     currency: 'ARS',
     alias: 'AR',
-    pathPrefix: '/ar',
+    pathPrefix: 'ar',
     host: HOST,
   },
 };
@@ -212,7 +212,7 @@ export const areas = [
   {
     id: '89123129',
     name: '北美洲',
-    countries: ['default', 'ca', 'ca-fr'],
+    countries: ['us', 'ca', 'ca-fr'],
   },
   {
     id: '899989',

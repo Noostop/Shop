@@ -21,6 +21,7 @@ import {Button} from '../@/components/ui/button';
 import {getLocaleFromRequest, parseMenu} from '~/lib/utils';
 import {seoPayload} from '~/lib/seo.server';
 import {pages} from '~/data/pages';
+import {countries} from './data/countries';
 
 /**
  * 这对于避免在子导航上重新获取根查询非常重要
@@ -66,7 +67,7 @@ export const useRootLoaderData = () => {
 /**
  * @param {LoaderFunctionArgs}
  */
-export async function loader({context, request}) {
+export async function loader({context, params}) {
   const {session, cart} = context;
   const [customerAccessToken, layout] = await Promise.all([
     session.get('customerAccessToken'),
@@ -78,13 +79,16 @@ export async function loader({context, request}) {
   // 验证客户访问令牌是否有效
   const {isLoggedIn, headers} = await validateCustomerAccessToken(
     session,
+    params,
     customerAccessToken,
   );
 
   // 通过不等待来推迟购物车查询
   const cartPromise = cart.get();
   // const seo = seoPayload.root({shop: layout.shop, url: request.url});
-  const selectedLocale = await getLocaleFromRequest(request);
+  // const selectedLocale = await getLocaleFromRequest(request);
+
+  const selectedLocale = await session.get('country');
 
   return defer(
     {
@@ -96,7 +100,9 @@ export async function loader({context, request}) {
       publicStoreDomain,
       selectedLocale,
     },
-    {headers},
+    {
+      headers,
+    },
   );
 }
 
@@ -196,9 +202,22 @@ export function ErrorBoundary() {
  * @param {LoaderFunctionArgs['context']['session']} session
  * @param {CustomerAccessToken} [customerAccessToken]
  */
-async function validateCustomerAccessToken(session, customerAccessToken) {
+async function validateCustomerAccessToken(
+  session,
+  params,
+  customerAccessToken,
+) {
   let isLoggedIn = false;
+  const {locale} = params;
   const headers = new Headers();
+  const country = await session.get('country');
+  const selectCountry = locale ? countries[locale] : countries['us'];
+
+  if (country === undefined) {
+    session.set('country', selectCountry);
+    headers.append('Set-Cookie', await session.commit());
+  }
+
   if (!customerAccessToken?.accessToken || !customerAccessToken?.expiresAt) {
     return {isLoggedIn, headers};
   }

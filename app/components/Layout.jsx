@@ -29,7 +29,9 @@ export function Layout({
 
   const {pathname} = useLocation();
 
-  const haveSubNav = pages.some((page) => pathname.includes(page.handle));
+  const haveSubNav = ['/ac180', 'ac200max'].some((page) =>
+    pathname.includes(page),
+  );
 
   return (
     <div className="flex flex-col min-h-screen">

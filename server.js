@@ -40,13 +40,16 @@ export default {
         HydrogenSession.init(request, [env.SESSION_SECRET]),
       ]);
 
+      const country = await session.get('country');
+      console.log(country, 'params_server.js');
+
       /**
        * 创建 Hydrogen 的 Storefront 客户端。
        */
       const {storefront} = createStorefrontClient({
         cache,
         waitUntil,
-        i18n: await getLocaleFromRequest(request),
+        i18n: await getLocaleFromRequest(session),
         publicStorefrontToken: env.PUBLIC_STOREFRONT_API_TOKEN,
         privateStorefrontToken: env.PRIVATE_STOREFRONT_API_TOKEN,
         storeDomain: env.PUBLIC_STORE_DOMAIN,
@@ -58,7 +61,7 @@ export default {
       const bluetti = createBluettiClient({
         cache,
         waitUntil,
-        i18n: await getLocaleFromRequest(request),
+        i18n: await getLocaleFromRequest(session),
         serverDomain: 'https://srv0.bluettipower.com',
         serverAPiVersion: 'v1',
       });

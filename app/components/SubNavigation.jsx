@@ -1,11 +1,11 @@
+import clsx from 'clsx';
+import {useI18n} from 'remix-i18n';
 import {useEffect, useState} from 'react';
 import {Button} from '@/components/ui/button';
 import {Link} from '~/components/Link';
 import {isMobileDevice} from '~/lib/utils';
 import {ChevronDownIcon} from '@heroicons/react/24/solid';
-import {ScrollArea} from '@radix-ui/react-scroll-area';
 import {AnimatePresence, motion} from 'framer-motion';
-import clsx from 'clsx';
 
 export function SubNavigation({
   title,
@@ -16,6 +16,8 @@ export function SubNavigation({
 }) {
   const [isMobile, setIsMobile] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+
+  const {t} = useI18n();
 
   useEffect(() => {
     setIsMobile(isMobileDevice());
@@ -36,7 +38,7 @@ export function SubNavigation({
           <div className="flex items-center justify-between h-16 gap-2">
             <h2 className="flex items-center justify-between w-full gap-2">
               <Link
-                to={handle}
+                to={urlHandle}
                 onClick={closeAside}
                 prefetch="intent"
                 className="text-base font-semibold leading-4 line-clamp-2"
@@ -60,22 +62,16 @@ export function SubNavigation({
             </h2>
 
             <div className="flex items-center justify-end gap-x-2">
-              {actions?.map(({id, title, url, type}) =>
-                type === 'buy' ? (
-                  <Button size="sm" key={id} asChild>
-                    <Link to={url}>{title}</Link>
-                  </Button>
-                ) : (
-                  <Button
-                    key={id}
-                    size="sm"
-                    asChild
-                    variant="outline"
-                    className="text-black"
-                  >
-                    <Link to={url}>{title}</Link>
-                  </Button>
-                ),
+              {shopProductId ? (
+                <Button size="sm" asChild>
+                  <Link to={`/products/${urlHandle}`}>
+                    {t('products.product.add_to_cart')}
+                  </Link>
+                </Button>
+              ) : (
+                <Button size="sm" variant="outline" className="text-black">
+                  {t('newsletter.button_label')}
+                </Button>
               )}
             </div>
           </div>
@@ -95,7 +91,7 @@ export function SubNavigation({
               }}
             >
               <div className="container py-2">
-                {navs?.map(({id, title, url}) => (
+                {navigationInfos?.map(({id, title, url}) => (
                   <motion.div
                     key={id}
                     className="space-y-2"
@@ -153,16 +149,13 @@ export function SubNavigation({
           <div className="flex items-center order-2 gap-4 lg:order-3">
             {shopProductId ? (
               <Button size="sm" asChild>
-                <Link to={`/${shopProductId}`}>购买</Link>
+                <Link to={`/products/${urlHandle}`}>
+                  {t('products.product.add_to_cart')}
+                </Link>
               </Button>
             ) : (
-              <Button
-                size="sm"
-                asChild
-                variant="outline"
-                className="text-black"
-              >
-                订阅
+              <Button size="sm" variant="outline" className="text-black">
+                {t('newsletter.button_label')}
               </Button>
             )}
           </div>
