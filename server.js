@@ -48,7 +48,11 @@ export default {
       if (!isSame) {
         const {origin, pathname, search} = new URL(request.url);
         const redirectUrl = new URL(
-          `${pathname.replace(pathPrefix, i18n.pathPrefix)}${search}`,
+          `${
+            pathname.startsWith('/*')
+              ? pathname.replace(pathPrefix, i18n.pathPrefix)
+              : i18n.pathPrefix
+          }  ${search}`,
           `${origin}`,
         );
 

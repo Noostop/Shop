@@ -91,7 +91,7 @@ export function parseUrl(url) {
   } else {
     // 如果国家参数无效，默认返回一个值
     return {
-      pathPrefix: firstParam ?? 'us',
+      pathPrefix: firstParam ? firstParam : 'us',
       i18n: countries['us'],
     };
   }
