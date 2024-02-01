@@ -109,7 +109,7 @@ export function CountrySelector() {
                                 <input
                                   type="hidden"
                                   name="path"
-                                  value={`${search}`}
+                                  value={`/${locale.pathPrefix}`}
                                 />
                                 <Button
                                   type="submit"
