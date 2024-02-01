@@ -1,6 +1,8 @@
 import {json, redirect} from '@shopify/remix-oxygen';
 import {Form, Link, useActionData} from '@remix-run/react';
 
+import {getLocaleFromRequest} from '~/lib/utils';
+
 /**
  * @type {MetaFunction}
  */
@@ -11,9 +13,14 @@ export const meta = () => {
 /**
  * @param {LoaderFunctionArgs}
  */
-export async function loader({context}) {
+export async function loader({context, request}) {
+  const {pathPrefix} = await getLocaleFromRequest({
+    session: context.session,
+    request,
+  });
+
   if (await context.session.get('customerAccessToken')) {
-    return redirect('/account');
+    return redirect(`/${pathPrefix}/account`);
   }
   return json({});
 }
@@ -23,6 +30,11 @@ export async function loader({context}) {
  */
 export async function action({request, context}) {
   const {session, storefront} = context;
+
+  const {pathPrefix} = await getLocaleFromRequest({
+    session: context.session,
+    request,
+  });
 
   if (request.method !== 'POST') {
     return json({error: 'Method not allowed'}, {status: 405});
@@ -54,7 +66,7 @@ export async function action({request, context}) {
     const {customerAccessToken} = customerAccessTokenCreate;
     session.set('customerAccessToken', customerAccessToken);
 
-    return redirect('/account', {
+    return redirect(`/${pathPrefix}/account`, {
       headers: {
         'Set-Cookie': await session.commit(),
       },

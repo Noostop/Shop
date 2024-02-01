@@ -34,7 +34,7 @@ export async function loader({request, params, context}) {
 
   const {locale, handle} = params;
 
-  console.log(locale, handle, ' -- +++++ 1');
+  // console.log(locale, handle, ' -- +++++ 1');
 
   // if (
   //   params.locale &&

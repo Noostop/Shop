@@ -328,7 +328,14 @@
     "country_label": "國家\/地區",
     "language_label": "語言",
     "update_language": "更新語言",
-    "update_country": "更新國家\/地區"
+    "update_country": "更新國家\/地區",
+    "areas": {
+      "APAC": "亞太地區",
+      "EU": "歐洲地區",
+      "ME": "中東地區",
+      "NA": "北美地區",
+      "SA": "南美地區"
+    }
   },
   "customer": {
     "account": {

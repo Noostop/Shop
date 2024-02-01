@@ -1,8 +1,6 @@
 import {useMatches} from '@remix-run/react';
 import {useMemo} from 'react';
 
-import {DEFAULT_LOCALE} from '~/lib/utils';
-
 export function usePageAnalytics({hasUserConsent}) {
   const matches = useMatches();
 
@@ -14,7 +12,7 @@ export function usePageAnalytics({hasUserConsent}) {
       if (eventData) {
         eventData['analytics'] && Object.assign(data, eventData['analytics']);
 
-        const selectedLocale = eventData['selectedLocale'] || DEFAULT_LOCALE;
+        const selectedLocale = eventData['selectedLocale'];
 
         Object.assign(data, {
           currency: selectedLocale.currency,

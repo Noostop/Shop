@@ -1,5 +1,5 @@
-const HOST = 'http:localhost:3000';
-// const HOST = 'https:shop.iiixys.cc';
+// const HOST = 'http:localhost:3000';
+const HOST = 'https:shop.iiixys.cc';
 
 export const countries = {
   us: {
@@ -18,7 +18,7 @@ export const countries = {
     langText: '简体中文',
     currency: 'CNY',
     alias: 'CN',
-    pathPrefix: '/cn',
+    pathPrefix: 'cn',
     host: HOST,
   },
   tw: {
@@ -28,7 +28,7 @@ export const countries = {
     langText: '繁体中文',
     currency: 'NT',
     alias: 'TW',
-    pathPrefix: '/tw',
+    pathPrefix: 'tw',
     host: HOST,
   },
   hk: {
@@ -196,27 +196,27 @@ export const countries = {
 export const areas = [
   {
     id: '748327',
-    name: '亚太地区',
+    name: 'APAC',
     countries: ['cn', 'hk', 'hk-en', 'tw', 'au', 'id', 'in', 'kr', 'jp'],
   },
   {
     id: '432432',
-    name: '欧洲地区',
+    name: 'EU',
     countries: ['fr-en', 'fr-fr', 'de', 'at', 'it', 'es'],
   },
   {
     id: '8794239',
-    name: '中东地区',
+    name: 'ME',
     countries: ['ae', 'bh'],
   },
   {
     id: '89123129',
-    name: '北美洲',
+    name: 'NA',
     countries: ['us', 'ca', 'ca-fr'],
   },
   {
     id: '899989',
-    name: '南美洲',
+    name: 'SA',
     countries: ['ar'],
   },
 ];

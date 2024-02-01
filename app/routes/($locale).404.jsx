@@ -1,21 +1,38 @@
+import {defer} from '@shopify/remix-oxygen';
+import {useLoaderData} from '@remix-run/react';
 import {useState, useEffect} from 'react';
 import {Button} from '@/components/ui/button';
 import {Link} from '~/components/Link';
+import {getLocaleFromRequest} from '~/lib/utils';
+
+/**
+ * @param {LoaderFunctionArgs}
+ */
+export async function loader({request, context}) {
+  const {session} = context;
+  const {pathPrefix} = await getLocaleFromRequest({
+    session,
+    request,
+  });
+
+  return defer({pathPrefix});
+}
 
 export default function NotFond() {
+  const data = useLoaderData();
   const [times, setTimes] = useState(10);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setTimes((times) => times - 1);
-      if (times <= 0) {
-        window.location.href = '/';
+      if (times <= 1) {
+        window.location.href = `/${data.pathPrefix}`;
         clearInterval(timer);
       }
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [times]);
+  }, [times, data.pathPrefix]);
 
   return (
     <section className="bg-white dark:bg-gray-900">

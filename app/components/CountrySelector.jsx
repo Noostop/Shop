@@ -22,35 +22,33 @@ import {Button} from '@/components/ui/button';
 import {ScrollArea} from '@/components/ui/scroll-area';
 import {AnimatePresence} from 'framer-motion';
 import {isMobileDevice} from '~/lib/utils';
+import {areas, countries} from '~/data/countries';
+import {useI18n} from 'remix-i18n';
 
 export function CountrySelector() {
   const [root] = useMatches();
+  const {t} = useI18n();
   const selectedLocale = root.data.selectedLocale;
 
   const {pathname, search} = useLocation();
   const [open, setOpen] = useState(false);
-  const [countries, setCountries] = useState({});
-  const [areas, setAreas] = useState([]); // ['Asia', 'Europe', 'North America', 'South America', 'Africa', 'Oceania', 'Antarctica']
+  // const [countries, setCountries] = useState({});
+  // const [areas, setAreas] = useState([]); // ['Asia', 'Europe', 'North America', 'South America', 'Africa', 'Oceania', 'Antarctica']
   const [isMobile, setIsMobile] = useState(false);
 
   // Get available countries list
-  const fetcher = useFetcher();
-  useEffect(() => {
-    if (!fetcher.data) {
-      return fetcher.load('/api/countries');
-    }
-    setCountries(fetcher.data.countries);
-    setAreas(fetcher.data.areas);
-  }, [countries, areas, fetcher.data]);
+  // const fetcher = useFetcher();
+  // useEffect(() => {
+  //   if (!fetcher.data) {
+  //     return fetcher.load('/api/countries');
+  //   }
+  //   setAreas(fetcher.data.areas);
+  //   setCountries(fetcher.data.countries);
+  // }, [countries, areas]);
 
   useEffect(() => {
     setIsMobile(isMobileDevice());
   }, []);
-
-  const strippedPathname = pathname?.replace(
-    `/${selectedLocale.pathPrefix}`,
-    '',
-  );
 
   if (isMobile) {
     return (
@@ -105,7 +103,7 @@ export function CountrySelector() {
                                 <input
                                   type="hidden"
                                   name="path"
-                                  value={`${strippedPathname}${search}`}
+                                  value={`${search}`}
                                 />
                                 <Button
                                   type="submit"
@@ -142,7 +140,7 @@ export function CountrySelector() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-3xl">
         <DialogHeader>
-          <DialogTitle>选择您的国家/地区</DialogTitle>
+          <DialogTitle>{t('localization.country_label')}</DialogTitle>
         </DialogHeader>
 
         <ScrollArea className="mt-4 max-h-drawer-sm">
@@ -153,14 +151,25 @@ export function CountrySelector() {
                   key={area.name}
                   className="flex flex-col gap-6 pb-4 border-b border-gray-200 last:border-b-0"
                 >
-                  <h3 className="py-2 text-lg font-semibold">{area.name}</h3>
+                  <h3 className="py-2 text-lg font-semibold">
+                    {t(`localization.areas.${area.name}`)}
+                  </h3>
                   <div className="grid grid-cols-3 gap-4">
                     {area?.countries.map((countryKey) => {
                       const locale = countries[countryKey];
 
-                      if (!locale) return null;
+                      const strippedPathname = pathname.startsWith(
+                        locale?.pathPrefix,
+                      )
+                        ? pathname.replace(
+                            `${selectedLocale.pathPrefix}`,
+                            locale?.pathPrefix || '',
+                          )
+                        : `${locale?.pathPrefix}${pathname}`;
 
-                      const hreflang = `${locale.language}-${locale.country}`;
+                      const hreflang = `${locale?.language}-${locale?.country}`;
+
+                      if (!locale) return null;
 
                       return (
                         <Form

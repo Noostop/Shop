@@ -43,7 +43,7 @@ export const meta = ({data}) => {
  */
 export async function loader({params, request}) {
   const {locale, handle} = params;
-  console.log('handle', locale, handle);
+  // console.log('handle', locale, handle);
 
   try {
     const page = pages.find((p) => p.handle === handle);

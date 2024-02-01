@@ -40,7 +40,7 @@ export async function getVariantUrl({
   selectedOptions,
 }) {
   const cookieHeader = request.headers.get('Cookie');
-  const locale = (await knowledgeCountry.parse(cookieHeader)) ?? DEFAULT_LOCALE;
+  const locale = await knowledgeCountry.parse(cookieHeader);
 
   // const match = /(\/[a-zA-Z]{2}-[a-zA-Z]{2}\/)/g.exec(pathname);
   // const isLocalePathname = match && match.length > 0;
@@ -67,21 +67,53 @@ export function cn(...inputs) {
 export function usePrefixPathWithLocale(path) {
   const [root] = useMatches();
   const selectedLocale = root.data.selectedLocale;
-
-  return selectedLocale
-    ? `${selectedLocale.pathPrefix || ''}${
-        path?.startsWith('/') ? path : '/' + path
-      }`
-    : path;
+  return selectedLocale ? `/${selectedLocale.pathPrefix || ''}${path}` : path;
 }
 
+export function parseUrl(url) {
+  // 使用 URL 对象解析 URL
+  const urlObject = new URL(url);
+  // 获取路径部分
+  const path = urlObject.pathname;
+  // 将路径按斜杠分割成数组
+  const pathSegments = path.split('/');
+  // 过滤掉空字符串，保留非空路径部分
+  const nonEmptySegments = pathSegments.filter((segment) => segment !== '');
+  // 获取第一个非空路径部分作为参数
+  const firstParam = nonEmptySegments.length > 0 ? nonEmptySegments[0] : null;
+
+  // 进行国家和语言类型的校验
+  const validCountries = countries[firstParam && firstParam?.toLowerCase()]; // 有效的国家列表
+
+  // 检查国家和语言是否有效
+  if (firstParam && validCountries) {
+    return {pathPrefix: firstParam, i18n: validCountries};
+  } else {
+    // 如果国家参数无效，默认返回一个值
+    return {
+      pathPrefix: firstParam,
+      i18n: countries['us'],
+    };
+  }
+}
+
+// const url = 'https://example.com/usa?lang=fr';
+// const parsedParams = parseUrl(url);
+// console.log(parsedParams);
+
 // 获取以存储的语言信息
-export async function getLocaleFromRequest(session) {
-  const country = await session.get('country');
+export async function getLocaleFromRequest({session, request}) {
+  const sectionI18n = await session.get('i18n');
+  const {pathPrefix, i18n} = parseUrl(request.url);
 
-  console.log(country, 'country++++++++');
+  let isSame = false;
 
-  return country;
+  if (sectionI18n) {
+    isSame = sectionI18n.pathPrefix === pathPrefix;
+    return {isSame, pathPrefix, i18n: sectionI18n};
+  }
+
+  return {isSame, i18n, pathPrefix};
 }
 
 // 读取请求头中的语言信息
@@ -106,11 +138,6 @@ export function getApproximateLocaleFromRequest(request) {
     country: 'CA',
   };
 }
-
-// 默认地址信息
-export const DEFAULT_LOCALE = Object.freeze({
-  ...countries.us,
-});
 
 function resolveToFromType({customPrefixes, pathname, type}) {
   if (!pathname || !type) return '';

@@ -68,7 +68,7 @@ export const useRootLoaderData = () => {
  * @param {LoaderFunctionArgs}
  */
 export async function loader({context, params}) {
-  const {session, cart} = context;
+  const {session, i18n, cart} = context;
   const [customerAccessToken, layout] = await Promise.all([
     session.get('customerAccessToken'),
     getLayoutData(context),
@@ -88,8 +88,6 @@ export async function loader({context, params}) {
   // const seo = seoPayload.root({shop: layout.shop, url: request.url});
   // const selectedLocale = await getLocaleFromRequest(request);
 
-  const selectedLocale = await session.get('country');
-
   return defer(
     {
       // seo,
@@ -98,7 +96,7 @@ export async function loader({context, params}) {
       isLoggedIn,
       cart: cartPromise,
       publicStoreDomain,
-      selectedLocale,
+      selectedLocale: i18n,
     },
     {
       headers,
@@ -208,15 +206,15 @@ async function validateCustomerAccessToken(
   customerAccessToken,
 ) {
   let isLoggedIn = false;
-  const {locale} = params;
+  // const {locale} = params;
   const headers = new Headers();
-  const country = await session.get('country');
-  const selectCountry = locale ? countries[locale] : countries['us'];
+  // const country = await session.get('i18n');
+  // const selectCountry = locale ? countries[locale] : countries['us'];
 
-  if (country === undefined) {
-    session.set('country', selectCountry);
-    headers.append('Set-Cookie', await session.commit());
-  }
+  // if (country === undefined) {
+  //   session.set('i18n', selectCountry);
+  //   headers.append('Set-Cookie', await session.commit());
+  // }
 
   if (!customerAccessToken?.accessToken || !customerAccessToken?.expiresAt) {
     return {isLoggedIn, headers};

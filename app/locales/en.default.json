@@ -328,7 +328,14 @@
     "country_label": "Country\/region",
     "language_label": "Language",
     "update_language": "Update language",
-    "update_country": "Update country\/region"
+    "update_country": "Update country\/region",
+    "areas": {
+      "APAC": "Asia-Pacific Region",
+      "EU": "European Region",
+      "ME": "Middle East Region",
+      "NA": "North American Region",
+      "SA": "South American Region"
+    }
   },
   "customer": {
     "account": {

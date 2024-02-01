@@ -1,8 +1,6 @@
 import invariant from 'tiny-invariant';
 import {json, redirect} from '@shopify/remix-oxygen';
-import {knowledgeCountry} from '~/lib/cookies.server';
-import {DEFAULT_LOCALE} from '~/lib/utils';
-import {countries} from '~/data/countries';
+import {getLocaleFromRequest} from '~/lib/utils';
 
 export const action = async ({request, context}) => {
   const {session} = context;
@@ -23,13 +21,10 @@ export const action = async ({request, context}) => {
 
     // 确定相对于用户导航的位置重定向到的位置
     const path = formData.get('path');
-    let toLocale = DEFAULT_LOCALE; //countries[`${countryCode}-${languageCode}`.toLowerCase()] ?? DEFAULT_LOCALE;
 
-    Object.keys(countries).map((countryKey) => {
-      const locale = countries[countryKey];
-      if (locale.country === countryCode && locale.language === languageCode) {
-        toLocale = locale;
-      }
+    const {isSame, i18n} = await getLocaleFromRequest({
+      session,
+      request,
     });
 
     const cartId = await session.get('cartId');
@@ -44,19 +39,17 @@ export const action = async ({request, context}) => {
       });
     }
 
-    const redirectUrl = new URL(
-      `${toLocale.pathPrefix || ''}${path}`,
-      `${toLocale?.host}`,
-    );
+    if (!isSame) {
+      const url = new URL(request.url);
+      const redirectUrl = new URL(`${i18n.pathPrefix}${path}`, `${url.origin}`);
 
-    session.set('country', toLocale);
-
-    return redirect(redirectUrl, {
-      status: 301,
-      headers: {
-        'Set-Cookie': await session.commit(),
-      },
-    });
+      session.set('i18n', i18n);
+      return redirect(redirectUrl, {
+        headers: {
+          'Set-Cookie': await session.commit(),
+        },
+      });
+    }
   } catch (error) {
     if (error instanceof Error) {
       return json({error: error.message}, {status: 400});

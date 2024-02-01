@@ -328,7 +328,14 @@
     "country_label": "国\/地域",
     "language_label": "言語",
     "update_language": "言語を更新する",
-    "update_country": "国\/地域を更新する"
+    "update_country": "国\/地域を更新する",
+    "areas": {
+      "APAC": "アジア・太平洋地域",
+      "EU": "ヨーロッパ地域",
+      "ME": "中東地域",
+      "NA": "北アメリカ地域",
+      "SA": "南アメリカ地域"
+    }
   },
   "customer": {
     "account": {

@@ -470,12 +470,12 @@ function User({isLoggedIn}) {
   if (isLoggedIn) {
     return (
       <div className="relative flow-root ml-4 lg:ml-6">
-        <a href="/account" className="flex items-center p-2 -m-2 group">
+        <Link to="/account" className="flex items-center p-2 -m-2 group">
           <UserCircleIcon
             className="flex-shrink-0 w-6 h-6"
             aria-hidden="true"
           />
-        </a>
+        </Link>
       </div>
     );
   }
@@ -484,12 +484,12 @@ function User({isLoggedIn}) {
     <HoverCard openDelay={0}>
       <HoverCardTrigger asChild>
         <div className="relative flow-root ml-4 lg:ml-6">
-          <a href="/account" className="flex items-center p-2 -m-2 group">
+          <Link to="/account" className="flex items-center p-2 -m-2 group">
             <UserCircleIcon
               className="flex-shrink-0 w-6 h-6"
               aria-hidden="true"
             />
-          </a>
+          </Link>
         </div>
       </HoverCardTrigger>
       <HoverCardContent className="p-1" sideOffset={20} align="end">

@@ -1,8 +1,8 @@
 import {Suspense} from 'react';
 import {defer, redirect} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Outlet} from '@remix-run/react';
-import {pages} from '~/data/pages';
 import {SubNavigation} from '~/components/SubNavigation';
+import {getLocaleFromRequest} from '~/lib/utils';
 
 /**
  * @type {MetaFunction}
@@ -23,13 +23,24 @@ export const meta = ({data}) => {
  */
 export async function loader({params, request, context}) {
   const {locale, handle} = params;
-  const {bluetti} = context;
+  const {bluetti, session} = context;
+  const {pathPrefix} = await getLocaleFromRequest({
+    session,
+    request,
+  });
 
   try {
     const product = await bluetti.get(`/supportapi/product/detail/${handle}`);
-    return defer(product);
+
+    if (product.id) {
+      return defer(product);
+    }
+
+    return redirect(`/${pathPrefix}/404`);
   } catch (error) {
-    throw new Response(`${new URL(request.url).pathname} not found`, {
+    const {pathname} = new URL(request.url);
+
+    throw new Response(`${pathname} not found`, {
       status: 404,
     });
   }

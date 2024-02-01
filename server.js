@@ -40,8 +40,25 @@ export default {
         HydrogenSession.init(request, [env.SESSION_SECRET]),
       ]);
 
-      const country = await session.get('country');
-      console.log(country, 'params_server.js');
+      const {isSame, i18n, pathPrefix} = await getLocaleFromRequest({
+        session,
+        request,
+      });
+
+      if (!isSame) {
+        const {origin, pathname, search} = new URL(request.url);
+        const redirectUrl = new URL(
+          `${pathname.replace(pathPrefix, i18n.pathPrefix)}${search}`,
+          `${origin}`,
+        );
+
+        session.set('i18n', i18n);
+        return redirect(redirectUrl, {
+          headers: {
+            'Set-Cookie': await session.commit(),
+          },
+        });
+      }
 
       /**
        * 创建 Hydrogen 的 Storefront 客户端。
@@ -49,7 +66,7 @@ export default {
       const {storefront} = createStorefrontClient({
         cache,
         waitUntil,
-        i18n: await getLocaleFromRequest(session),
+        i18n,
         publicStorefrontToken: env.PUBLIC_STOREFRONT_API_TOKEN,
         privateStorefrontToken: env.PRIVATE_STOREFRONT_API_TOKEN,
         storeDomain: env.PUBLIC_STORE_DOMAIN,
@@ -61,7 +78,7 @@ export default {
       const bluetti = createBluettiClient({
         cache,
         waitUntil,
-        i18n: await getLocaleFromRequest(session),
+        i18n,
         serverDomain: 'https://srv0.bluettipower.com',
         serverAPiVersion: 'v1',
       });
@@ -86,6 +103,7 @@ export default {
         mode: process.env.NODE_ENV,
         getLoadContext: () => ({
           session,
+          i18n,
           storefront,
           bluetti,
           cart,
@@ -104,7 +122,7 @@ export default {
          */
         const url = new URL(request.url);
         const redirectUrl = new URL(
-          `/404?from=${url.pathname}`,
+          `/${pathPrefix}/404?from=${url.pathname}`,
           `${url.origin}`,
         );
         return redirect(redirectUrl, 302);
