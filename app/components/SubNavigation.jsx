@@ -23,10 +23,10 @@ export function SubNavigation({
     setIsMobile(isMobileDevice());
   }, []);
 
-  function closeAside(event) {
-    event.preventDefault();
-    window.location.href = event.currentTarget.href;
-  }
+  // function closeAside(event) {
+  //   event.preventDefault();
+  //   window.location.href = event.currentTarget.href;
+  // }
 
   if (isMobile) {
     return (
@@ -39,8 +39,7 @@ export function SubNavigation({
             <h2 className="flex items-center justify-between w-full gap-2">
               <Link
                 to={`/${urlHandle}`}
-                onClick={closeAside}
-                prefetch="intent"
+                // onClick={closeAside}
                 className="text-base font-semibold leading-4 line-clamp-2"
               >
                 {title}
@@ -107,9 +106,7 @@ export function SubNavigation({
                       variant="ghost"
                       className="pl-0 hover:bg-transparent hover:text-gray-100"
                     >
-                      <Link to={url} onClick={closeAside} prefetch="intent">
-                        {title}
-                      </Link>
+                      <Link to={url}>{title}</Link>
                     </Button>
                   </motion.div>
                 ))}
@@ -138,6 +135,7 @@ export function SubNavigation({
                   <Link
                     to={url}
                     className="block py-3 rounded-lg hover:text-gray-300"
+                    prefetch="intent"
                   >
                     {title}
                   </Link>
