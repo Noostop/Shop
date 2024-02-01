@@ -1,5 +1,5 @@
-// const HOST = 'http:localhost:3000';
-const HOST = 'https:shop.iiixys.cc';
+const HOST = 'http:localhost:3000';
+// const HOST = 'https:shop.iiixys.cc';
 
 export const countries = {
   us: {

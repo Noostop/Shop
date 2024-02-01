@@ -46,6 +46,12 @@ export function CountrySelector() {
   //   setCountries(fetcher.data.countries);
   // }, [countries, areas]);
 
+  const pathSegments = pathname.split('/');
+  // 过滤掉空字符串，保留非空路径部分
+  const nonEmptySegments = pathSegments.filter((segment) => segment !== '');
+  // 获取第一个非空路径部分作为参数
+  const firstParam = nonEmptySegments.length > 0 ? nonEmptySegments[0] : null;
+
   useEffect(() => {
     setIsMobile(isMobileDevice());
   }, []);
@@ -158,14 +164,10 @@ export function CountrySelector() {
                     {area?.countries.map((countryKey) => {
                       const locale = countries[countryKey];
 
-                      const strippedPathname = pathname.startsWith(
-                        locale?.pathPrefix,
-                      )
-                        ? pathname.replace(
-                            `${selectedLocale.pathPrefix}`,
-                            locale?.pathPrefix || '',
-                          )
-                        : `${locale?.pathPrefix}${pathname}`;
+                      // const strippedPathname = pathname.replace(
+                      //   `${selectedLocale.pathPrefix}`,
+                      //   locale?.pathPrefix || '',
+                      // );
 
                       const hreflang = `${locale?.language}-${locale?.country}`;
 
@@ -174,7 +176,7 @@ export function CountrySelector() {
                       return (
                         <Form
                           method="post"
-                          action="/locale"
+                          action={`/${firstParam ?? 'us'}/locale`}
                           key={hreflang}
                           className="col-span-1"
                         >
@@ -191,7 +193,7 @@ export function CountrySelector() {
                           <input
                             type="hidden"
                             name="path"
-                            value={`${strippedPathname}${search}`}
+                            value={`/${locale.pathPrefix}`}
                           />
                           <Button
                             type="submit"

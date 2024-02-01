@@ -1,6 +1,6 @@
 import invariant from 'tiny-invariant';
 import {json, redirect} from '@shopify/remix-oxygen';
-import {getLocaleFromRequest} from '~/lib/utils';
+import {parseUrl} from '~/lib/utils';
 
 export const action = async ({request, context}) => {
   const {session} = context;
@@ -22,11 +22,6 @@ export const action = async ({request, context}) => {
     // 确定相对于用户导航的位置重定向到的位置
     const path = formData.get('path');
 
-    const {isSame, i18n} = await getLocaleFromRequest({
-      session,
-      request,
-    });
-
     const cartId = await session.get('cartId');
 
     // 如果有购物车 ID，则更新购物车买家的国家/地区代码
@@ -39,17 +34,17 @@ export const action = async ({request, context}) => {
       });
     }
 
-    if (!isSame) {
-      const url = new URL(request.url);
-      const redirectUrl = new URL(`${i18n.pathPrefix}${path}`, `${url.origin}`);
+    const {origin} = new URL(request.url);
+    const redirectUrl = new URL(`${path}`, `${origin}`);
+    const {i18n} = parseUrl(redirectUrl);
 
-      session.set('i18n', i18n);
-      return redirect(redirectUrl, {
-        headers: {
-          'Set-Cookie': await session.commit(),
-        },
-      });
-    }
+    session.set('i18n', i18n);
+    return redirect(`${origin}${path}`, {
+      status: 302,
+      headers: {
+        'Set-Cookie': await session.commit(),
+      },
+    });
   } catch (error) {
     if (error instanceof Error) {
       return json({error: error.message}, {status: 400});
