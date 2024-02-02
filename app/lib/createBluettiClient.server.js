@@ -9,6 +9,8 @@ export function createBluettiClient({
 }) {
   const withCache = createWithCache({cache, waitUntil});
 
+  console.log(i18n.shop, 'i18n - createBluettiClient');
+
   async function post(query, country, options = {cache: CacheLong()}) {
     return withCache(
       ['r&m', JSON.stringify(query)],
@@ -18,6 +20,9 @@ export function createBluettiClient({
           method: 'POST',
           headers: {
             'Content-type': 'application/json',
+            shop: i18n.shop,
+            country: i18n.country,
+            language: i18n.language,
           },
           body: JSON.stringify({
             query,

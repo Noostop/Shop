@@ -1,9 +1,10 @@
 import {Suspense} from 'react';
-import {defer} from '@shopify/remix-oxygen';
+import {defer, redirect} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Outlet} from '@remix-run/react';
 import {pages} from '~/data/pages';
 import {AC180} from '~/pages/AC180';
 import {AC60} from '~/pages/AC60';
+import {getLocaleFromRequest} from '~/lib/utils';
 
 // export function shouldRevalidate({
 //   currentParams,
@@ -41,13 +42,22 @@ export const meta = ({data}) => {
 /**
  * @param {LoaderFunctionArgs}
  */
-export async function loader({params, request}) {
+export async function loader({params, context, request}) {
   const {locale, handle} = params;
-  // console.log('handle', locale, handle);
+  const {bluetti, session} = context;
+  const {pathPrefix} = await getLocaleFromRequest({
+    session,
+    request,
+  });
 
   try {
-    const page = pages.find((p) => p.handle === handle);
-    return defer({page, handle});
+    const product = await bluetti.get(`/supportapi/product/detail/${handle}`);
+
+    if (product.id) {
+      return defer(product);
+    }
+
+    return redirect(`/${pathPrefix}/404`);
   } catch (error) {
     throw new Response(`${new URL(request.url).pathname} not found`, {
       status: 404,
@@ -57,7 +67,7 @@ export async function loader({params, request}) {
 
 export default function Handle() {
   /** @type {LoaderReturnData} */
-  const {handle} = useLoaderData();
+  const {urlHandle} = useLoaderData();
 
   // if (handle) {
   //   throw new Response(`${handle} not found`, {
@@ -67,8 +77,8 @@ export default function Handle() {
 
   return (
     <>
-      {handle === 'ac200max' && <AC180 />}
-      {handle === 'ac60' && <AC60 />}
+      {urlHandle === 'ac200max' && <AC180 />}
+      {urlHandle === 'ac60' && <AC60 />}
     </>
   );
 }

@@ -70,6 +70,15 @@ export function usePrefixPathWithLocale(path) {
   return selectedLocale ? `/${selectedLocale.pathPrefix || ''}${path}` : path;
 }
 
+export function removeSpacesFromURL(url) {
+  // 使用 trim() 方法去除字符串两端的空格
+  const trimmedURL = url.trim();
+  // 如果 URL 包含空格，可能需要进一步处理
+  // 例如，将空格替换为 URL 编码中的 "%20"
+  const processedURL = trimmedURL.replace(/\s/g, '%20');
+  return processedURL;
+}
+
 export function parseUrl(url) {
   // 使用 URL 对象解析 URL
   const urlObject = new URL(url);
@@ -87,7 +96,10 @@ export function parseUrl(url) {
 
   // 检查国家和语言是否有效
   if (firstParam && validCountries) {
-    return {pathPrefix: firstParam, i18n: validCountries};
+    return {
+      pathPrefix: removeSpacesFromURL(firstParam),
+      i18n: validCountries,
+    };
   } else {
     // 如果国家参数无效，默认返回一个值
     return {

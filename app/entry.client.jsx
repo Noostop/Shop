@@ -6,6 +6,7 @@ import {I18nProvider} from 'remix-i18n';
 import {i18n, getLocale} from './lib/i18n';
 
 const locale = getLocale(window.location.pathname);
+
 i18n.locale(locale);
 
 startTransition(() => {

@@ -9,6 +9,7 @@ export const countries = {
     langText: 'English',
     currency: 'USD',
     pathPrefix: 'us',
+    shop: 'bluettipower',
     host: HOST,
   },
   cn: {
@@ -20,6 +21,7 @@ export const countries = {
     alias: 'CN',
     pathPrefix: 'cn',
     host: HOST,
+    shop: 'bluettipower-dev',
   },
   tw: {
     country: 'TW',
@@ -30,6 +32,7 @@ export const countries = {
     alias: 'TW',
     pathPrefix: 'tw',
     host: HOST,
+    shop: 'bluettipower-dev',
   },
   hk: {
     country: 'HK',
@@ -40,6 +43,7 @@ export const countries = {
     alias: 'HK',
     pathPrefix: 'hk',
     host: HOST,
+    shop: 'bluettipower-dev',
   },
   'hk-en': {
     country: 'HK',
@@ -50,6 +54,7 @@ export const countries = {
     alias: 'HK',
     pathPrefix: 'hk-en',
     host: HOST,
+    shop: 'bluettipower-dev',
   },
   kr: {
     country: 'KR',
@@ -60,6 +65,7 @@ export const countries = {
     alias: 'KR',
     pathPrefix: 'kr',
     host: HOST,
+    shop: 'bluettipower-dev',
   },
   id: {
     country: 'ID',
@@ -70,6 +76,7 @@ export const countries = {
     alias: 'ID',
     pathPrefix: 'id',
     host: HOST,
+    shop: 'bluettipower-dev',
   },
   fr: {
     country: 'FR',
@@ -80,6 +87,7 @@ export const countries = {
     alias: 'FR-FR',
     pathPrefix: 'fr',
     host: HOST,
+    shop: 'bluettipower-dev',
   },
   de: {
     country: 'DE',
@@ -90,6 +98,7 @@ export const countries = {
     alias: 'DE',
     pathPrefix: 'de',
     host: HOST,
+    shop: 'bluettipower-dev',
   },
   au: {
     country: 'AU',
@@ -100,6 +109,7 @@ export const countries = {
     alias: 'AU',
     pathPrefix: 'au',
     host: HOST,
+    shop: 'bluettipower-dev',
   },
   ca: {
     country: 'CA',
@@ -110,6 +120,7 @@ export const countries = {
     alias: 'CA',
     pathPrefix: 'ca',
     host: HOST,
+    shop: 'bluettipower-dev',
   },
   'ca-fr': {
     country: 'CA',
@@ -120,6 +131,7 @@ export const countries = {
     alias: 'CA',
     pathPrefix: 'ca-fr',
     host: HOST,
+    shop: 'bluettipower-dev',
   },
   it: {
     country: 'IT',
@@ -130,6 +142,7 @@ export const countries = {
     alias: 'IT',
     pathPrefix: 'it',
     host: HOST,
+    shop: 'bluettipower-dev',
   },
   es: {
     country: 'ES',
@@ -140,6 +153,7 @@ export const countries = {
     alias: 'ES',
     pathPrefix: 'es',
     host: HOST,
+    shop: 'bluettipower-dev',
   },
   at: {
     country: 'AT',
@@ -150,6 +164,7 @@ export const countries = {
     alias: 'AT',
     pathPrefix: 'at',
     host: HOST,
+    shop: 'bluettipower-dev',
   },
   jp: {
     country: 'JP',
@@ -160,6 +175,7 @@ export const countries = {
     alias: 'JP',
     pathPrefix: 'jp',
     host: HOST,
+    shop: 'bluettipower-dev',
   },
   ae: {
     country: 'AE',
@@ -170,6 +186,7 @@ export const countries = {
     alias: 'AE',
     pathPrefix: 'ae',
     host: HOST,
+    shop: 'bluettipower-dev',
   },
   bh: {
     country: 'BH',
@@ -180,6 +197,7 @@ export const countries = {
     alias: 'BH',
     pathPrefix: 'bh',
     host: HOST,
+    shop: 'bluettipower-dev',
   },
   ar: {
     country: 'AR',
@@ -190,6 +208,7 @@ export const countries = {
     alias: 'AR',
     pathPrefix: 'ar',
     host: HOST,
+    shop: 'bluettipower-dev',
   },
 };
 

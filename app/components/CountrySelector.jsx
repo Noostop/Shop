@@ -193,7 +193,10 @@ export function CountrySelector() {
                           <input
                             type="hidden"
                             name="path"
-                            value={`/${locale.pathPrefix}`}
+                            value={`${pathname.replace(
+                              firstParam,
+                              locale.pathPrefix,
+                            )}${search}`}
                           />
                           <Button
                             type="submit"

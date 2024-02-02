@@ -130,17 +130,20 @@ export function SubNavigation({
 
           <div className="order-2 ml-auto text-sm font-medium md:order-2">
             <ul className="flex text-sm font-medium w-max gap-x-8">
-              {navigationInfos?.map(({id, title, url}) => (
-                <li key={id} className="flex-shrink-0">
-                  <Link
-                    to={url}
-                    className="block py-3 rounded-lg hover:text-gray-300"
-                    prefetch="intent"
-                  >
-                    {title}
-                  </Link>
-                </li>
-              ))}
+              {navigationInfos?.map(
+                ({title, url, enable}) =>
+                  enable && (
+                    <li key={url} className="flex-shrink-0">
+                      <Link
+                        to={url}
+                        className="block py-3 rounded-lg hover:text-gray-300"
+                        prefetch="intent"
+                      >
+                        {title}
+                      </Link>
+                    </li>
+                  ),
+              )}
             </ul>
           </div>
 
@@ -152,9 +155,7 @@ export function SubNavigation({
                 </Link>
               </Button>
             ) : (
-              <Button size="sm" variant="outline" className="text-black">
-                {t('newsletter.button_label')}
-              </Button>
+              <Button size="sm">{t('newsletter.button_label')}</Button>
             )}
           </div>
         </div>

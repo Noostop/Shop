@@ -45,6 +45,8 @@ export default {
         request,
       });
 
+      // console.log(isSame, i18n, pathPrefix, 'isSame, i18n, pathPrefix');
+
       if (!isSame) {
         const {origin, pathname, search} = new URL(request.url);
         const redirectUrl = new URL(

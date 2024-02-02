@@ -120,9 +120,9 @@ function classNames(...classes) {
 
 export function AC180() {
   return (
-    <div className="bg-white my-14">
+    <div className="bg-white">
       {/* Hero section */}
-      <div className="relative isolate pt-14">
+      <div className="relative isolate">
         <svg
           className="absolute inset-0 -z-10 h-full w-full stroke-gray-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
           aria-hidden="true"

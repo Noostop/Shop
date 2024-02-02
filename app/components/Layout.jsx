@@ -23,13 +23,12 @@ export function Layout({
   footerMenu,
   isLoggedIn,
   pages,
-  selectedLocale,
 }) {
   let shouldReduceMotion = useReducedMotion();
 
   const {pathname} = useLocation();
 
-  const haveSubNav = ['/ac180', 'ac200max'].some((page) =>
+  const haveSubNav = ['/ac60', '/ac200max'].some((page) =>
     pathname.includes(page),
   );
 

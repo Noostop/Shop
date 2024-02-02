@@ -1,6 +1,7 @@
 import {Suspense} from 'react';
 import {defer, redirect} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Outlet} from '@remix-run/react';
+import {CacheNone} from '@shopify/hydrogen';
 import {SubNavigation} from '~/components/SubNavigation';
 import {getLocaleFromRequest} from '~/lib/utils';
 
@@ -30,7 +31,9 @@ export async function loader({params, request, context}) {
   });
 
   try {
-    const product = await bluetti.get(`/supportapi/product/detail/${handle}`);
+    const product = await bluetti.get(`/supportapi/product/detail/${handle}`, {
+      cache: CacheNone(),
+    });
 
     if (product.id) {
       return defer(product);

@@ -43,6 +43,7 @@ export const action = async ({request, context}) => {
       status: 302,
       headers: {
         'Set-Cookie': await session.commit(),
+        'Replay-Action': '/__replay',
       },
     });
   } catch (error) {

@@ -8,7 +8,17 @@ import ko from '../locales/ko.json';
 import ja from '../locales/ja.json';
 
 export const i18n = new RemixI18n({
-  supportedLanguages: ['en', 'fr', 'zh-cn', 'zh', 'zh-tw', 'de', 'kr', 'ja'],
+  supportedLanguages: [
+    'en',
+    'fr',
+    'fr-en',
+    'zh-cn',
+    'zh',
+    'zh-tw',
+    'de',
+    'kr',
+    'ja',
+  ],
   fallbackLng: 'en',
 });
 
@@ -25,7 +35,7 @@ export const getLocale = (path) => {
     return 'zh-cn';
   }
 
-  if (path.startsWith('/hk-en')) {
+  if (path.startsWith('/hk-en') || path.startsWith('/fr-en')) {
     return 'en';
   }
 
