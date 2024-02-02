@@ -1,7 +1,7 @@
 import {Suspense} from 'react';
 import {defer, redirect} from '@shopify/remix-oxygen';
-import {Await, useLoaderData, Outlet} from '@remix-run/react';
-import {pages} from '~/data/pages';
+import {Await, useLoaderData, useOutletContext} from '@remix-run/react';
+import {CacheNone} from '@shopify/hydrogen';
 import {AC180} from '~/pages/AC180';
 import {AC60} from '~/pages/AC60';
 import {getLocaleFromRequest} from '~/lib/utils';
@@ -28,52 +28,51 @@ import {getLocaleFromRequest} from '~/lib/utils';
 /**
  * @type {MetaFunction}
  */
-export const meta = ({data}) => {
-  const {title, description} = data;
+// export const meta = ({data}) => {
+//   const {title, description} = data;
 
-  return [
-    {title: `BLUETTI | ${title}`},
-    {
-      description,
-    },
-  ];
-};
+//   return [
+//     {title: `BLUETTI | ${title}`},
+//     {
+//       description,
+//     },
+//   ];
+// };
 
 /**
  * @param {LoaderFunctionArgs}
  */
 export async function loader({params, context, request}) {
-  const {locale, handle} = params;
-  const {bluetti, session} = context;
-  const {pathPrefix} = await getLocaleFromRequest({
-    session,
-    request,
-  });
+  // const {handle} = params;
+  // const {bluetti, session} = context;
+  // const {pathPrefix} = await getLocaleFromRequest({
+  //   session,
+  //   request,
+  // });
 
-  try {
-    const product = await bluetti.get(`/supportapi/product/detail/${handle}`);
+  // try {
+  //   const product = await bluetti.get(`/supportapi/product/detail/${handle}`, {
+  //     cache: CacheNone(),
+  //   });
 
-    if (product.id) {
-      return defer(product);
-    }
+  //   if (product.id) {
+  //     return defer(product);
+  //   }
 
-    return redirect(`/${pathPrefix}/404`);
-  } catch (error) {
-    throw new Response(`${new URL(request.url).pathname} not found`, {
-      status: 404,
-    });
-  }
-}
+  //   return redirect(`/${pathPrefix}/404`);
+  // } catch (error) {
+  //   const {pathname} = new URL(request.url);
 
-export default function Handle() {
-  /** @type {LoaderReturnData} */
-  const {urlHandle} = useLoaderData();
-
-  // if (handle) {
-  //   throw new Response(`${handle} not found`, {
+  //   throw new Response(`${pathname} not found`, {
   //     status: 404,
   //   });
   // }
+
+  return defer({});
+}
+
+export default function TopicsIndex() {
+  const {urlHandle} = useOutletContext();
 
   return (
     <>

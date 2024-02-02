@@ -8,7 +8,7 @@ import {
   storefrontRedirect,
 } from '@shopify/hydrogen';
 import {
-  redirect,
+  redirectDocument,
   createRequestHandler,
   getStorefrontHeaders,
   createCookieSessionStorage,
@@ -51,15 +51,15 @@ export default {
         const {origin, pathname, search} = new URL(request.url);
         const redirectUrl = new URL(
           `${
-            pathname.startsWith('/*')
+            pathname.startsWith('/')
               ? pathname.replace(pathPrefix, i18n.pathPrefix)
               : i18n.pathPrefix
-          }  ${search}`,
+          }${search}`,
           `${origin}`,
         );
 
         session.set('i18n', i18n);
-        return redirect(redirectUrl, {
+        return redirectDocument(redirectUrl, {
           headers: {
             'Set-Cookie': await session.commit(),
           },
@@ -131,7 +131,7 @@ export default {
           `/${pathPrefix}/404?from=${url.pathname}`,
           `${url.origin}`,
         );
-        return redirect(redirectUrl, 302);
+        return redirectDocument(redirectUrl, 302);
         // return storefrontRedirect({request, response, storefront});
       }
 

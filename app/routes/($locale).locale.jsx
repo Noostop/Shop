@@ -1,5 +1,5 @@
 import invariant from 'tiny-invariant';
-import {json, redirect} from '@shopify/remix-oxygen';
+import {json, redirectDocument} from '@shopify/remix-oxygen';
 import {parseUrl} from '~/lib/utils';
 
 export const action = async ({request, context}) => {
@@ -39,11 +39,10 @@ export const action = async ({request, context}) => {
     const {i18n} = parseUrl(redirectUrl);
 
     session.set('i18n', i18n);
-    return redirect(`${origin}${path}`, {
+    return redirectDocument(`${origin}${path}`, {
       status: 302,
       headers: {
         'Set-Cookie': await session.commit(),
-        'Replay-Action': '/__replay',
       },
     });
   } catch (error) {

@@ -1,3 +1,4 @@
+import {useI18n} from 'remix-i18n';
 import {defer} from '@shopify/remix-oxygen';
 import {useLoaderData} from '@remix-run/react';
 import {useState, useEffect} from 'react';
@@ -20,7 +21,12 @@ export async function loader({request, context}) {
 
 export default function NotFond() {
   const data = useLoaderData();
+  const {t} = useI18n();
   const [times, setTimes] = useState(10);
+
+  // useEffect(() => {
+  //   window.location.reload();
+  // }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -44,10 +50,10 @@ export default function NotFond() {
             alt="404 Not Found"
           />
           <h1 className="mb-4 text-2xl font-extrabold text-primary-600 dark:text-primary-500">
-            404
+            {t('templates.404.subtext')}
           </h1>
           <p className="mb-10 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl dark:text-white">
-            抱歉，找不到该页面。
+            {t('templates.404.title')}
           </p>
           <p className="mb-4 text-gray-500 dark:text-gray-400">
             点击下方返回BLUETTI官网。 我们将在{' '}

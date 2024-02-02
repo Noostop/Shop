@@ -9,7 +9,7 @@ export const countries = {
     langText: 'English',
     currency: 'USD',
     pathPrefix: 'us',
-    shop: 'bluettipower',
+    shop: ' bluettipower-develop',
     host: HOST,
   },
   cn: {
@@ -21,7 +21,7 @@ export const countries = {
     alias: 'CN',
     pathPrefix: 'cn',
     host: HOST,
-    shop: 'bluettipower-dev',
+    shop: ' bluettipower-develop',
   },
   tw: {
     country: 'TW',
@@ -32,7 +32,7 @@ export const countries = {
     alias: 'TW',
     pathPrefix: 'tw',
     host: HOST,
-    shop: 'bluettipower-dev',
+    shop: ' bluettipower-develop',
   },
   hk: {
     country: 'HK',
@@ -43,7 +43,7 @@ export const countries = {
     alias: 'HK',
     pathPrefix: 'hk',
     host: HOST,
-    shop: 'bluettipower-dev',
+    shop: ' bluettipower-develop',
   },
   'hk-en': {
     country: 'HK',
@@ -54,7 +54,7 @@ export const countries = {
     alias: 'HK',
     pathPrefix: 'hk-en',
     host: HOST,
-    shop: 'bluettipower-dev',
+    shop: ' bluettipower-develop',
   },
   kr: {
     country: 'KR',
@@ -65,7 +65,7 @@ export const countries = {
     alias: 'KR',
     pathPrefix: 'kr',
     host: HOST,
-    shop: 'bluettipower-dev',
+    shop: ' bluettipower-develop',
   },
   id: {
     country: 'ID',
@@ -76,7 +76,7 @@ export const countries = {
     alias: 'ID',
     pathPrefix: 'id',
     host: HOST,
-    shop: 'bluettipower-dev',
+    shop: ' bluettipower-develop',
   },
   fr: {
     country: 'FR',
@@ -87,7 +87,18 @@ export const countries = {
     alias: 'FR-FR',
     pathPrefix: 'fr',
     host: HOST,
-    shop: 'bluettipower-dev',
+    shop: ' bluettipower-develop',
+  },
+  'fr-en': {
+    country: 'FR',
+    language: 'EN',
+    countryText: 'France',
+    langText: 'English',
+    currency: 'EUR',
+    alias: 'FR-FR',
+    pathPrefix: 'fr-en',
+    host: HOST,
+    shop: ' bluettipower-develop',
   },
   de: {
     country: 'DE',
@@ -98,7 +109,7 @@ export const countries = {
     alias: 'DE',
     pathPrefix: 'de',
     host: HOST,
-    shop: 'bluettipower-dev',
+    shop: ' bluettipower-develop',
   },
   au: {
     country: 'AU',
@@ -109,7 +120,7 @@ export const countries = {
     alias: 'AU',
     pathPrefix: 'au',
     host: HOST,
-    shop: 'bluettipower-dev',
+    shop: ' bluettipower-develop',
   },
   ca: {
     country: 'CA',
@@ -120,7 +131,7 @@ export const countries = {
     alias: 'CA',
     pathPrefix: 'ca',
     host: HOST,
-    shop: 'bluettipower-dev',
+    shop: ' bluettipower-develop',
   },
   'ca-fr': {
     country: 'CA',
@@ -131,7 +142,7 @@ export const countries = {
     alias: 'CA',
     pathPrefix: 'ca-fr',
     host: HOST,
-    shop: 'bluettipower-dev',
+    shop: ' bluettipower-develop',
   },
   it: {
     country: 'IT',
@@ -142,7 +153,7 @@ export const countries = {
     alias: 'IT',
     pathPrefix: 'it',
     host: HOST,
-    shop: 'bluettipower-dev',
+    shop: ' bluettipower-develop',
   },
   es: {
     country: 'ES',
@@ -153,7 +164,7 @@ export const countries = {
     alias: 'ES',
     pathPrefix: 'es',
     host: HOST,
-    shop: 'bluettipower-dev',
+    shop: ' bluettipower-develop',
   },
   at: {
     country: 'AT',
@@ -164,7 +175,7 @@ export const countries = {
     alias: 'AT',
     pathPrefix: 'at',
     host: HOST,
-    shop: 'bluettipower-dev',
+    shop: ' bluettipower-develop',
   },
   jp: {
     country: 'JP',
@@ -175,7 +186,7 @@ export const countries = {
     alias: 'JP',
     pathPrefix: 'jp',
     host: HOST,
-    shop: 'bluettipower-dev',
+    shop: ' bluettipower-develop',
   },
   ae: {
     country: 'AE',
@@ -186,7 +197,7 @@ export const countries = {
     alias: 'AE',
     pathPrefix: 'ae',
     host: HOST,
-    shop: 'bluettipower-dev',
+    shop: ' bluettipower-develop',
   },
   bh: {
     country: 'BH',
@@ -197,7 +208,7 @@ export const countries = {
     alias: 'BH',
     pathPrefix: 'bh',
     host: HOST,
-    shop: 'bluettipower-dev',
+    shop: ' bluettipower-develop',
   },
   ar: {
     country: 'AR',
@@ -208,7 +219,7 @@ export const countries = {
     alias: 'AR',
     pathPrefix: 'ar',
     host: HOST,
-    shop: 'bluettipower-dev',
+    shop: ' bluettipower-develop',
   },
 };
 
@@ -221,7 +232,7 @@ export const areas = [
   {
     id: '432432',
     name: 'EU',
-    countries: ['fr-en', 'fr-fr', 'de', 'at', 'it', 'es'],
+    countries: ['fr-en', 'fr', 'de', 'at', 'it', 'es'],
   },
   {
     id: '8794239',

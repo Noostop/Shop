@@ -9,21 +9,23 @@ export function createBluettiClient({
 }) {
   const withCache = createWithCache({cache, waitUntil});
 
-  console.log(i18n.shop, 'i18n - createBluettiClient');
+  const headers = {
+    'Content-type': 'application/json',
+    shop: i18n.shop,
+    country: i18n.country.toUpperCase(),
+    language: i18n.language.toLowerCase(),
+  };
 
-  async function post(query, country, options = {cache: CacheLong()}) {
+  console.log(JSON.stringify(headers));
+
+  async function post(query, options = {cache: CacheLong()}) {
     return withCache(
       ['r&m', JSON.stringify(query)],
       options.cache,
       async function () {
         const response = await fetch(`${serverDomain}`, {
           method: 'POST',
-          headers: {
-            'Content-type': 'application/json',
-            shop: i18n.shop,
-            country: i18n.country,
-            language: i18n.language,
-          },
+          headers,
           body: JSON.stringify({
             query,
           }),
@@ -44,9 +46,7 @@ export function createBluettiClient({
     return withCache(['r&m', query], options.cache, async function () {
       const response = await fetch(`${serverDomain}${query}`, {
         method: 'GET',
-        headers: {
-          'Content-type': 'application/json',
-        },
+        headers,
       });
 
       if (!response.ok) {

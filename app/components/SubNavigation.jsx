@@ -137,7 +137,6 @@ export function SubNavigation({
                       <Link
                         to={url}
                         className="block py-3 rounded-lg hover:text-gray-300"
-                        prefetch="intent"
                       >
                         {title}
                       </Link>
