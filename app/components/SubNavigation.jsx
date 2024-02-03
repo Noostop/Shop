@@ -87,27 +87,30 @@ export function SubNavigation({
               }}
             >
               <div className="container py-2">
-                {navigationInfos?.map(({id, title, url}) => (
-                  <motion.div
-                    key={id}
-                    className="space-y-2"
-                    initial={{opacity: 0, y: -10}}
-                    animate={{opacity: 1, y: 0}}
-                    transition={{
-                      duration: 0.2,
-                      // delay: 0.2,
-                    }}
-                  >
-                    <Button
-                      asChild
-                      variant="ghost"
-                      className="pl-0 hover:bg-transparent hover:text-gray-100"
-                      onClick={closeAside}
-                    >
-                      <Link to={url}>{title}</Link>
-                    </Button>
-                  </motion.div>
-                ))}
+                {navigationInfos?.map(
+                  ({title, url, enable}) =>
+                    enable && (
+                      <motion.div
+                        key={url}
+                        className="space-y-2"
+                        initial={{opacity: 0, y: -10}}
+                        animate={{opacity: 1, y: 0}}
+                        transition={{
+                          duration: 0.2,
+                          // delay: 0.2,
+                        }}
+                      >
+                        <Button
+                          asChild
+                          variant="ghost"
+                          className="pl-0 hover:bg-transparent hover:text-gray-100"
+                          onClick={closeAside}
+                        >
+                          <Link to={url}>{title}</Link>
+                        </Button>
+                      </motion.div>
+                    ),
+                )}
               </div>
             </motion.div>
           )}
