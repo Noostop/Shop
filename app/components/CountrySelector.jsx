@@ -66,7 +66,7 @@ export function CountrySelector() {
         </DrawerTrigger>
         <DrawerContent className="top-0 mt-9">
           <DrawerHeader>
-            <DrawerTitle>选择您的国家/地区</DrawerTitle>
+            <DrawerTitle>{t('localization.country_label')}</DrawerTitle>
           </DrawerHeader>
           <AnimatePresence>
             {open && (
@@ -79,7 +79,7 @@ export function CountrySelector() {
                         className="flex flex-col gap-6 pb-4 border-b border-gray-200 last:border-b-0"
                       >
                         <h3 className="sticky top-0 py-2 text-lg font-semibold bg-white">
-                          {area.name}
+                          {t(`localization.areas.${area.name}`)}
                         </h3>
                         <div className="grid grid-cols-2 gap-4">
                           {area?.countries.map((countryKey) => {
@@ -92,7 +92,7 @@ export function CountrySelector() {
                             return (
                               <Form
                                 method="post"
-                                action="/locale"
+                                action={`/${firstParam ?? 'us'}/locale`}
                                 key={hreflang}
                                 className="col-span-1"
                               >
@@ -109,7 +109,10 @@ export function CountrySelector() {
                                 <input
                                   type="hidden"
                                   name="path"
-                                  value={`/${locale.pathPrefix}`}
+                                  value={`${pathname.replace(
+                                    firstParam,
+                                    locale.pathPrefix,
+                                  )}${search}`}
                                 />
                                 <Button
                                   type="submit"
