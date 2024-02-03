@@ -135,12 +135,8 @@ export async function getLocaleFromRequest({session, request}) {
           }${pathname.replace(pathPrefix, sectionI18n)}${search}`
         : `${origin}${
             pathname.startsWith(sectionI18n.pathPrefix)
-              ? ''
-              : `/${sectionI18n.pathPrefix}`
-          }${
-            pathname.startsWith(sectionI18n.pathPrefix)
-              ? pathname.replace(pathPrefix, sectionI18n.pathPrefix)
-              : pathname
+              ? pathname
+              : pathname.replace(pathPrefix, sectionI18n.pathPrefix)
           }${search}`,
     };
   }
