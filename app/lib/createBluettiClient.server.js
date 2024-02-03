@@ -16,7 +16,7 @@ export function createBluettiClient({
     language: i18n.language.toLowerCase(),
   };
 
-  console.log(JSON.stringify(headers));
+  // console.log(JSON.stringify(headers));
 
   async function post(query, options = {cache: CacheLong()}) {
     return withCache(

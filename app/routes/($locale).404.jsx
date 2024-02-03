@@ -45,7 +45,9 @@ export default function NotFond() {
       <div className="max-w-screen-xl px-4 py-8 mx-auto lg:py-16 lg:px-6">
         <div className="max-w-screen-sm mx-auto text-center">
           <img
-            className="mx-auto mb-4 aspect-square"
+            className="mx-auto mb-4 bg-gray-100 rounded-lg aspect-square"
+            width={600}
+            height={600}
             src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/404/404-computer.svg"
             alt="404 Not Found"
           />

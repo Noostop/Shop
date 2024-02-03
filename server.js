@@ -45,8 +45,6 @@ export default {
         request,
       });
 
-      console.log(isSame, url, 'pathPrefix');
-
       if (!isSame) {
         session.set('i18n', i18n);
         return redirectDocument(`${url}`, {
