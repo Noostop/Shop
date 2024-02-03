@@ -8,6 +8,14 @@ import {
   HoverCardTrigger,
 } from '@/components/ui/hover-card';
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import {Dialog, DialogContent, DialogTrigger} from '@/components/ui/dialog';
+
 import {Button} from '@/components/ui/button';
 import {ScrollArea} from '@radix-ui/react-scroll-area';
 
@@ -26,20 +34,25 @@ export function Faqs({data}) {
             >
               <h3 className="text-3xl font-semibold">{groupName}</h3>
 
-              <ul className="flex flex-col gap-1">
-                {commonQuestionDetails?.map(({answer, question}) => (
-                  <li
-                    key={answer}
-                    className="flex flex-col gap-8 px-4 py-4 rounded odd:bg-gray-100"
+              <Accordion type="multiple" className="space-y-2">
+                {commonQuestionDetails?.map(({sort, answer, question}) => (
+                  <AccordionItem
+                    key={sort}
+                    value={answer}
+                    className="px-4 py-4 border-none rounded odd:bg-gray-100"
                   >
-                    <h4 className="font-medium">{answer}</h4>
-                    <div
-                      className="prose-sm prose"
-                      dangerouslySetInnerHTML={{__html: question}}
-                    />
-                  </li>
+                    <AccordionTrigger className="text-left hover:no-underline hover:text-parimary">
+                      <h4 className="text-base font-medium">{question}</h4>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div
+                        className="prose-sm prose"
+                        dangerouslySetInnerHTML={{__html: answer}}
+                      />
+                    </AccordionContent>
+                  </AccordionItem>
                 ))}
-              </ul>
+              </Accordion>
             </div>
           ))}
         </div>
@@ -121,6 +134,8 @@ export function Downloads({data}) {
 }
 
 export function Videos({data}) {
+  console.log(data, 'data vodeos');
+
   return (
     <div className="h-full py-20 bg-gray-50">
       <div className="container">
@@ -136,39 +151,59 @@ export function Videos({data}) {
               <h3 className="text-3xl font-semibold">{title}</h3>
 
               <ul className="flex flex-wrap gap-4">
-                {videoDetails?.map(({id, videoName, describe, cover}) => (
-                  <li key={id} className="lg:basis-1/3">
-                    <div className="relative space-y-4 group">
-                      <div className="relative aspect-video">
-                        <Image
-                          data={{
-                            url: cover,
-                            alt: videoName,
-                          }}
-                          className="object-cover w-full h-full overflow-hidden rounded"
-                          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <Button
-                            size="icon"
-                            variant="secondary"
-                            className="rounded-full shadow opacity-60 group-hover:opacity-100"
-                          >
-                            <span className="sr-only">Open menu</span>
-                            <PlayIcon className="w-4 h-4" aria-hidden="true" />
-                          </Button>
+                {videoDetails?.map(
+                  ({sort, videoName, describe, cover, url}) => (
+                    <li key={sort} className="w-full md:basis-1/2 lg:basis-1/3">
+                      <div className="relative space-y-4 group">
+                        <div className="relative overflow-hidden bg-gray-300 rounded aspect-video">
+                          <Image
+                            data={{
+                              url: cover,
+                              alt: videoName,
+                            }}
+                            className="object-cover w-full h-full"
+                            sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <Dialog>
+                              <DialogTrigger asChild>
+                                <Button
+                                  size="icon"
+                                  variant="secondary"
+                                  className="rounded-full shadow opacity-60 group-hover:opacity-100"
+                                >
+                                  <span className="sr-only">Open menu</span>
+                                  <PlayIcon
+                                    className="w-4 h-4"
+                                    aria-hidden="true"
+                                  />
+                                </Button>
+                              </DialogTrigger>
+                              <DialogContent className="p-0 overflow-hidden md:max-w-6xl aspect-video">
+                                <video
+                                  src={url}
+                                  className="object-cover w-full h-full"
+                                  controls
+                                  loop
+                                  autoPlay
+                                >
+                                  <track kind="captions" />
+                                </video>
+                              </DialogContent>
+                            </Dialog>
+                          </div>
                         </div>
+                        <h4 className="font-medium md:basis-60 line-clamp-2">
+                          {videoName}
+                        </h4>
+                        <p
+                          className="text-sm text-gray-500 line-clamp-3"
+                          dangerouslySetInnerHTML={{__html: describe}}
+                        />
                       </div>
-                      <h4 className="font-medium md:basis-60 line-clamp-2">
-                        {videoName}
-                      </h4>
-                      <p
-                        className="text-sm text-gray-500 line-clamp-3"
-                        dangerouslySetInnerHTML={{__html: describe}}
-                      />
-                    </div>
-                  </li>
-                ))}
+                    </li>
+                  ),
+                )}
               </ul>
             </div>
           ))}

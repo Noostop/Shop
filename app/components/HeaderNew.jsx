@@ -187,7 +187,7 @@ function NavigationMen({
   }
 
   return (
-    <NavigationMenuList className="max-lg:hidden">
+    <NavigationMenuList className="hidden xl:flex">
       {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
         if (!item.url) return null;
 

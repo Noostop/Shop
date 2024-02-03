@@ -12,7 +12,6 @@ export function SubNavigation({
   navigationInfos,
   shopProductId,
   urlHandle,
-  className,
 }) {
   const [isMobile, setIsMobile] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -23,31 +22,29 @@ export function SubNavigation({
     setIsMobile(isMobileDevice());
   }, []);
 
-  // function closeAside(event) {
-  //   event.preventDefault();
-  //   window.location.href = event.currentTarget.href;
-  // }
+  function closeAside() {
+    setShowMenu(false);
+  }
 
   if (isMobile) {
     return (
-      <motion.nav
-        layout
-        className="sticky top-0 z-20 w-full h-16 text-white bg-black/80 backdrop-blur"
-      >
+      <nav className="sticky top-0 z-20 w-full text-white h-14 bg-black/80 backdrop-blur">
         <div className="container">
-          <div className="flex items-center justify-between h-16 gap-2">
+          <div className="flex items-center justify-between gap-2 h-14">
             <h2 className="flex items-center justify-between w-full gap-2">
               <Link
                 to={`/${urlHandle}`}
-                // onClick={closeAside}
-                className="text-base font-semibold leading-4 line-clamp-2"
+                onClick={closeAside}
+                className="text-base font-semibold leading-5 line-clamp-2"
               >
                 {title}
               </Link>
               <Button
                 variant="ghost"
                 size="icon"
-                className={clsx('hover:bg-transparent hover:text-transparent')}
+                className={clsx(
+                  'w-14 hover:bg-transparent hover:text-transparent',
+                )}
                 onClick={() => setShowMenu(!showMenu)}
               >
                 <span className="sr-only">Open {title}</span>
@@ -63,7 +60,7 @@ export function SubNavigation({
             <div className="flex items-center justify-end gap-x-2">
               {shopProductId ? (
                 <Button size="sm" asChild>
-                  <Link to={`/products/${urlHandle}`}>
+                  <Link to={`/products/${urlHandle}`} onClick={closeAside}>
                     {t('products.product.add_to_cart')}
                   </Link>
                 </Button>
@@ -105,6 +102,7 @@ export function SubNavigation({
                       asChild
                       variant="ghost"
                       className="pl-0 hover:bg-transparent hover:text-gray-100"
+                      onClick={closeAside}
                     >
                       <Link to={url}>{title}</Link>
                     </Button>
@@ -114,7 +112,7 @@ export function SubNavigation({
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.nav>
+      </nav>
     );
   }
 
