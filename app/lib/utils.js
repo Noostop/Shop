@@ -81,11 +81,9 @@ export function removeSpacesFromURL(url) {
 
 export function parseUrl(url) {
   // 使用 URL 对象解析 URL
-  const urlObject = new URL(url);
-  // 获取路径部分
-  const path = urlObject.pathname;
+  const {origin, pathname, search} = new URL(url);
   // 将路径按斜杠分割成数组
-  const pathSegments = path.split('/');
+  const pathSegments = pathname.split('/');
   // 过滤掉空字符串，保留非空路径部分
   const nonEmptySegments = pathSegments.filter((segment) => segment !== '');
   // 获取第一个非空路径部分作为参数
@@ -97,35 +95,57 @@ export function parseUrl(url) {
   // 检查国家和语言是否有效
   if (firstParam && validCountries) {
     return {
+      origin,
+      pathname,
+      search,
       pathPrefix: removeSpacesFromURL(firstParam),
       i18n: validCountries,
     };
   } else {
     // 如果国家参数无效，默认返回一个值
     return {
+      origin,
+      pathname,
+      search,
       pathPrefix: firstParam ? firstParam : 'us',
       i18n: countries['us'],
     };
   }
 }
 
-// const url = 'https://example.com/usa?lang=fr';
-// const parsedParams = parseUrl(url);
-// console.log(parsedParams);
-
 // 获取以存储的语言信息
 export async function getLocaleFromRequest({session, request}) {
   const sectionI18n = await session.get('i18n');
-  const {pathPrefix, i18n} = parseUrl(request.url);
+  const {origin, pathname, search, i18n, pathPrefix} = parseUrl(request.url);
 
   let isSame = false;
 
   if (sectionI18n) {
     isSame = sectionI18n.pathPrefix === pathPrefix;
-    return {isSame, pathPrefix, i18n: sectionI18n};
+
+    return {
+      isSame,
+      pathPrefix,
+      i18n: sectionI18n,
+      url: isSame
+        ? `${origin}${
+            pathname.startsWith(sectionI18n.pathPrefix)
+              ? ''
+              : `/${sectionI18n.pathPrefix}`
+          }${pathname.replace(pathPrefix, sectionI18n)}${search}`
+        : `${origin}${
+            pathname.startsWith(sectionI18n.pathPrefix)
+              ? ''
+              : `/${sectionI18n.pathPrefix}`
+          }${
+            pathname.startsWith(sectionI18n.pathPrefix)
+              ? pathname.replace(pathPrefix, sectionI18n.pathPrefix)
+              : pathname
+          }${search}`,
+    };
   }
 
-  return {isSame, i18n, pathPrefix};
+  return {isSame, i18n, pathPrefix, url: `${origin}${pathname}${search}`};
 }
 
 // 读取请求头中的语言信息

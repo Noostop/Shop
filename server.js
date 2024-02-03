@@ -40,26 +40,16 @@ export default {
         HydrogenSession.init(request, [env.SESSION_SECRET]),
       ]);
 
-      const {isSame, i18n, pathPrefix} = await getLocaleFromRequest({
+      const {isSame, i18n, pathPrefix, url} = await getLocaleFromRequest({
         session,
         request,
       });
 
-      // console.log(isSame, i18n, pathPrefix, 'isSame, i18n, pathPrefix');
+      console.log(isSame, url, 'pathPrefix');
 
       if (!isSame) {
-        const {origin, pathname, search} = new URL(request.url);
-        const redirectUrl = new URL(
-          `${
-            pathname.startsWith('/')
-              ? pathname.replace(pathPrefix, i18n.pathPrefix)
-              : i18n.pathPrefix
-          }${search}`,
-          `${origin}`,
-        );
-
         session.set('i18n', i18n);
-        return redirectDocument(redirectUrl, {
+        return redirectDocument(`${url}`, {
           headers: {
             'Set-Cookie': await session.commit(),
           },
