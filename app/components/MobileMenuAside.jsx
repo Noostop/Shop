@@ -71,7 +71,7 @@ export function MobileMenuAside({menu}) {
                     </AccordionTrigger>
 
                     <AccordionContent>
-                      <div className="container">
+                      <div className="px-4">
                         <ul className="grid gap-3 py-6 px-4 bg-gray-100 rounded-lg w-full lg:grid-cols-[.75fr_1fr]">
                           <li className="row-span-3">
                             <div>
