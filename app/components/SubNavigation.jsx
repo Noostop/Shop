@@ -11,6 +11,7 @@ export function SubNavigation({
   title,
   navigationInfos,
   shopProductId,
+  subscribeTag,
   urlHandle,
 }) {
   const [isMobile, setIsMobile] = useState(false);
@@ -57,19 +58,19 @@ export function SubNavigation({
               </Button>
             </h2>
 
-            <div className="flex items-center justify-end gap-x-2">
-              {shopProductId ? (
-                <Button size="sm" asChild>
-                  <Link to={`/products/${urlHandle}`} onClick={closeAside}>
-                    {t('products.product.add_to_cart')}
-                  </Link>
-                </Button>
-              ) : (
-                <Button size="sm" variant="outline" className="text-black">
-                  {t('newsletter.button_label')}
-                </Button>
-              )}
-            </div>
+            {(Boolean(shopProductId) || subscribeTag) && (
+              <div className="flex items-center justify-end gap-x-2">
+                {shopProductId !== 0 ? (
+                  <Button size="sm" asChild>
+                    <Link to={`/products/${urlHandle}`}>
+                      {t('products.product.add_to_cart')}
+                    </Link>
+                  </Button>
+                ) : (
+                  <Button size="sm">{t('newsletter.button_label')}</Button>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
@@ -146,18 +147,19 @@ export function SubNavigation({
               )}
             </ul>
           </div>
-
-          <div className="flex items-center order-2 gap-4 lg:order-3">
-            {shopProductId ? (
-              <Button size="sm" asChild>
-                <Link to={`/products/${urlHandle}`}>
-                  {t('products.product.add_to_cart')}
-                </Link>
-              </Button>
-            ) : (
-              <Button size="sm">{t('newsletter.button_label')}</Button>
-            )}
-          </div>
+          {(Boolean(shopProductId) || subscribeTag) && (
+            <div className="flex items-center order-2 gap-4 lg:order-3">
+              {shopProductId !== 0 ? (
+                <Button size="sm" asChild>
+                  <Link to={`/products/${urlHandle}`}>
+                    {t('products.product.add_to_cart')}
+                  </Link>
+                </Button>
+              ) : (
+                <Button size="sm">{t('newsletter.button_label')}</Button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </nav>
