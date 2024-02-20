@@ -35,7 +35,7 @@ export async function loader({params, request, context}) {
       cache: CacheNone(),
     });
 
-    if (product.id && product.status === 2) {
+    if (product && product.status === 2) {
       return defer(product);
     }
 

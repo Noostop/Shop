@@ -50,10 +50,38 @@ export default function Home() {
   // const {t} = useI18n();
 
   return (
-    <section className="flex flex-col flex-1 gap-y-2 md:gap-y-4">
+    <section className="flex flex-col flex-1">
       <SliderShow
         // autoplay
         slides={[
+          {
+            id: '15345435432',
+            title: 'BLUETTI Energy Storage System',
+            titleWithImage: '',
+            subtitle: '',
+            description: 'Protect your family from unexpected power outages.',
+            position: 'centerTop',
+            mode: 'dark',
+            pcImage: {
+              url: 'https://cdn.shopify.com/s/files/1/0536/3390/8911/files/architecture_archviz_coronarenderer_forest_night_visualization.webp?v=1708410908',
+              width: 5120,
+              height: 1600,
+              alt: 'BLUETTI Energy Storage System',
+            },
+            mobileImage: {
+              url: 'https://www.bluettipower.com/cdn/shop/files/1_58768def-b985-4e78-ad85-4ab6a58c5e67.png?v=1704518287',
+              width: 1200,
+              height: 2150,
+              alt: 'BLUETTI Energy Storage System',
+            },
+            links: [
+              {
+                id: '112331231',
+                title: '立即参与',
+                url: '/collections',
+              },
+            ],
+          },
           {
             id: '1534543543',
             title: '2024 年新年大促销',
@@ -141,6 +169,9 @@ export default function Home() {
           },
         ]}
       />
+
+      <FeaturedBenefitsCard />
+
       <FeaturedCardContent
         items={[
           {
@@ -230,7 +261,89 @@ export default function Home() {
       />
       <Testimonials />
       {/* <FeaturedCollection collection={data.featuredCollection} /> */}
-      <RecommendedProducts products={data.recommendedProducts} />
+      {/* <RecommendedProducts products={data.recommendedProducts} /> */}
+    </section>
+  );
+}
+
+function FeaturedBenefitsCard({item}) {
+  return (
+    <section className="bg-black">
+      <div className="container py-12 text-center lg:py-28">
+        <p className="text-white/85">tumbling around in the</p>
+        <h2 className="text-3xl font-bold text-white/85 lg:text-6xl">
+          Key Benefits of BLUETTI ESS
+        </h2>
+      </div>
+      <div className="flex flex-col gap-8 mt-6 rounded-lg text-white/85 lg:gap-0 lg:mt-24 lg:flex-row md:grid-rows-2">
+        <div className="w-full shadow-lg lg:basis-1/2 lg:order-2">
+          <div className="relative h-full">
+            <div className="absolute inset-0 h-1/2 bg-gradient-to-b from-black to-transparent"></div>
+            <Image
+              className="aspect-[3/4] object-cover object-center w-full h-full"
+              data={{
+                url: 'https://cdn.shopify.com/s/files/1/0536/3390/8911/files/architecture_architecture_of_the_house_kk_project_kk_projects_res.webp?v=1708413473',
+                width: 1944,
+                height: 1546,
+                altText: 'BLUETTI ESS',
+              }}
+            />
+            <div className="inset-0 p-4 lg:absolute lg:px-10 lg:py-8 lg:w-3/4 2xl:w-1/2">
+              <p>
+                With the seamless UPS function, BLUETTI ESS ensures you can
+                continue your daily routines without a hitch. You'll never have
+                to worry about spoiled food or stumbling around in the dark
+                during power outages. It's your reliable partner for
+                uninterrupted comfort.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col lg:basis-1/2">
+          <div className="order-3 py-8 text-center lg:-order-1 basis-1/2">
+            <div className="mx-auto max-w-80">
+              <h3 className="text-3xl font-bold">Outage Protection</h3>
+              <p className="mt-2">
+                Ensuring your life never misses a beat, even when the grid does.
+              </p>
+            </div>
+            <Image
+              className="mx-auto"
+              data={{
+                url: 'https://cdn.shopify.com/s/files/1/0536/3390/8911/files/Pinterest_6a642218-4378-4982-a9a4-1965449af166.png?v=1708414689',
+                width: 570,
+                height: 320,
+                altText: 'BLUETTI ESS',
+              }}
+              width={570}
+              height={320}
+            />
+          </div>
+          <div className="shadow-lg basis-1/2">
+            <div className="relative h-full">
+              <div className="absolute inset-0 hidden h-full bg-gradient-to-b from-black/80 to-transparent lg:visited:"></div>
+              <Image
+                className="w-full h-full"
+                data={{
+                  url: 'https://cdn.shopify.com/s/files/1/0536/3390/8911/files/logo-Logo-Design-brand-identity-Graphic-Designer-visual-identity.webp?v=1708414084',
+                  width: 1439,
+                  height: 675,
+                  altText: 'BLUETTI ESS',
+                }}
+              />
+              <div className="inset-0 p-4 lg:absolute lg:-translate-x-1/2 lg:w-3/4 2xl:w-1/2 lg:top-10 lg:left-1/2">
+                <p>
+                  BLUETTI ESS is an ideal solution to reduce your energy costs
+                  as it empowers you to access the free abundance of energy the
+                  sun provides for your everyday life. This system makes
+                  achieving energy independence a breeze, and over time, you’ll
+                  find the system pays for it self!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
@@ -262,7 +375,7 @@ function FeaturedCollection({collection}) {
  */
 function RecommendedProducts({products}) {
   return (
-    <div className="bg-white group">
+    <div className="py-4 bg-white group">
       <div className="container">
         <div className="md:flex md:items-center md:justify-between">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">

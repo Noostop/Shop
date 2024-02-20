@@ -124,6 +124,7 @@ export default function App() {
         <Layout {...data} key={`${locale.language}-${locale.country}`}>
           <Outlet />
         </Layout>
+
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
         <LiveReload nonce={nonce} />

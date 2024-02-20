@@ -8575,6 +8575,11 @@ lz-string@^1.5.0:
   resolved "https://registry.npmmirror.com/lz-string/-/lz-string-1.5.0.tgz#c1ab50f77887b712621201ba9fd4e3a6ed099941"
   integrity sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==
 
+lzjs@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.npmmirror.com/lzjs/-/lzjs-1.3.1.tgz#5bd12e8ede8b12bdfa98330bf6be8e00f42a8bd0"
+  integrity sha512-GaG2+jehuwso7b4eIIKOY6pMDKmLbUcm+YuuX7caTheDnEd4NE8De+sou7Ue0fA24847glcvFFT0j7KmZGb00g==
+
 macaddress@0.5.3:
   version "0.5.3"
   resolved "https://registry.npmmirror.com/macaddress/-/macaddress-0.5.3.tgz#2b9d6832be934cb775749f30f57d6537184a2bda"
