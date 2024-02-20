@@ -39,8 +39,6 @@ export async function loader({params, request, context}) {
   const searchParams = new URLSearchParams(url.search);
   const searchTerm = String(searchParams.get('id') || '');
 
-  console.log(searchTerm, 'searchTerm');
-
   const support = await bluetti.get(
     '/supportapi/support/directoryList?current=1&size=20&shopName=bluettipower&id=&directoryType=&language=en&isTree=true&country=US',
   );
@@ -134,7 +132,7 @@ const MenuItem = ({item}) => {
             className="justify-between w-full px-2 py-2 rounded hover:bg-gray-100"
             asChild
           >
-            <Link to={`help?id=${item.id}`}>
+            <Link to={`/help?id=${item.id}`}>
               <span>{item.name}</span>
               <ChevronDownIcon className="w-4 h-4" />
             </Link>
@@ -158,7 +156,7 @@ const MenuItem = ({item}) => {
         className="justify-between w-full px-2 py-2 rounded hover:bg-gray-100"
         asChild
       >
-        <Link to={`help?id=${item.id}`}>{item.name}</Link>
+        <Link to={`/help?id=${item.id}`}>{item.name}</Link>
       </Button>
     </div>
   );

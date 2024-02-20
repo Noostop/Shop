@@ -9,8 +9,8 @@ export const countries = {
     langText: 'English',
     currency: 'USD',
     pathPrefix: 'us',
-    shop: ' bluettipower-develop',
     host: HOST,
+    shop: ' bluettipower-develop',
   },
   cn: {
     country: 'CN',

@@ -134,8 +134,6 @@ export function Downloads({data}) {
 }
 
 export function Videos({data}) {
-  console.log(data, 'data vodeos');
-
   return (
     <div className="h-full py-20 bg-gray-50">
       <div className="container">
@@ -179,7 +177,7 @@ export function Videos({data}) {
                                   />
                                 </Button>
                               </DialogTrigger>
-                              <DialogContent className="p-0 overflow-hidden md:max-w-6xl aspect-video">
+                              <DialogContent className="p-0 overflow-hidden border-none md:max-w-6xl aspect-video">
                                 <video
                                   src={url}
                                   className="object-cover w-full h-full"

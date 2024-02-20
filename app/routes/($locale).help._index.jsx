@@ -55,7 +55,7 @@ const QuestionBox = ({item, className}) => {
         className="text-gray-600 line-clamp-2"
         dangerouslySetInnerHTML={{__html: item.questionDetail}}
       />
-      <div className="text-sm text-gray-500">适用产品： DJI Mini 3 Pro</div>
+      <div className="text-sm text-gray-500">适用产品： BLUETTI EB3A</div>
     </Link>
   );
 };

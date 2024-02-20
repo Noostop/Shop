@@ -27,7 +27,17 @@ export function SubNavigation({
     setShowMenu(false);
   }
 
-  if (isMobile) {
+  useEffect(() => {
+    window.addEventListener('resize', () => {
+      closeAside();
+    });
+
+    window.addEventListener('scroll', () => {
+      closeAside();
+    });
+  }, []);
+
+  if (isMobile || navigationInfos.length >= 7) {
     return (
       <nav className="sticky top-0 z-20 w-full text-white h-14 bg-black/80 backdrop-blur">
         <div className="container">
@@ -104,7 +114,7 @@ export function SubNavigation({
                         <Button
                           asChild
                           variant="ghost"
-                          className="pl-0 hover:bg-transparent hover:text-gray-100"
+                          className=""
                           onClick={closeAside}
                         >
                           <Link to={url}>{title}</Link>
@@ -132,19 +142,17 @@ export function SubNavigation({
 
           <div className="order-2 ml-auto text-sm font-medium md:order-2">
             <ul className="flex text-sm font-medium w-max gap-x-8">
-              {navigationInfos?.map(
-                ({title, url, enable}) =>
-                  enable && (
-                    <li key={url} className="flex-shrink-0">
-                      <Link
-                        to={url}
-                        className="block py-3 rounded-lg hover:text-gray-300"
-                      >
-                        {title}
-                      </Link>
-                    </li>
-                  ),
-              )}
+              {/* <NavMenu urlHandle={urlHandle} /> */}
+
+              {navigationInfos?.map(({title, url, enable}) => (
+                <SubLink
+                  key={url}
+                  urlHandle={urlHandle}
+                  title={title}
+                  url={url}
+                  enable={enable}
+                />
+              ))}
             </ul>
           </div>
           {(Boolean(shopProductId) || subscribeTag) && (
@@ -165,3 +173,17 @@ export function SubNavigation({
     </nav>
   );
 }
+
+const SubLink = ({enable, title, url}) => {
+  return (
+    <>
+      {enable && (
+        <li className="flex-shrink-0">
+          <Link to={url} className="block py-3 rounded-lg hover:text-gray-300">
+            {title}
+          </Link>
+        </li>
+      )}
+    </>
+  );
+};

@@ -6,6 +6,13 @@ import {useLocation, useMatches} from '@remix-run/react';
 import {countries} from '~/data/countries';
 import {knowledgeCountry} from '~/lib/cookies.server';
 
+// 首字母大写
+export function capitalizeWords(str) {
+  return str.replace(/\b\w/g, function (match) {
+    return match.toUpperCase();
+  });
+}
+
 /**
  * @param {string} handle
  * @param {SelectedOption[]} selectedOptions
