@@ -20,7 +20,6 @@ import {Link} from '~/components/Link';
 import {Button} from '../@/components/ui/button';
 import {getLocaleFromRequest, parseMenu} from '~/lib/utils';
 import {seoPayload} from '~/lib/seo.server';
-import {pages} from '~/data/pages';
 import {countries} from './data/countries';
 
 /**
@@ -91,7 +90,6 @@ export async function loader({context, params}) {
   return defer(
     {
       // seo,
-      pages,
       ...layout,
       isLoggedIn,
       cart: cartPromise,
