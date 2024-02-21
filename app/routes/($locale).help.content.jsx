@@ -41,9 +41,6 @@ export async function loader({request, context}) {
   const id = new URL(request.url).searchParams.get('id') || '';
 
   if (!id) {
-    // throw new Response(`${new URL(request.url).pathname} not found`, {
-    //   status: 404,
-    // });
     return redirectDocument(`/${pathPrefix}/help`);
   }
 

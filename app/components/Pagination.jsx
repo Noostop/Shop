@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import {useState} from 'react';
-import {useSearchParams} from '@remix-run/react';
 import {Button} from '@/components/ui/button';
 import {Link} from '~/components/Link';
 import {ArrowLeftIcon, ArrowRightIcon} from '@heroicons/react/24/outline';
@@ -75,8 +74,8 @@ export const Paginations = ({totalItems, itemsPerPage, onPageChange}) => {
   );
 };
 
-export function Pagination({totalItems, page = 1}) {
-  const [searchParams, setSearchParams] = useSearchParams();
+export function Pagination({totalItems, page = 1, params}) {
+  const {size, keyword, tagid} = params;
   const totalPages = totalItems;
 
   const [inputPage, setInputPage] = useState(page);
@@ -89,7 +88,13 @@ export function Pagination({totalItems, page = 1}) {
     event.preventDefault();
     if (inputPage !== '' && inputPage > 0 && inputPage <= totalPages) {
       // 更新页面 URL，跳转到用户输入的页码
-      return <Link to={`/help?current=${inputPage}`}>Go</Link>;
+      return (
+        <Link
+          to={`/help?current=${inputPage}&tagID=${tagid}&key=${keyword}&size=${size}`}
+        >
+          Go
+        </Link>
+      );
     }
     return null;
   };
@@ -106,7 +111,11 @@ export function Pagination({totalItems, page = 1}) {
           // disabled={currentPage === 1}
           asChild
         >
-          <Link to={`/help?current=${page - 1}`}>
+          <Link
+            to={`/help?current=${
+              page - 1
+            }&tagID=${tagid}&key=${keyword}&size=${size}`}
+          >
             <span className="sr-only">Previous</span>
             <ArrowLeftIcon className="w-4 h-4" />
           </Link>
@@ -128,7 +137,11 @@ export function Pagination({totalItems, page = 1}) {
           // disabled={currentPage === 1}
           asChild
         >
-          <Link to={`/help?current=${page + 1}`}>
+          <Link
+            to={`/help?current=${
+              page + 1
+            }&tagID=${tagid}&key=${keyword}&size=${size}`}
+          >
             <span className="sr-only">Next</span>
             <ArrowRightIcon className="w-4 h-4" />
           </Link>

@@ -1,15 +1,11 @@
 import clsx from 'clsx';
-import {Fragment, useState, Suspense} from 'react';
+import {useState, Suspense} from 'react';
 import {defer, redirect} from '@shopify/remix-oxygen';
 import {Image, CacheNone} from '@shopify/hydrogen';
-import {Await, Outlet, useLoaderData} from '@remix-run/react';
-import {HeaddingWithEyebrow} from '~/components/Headding';
-import {Link} from '~/components/Link';
+import {Await, useLoaderData} from '@remix-run/react';
 import {
   MagnifyingGlassIcon,
   ChevronDownIcon,
-  ArrowLeftIcon,
-  ArrowRightIcon,
 } from '@heroicons/react/24/outline';
 
 import {
@@ -19,58 +15,63 @@ import {
   useMotionValueEvent,
 } from 'framer-motion';
 
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
-
+import {Link} from '~/components/Link';
 import {Button} from '@/components/ui/button';
 import {Pagination} from '~/components/Pagination';
 
-export async function loader({params, request, context}) {
-  const {bluetti} = context;
+export async function loader({request, context}) {
+  const {bluetti, session} = context;
   const url = new URL(request.url);
   const searchParams = new URLSearchParams(url.search);
 
-  const paramsConfig = {
+  const params = {
     current: searchParams.get('current') || 1,
     size: searchParams.get('size') || 10,
     keyword: searchParams.get('keyword') || '',
     tagid: searchParams.get('tagid') || '',
   };
+  session.set('helpParams', params);
 
-  const support = await bluetti.get(
+  // 导航菜单
+  const sideBarMenu = await bluetti.get(
     '/supportapi/support/directoryList?current=1&size=20&shopName=bluettipower&id=&directoryType=&language=en&isTree=true&country=US',
     {
       cache: CacheNone(),
     },
   );
 
+  // 关联问题列表
   const questionList = await bluetti.get(
-    `/supportapi/supportQuestion/QuestionList?current=${paramsConfig.current}&tagID=${paramsConfig.tagid}&key=${paramsConfig.keyword}&size=${paramsConfig.size}&shopName=&isTree=true&isSend=true`,
+    `/supportapi/supportQuestion/QuestionList?current=${params.current}&tagID=${params.tagid}&key=${params.keyword}&size=${params.size}&shopName=&isTree=true&isSend=true`,
     {
       cache: CacheNone(),
     },
   );
 
-  return defer({support, questionList, paramsConfig});
+  return defer(
+    {sideBarMenu, questionList, params},
+    {
+      headers: {
+        'Set-Cookie': await session.commit(),
+      },
+    },
+  );
 }
 
-// TODO: 搜索事件
 export default function Support() {
-  const {support, questionList, paramsConfig} = useLoaderData();
-  const records = support.records.find(
+  const {sideBarMenu, questionList, params} = useLoaderData();
+  const records = sideBarMenu.records.find(
     (item) => item.id === '65864e8555b57154dcd3db90',
   );
-  const {size, current, keyword, tagid} = paramsConfig;
+  const {size, current, keyword, tagid} = params;
 
   return (
     <section className="container py-8">
-      <section className="flex justify-center py-8">
-        <form action="/$/help">
+      {/* 搜索框 */}
+      <div className="flex py-8 justify-stretch md:justify-center">
+        <form className="block w-full md:w-auto" action="/$/help">
           <div className="flex items-center mb-3">
-            <div className="relative mr-3 max-sm:w-full">
+            <div className="relative flex-1 mr-3 max-sm:w-full">
               <label
                 htmlFor="question"
                 className="hidden mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -82,11 +83,11 @@ export default function Support() {
               </div>
               <input
                 className="block w-full p-3 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg md:w-96 bg-gray-50 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
-                placeholder="请输入您想了解的问题"
+                placeholder="Please enter the question you want to know"
                 type="text"
                 name="keyword"
                 id="question"
-                required
+                defaultValue={keyword}
               />
             </div>
             <div>
@@ -94,7 +95,7 @@ export default function Support() {
                 type="submit"
                 className="px-5 py-3 text-sm font-medium text-center text-white rounded-lg cursor-pointer bg-primary hover:bg-primary/80 focus:ring-4 focus:ring-primary/30 dark:bg-primary dark:hover:bg-primary dark:focus:ring-primary/80"
               >
-                查询
+                Search
               </button>
             </div>
           </div>
@@ -119,32 +120,50 @@ export default function Support() {
             </Link>
           </div>
         </form>
-      </section>
+      </div>
+      {/* 内容区域 */}
       <div className="grid gap-10 pt-10 mt-10 border-t border-gray-100 lg:grid-cols-12">
         <aside className="hidden lg:block lg:col-span-3">
           <div className="sticky p-4 bg-gray-200 rounded top-14">
-            <CollapsibleMenu data={records?.children} tagid={tagid} />
+            <CollapsibleMenu data={records?.children} params={params} />
           </div>
         </aside>
 
         <div className="lg:col-span-9">
-          <p className="text-xs text-gray-400">
-            已找到 {questionList.total} 个结果
-          </p>
-
           <Suspense fallback={<div>Loading...</div>}>
             <Await resolve={questionList}>
-              <div className="space-y-4 divide-y divide-gray-200">
-                {questionList.records?.map((item) => (
-                  <QuestionBox item={item} key={item.id} />
-                ))}
-              </div>
+              {questionList.total > 0 ? (
+                <>
+                  <p className="text-xs text-gray-400">
+                    已找到 {questionList.total} 个结果
+                  </p>
+                  <div className="space-y-4 divide-y divide-gray-200">
+                    {questionList.records?.map((item) => (
+                      <QuestionBox item={item} key={item.id} />
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <div className="flex items-center justify-center h-full">
+                  <div className="text-center">
+                    <img
+                      className="mx-auto mb-4 rounded-lg aspect-square"
+                      width={300}
+                      height={300}
+                      src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/404/404-computer.svg"
+                      alt="404 Not Found"
+                    />
+                    <p>No related questions found</p>
+                  </div>
+                </div>
+              )}
             </Await>
           </Suspense>
           {questionList.total > size && (
             <Pagination
               totalItems={Math.ceil(questionList.total / size)}
               page={Number(current)}
+              params={params}
             />
           )}
         </div>
@@ -173,7 +192,9 @@ const QuestionBox = ({item, className}) => {
   );
 };
 
-const CollapsibleMenu = ({data, tagid}) => {
+const CollapsibleMenu = ({data, params}) => {
+  const {size, current, keyword, tagid} = params;
+
   const [expandedItems, setExpandedItems] = useState({
     '65ae157ddfdfd80771ff545b': true,
     '65ae158fdfdfd80771ff545d': true,
@@ -197,7 +218,11 @@ const CollapsibleMenu = ({data, tagid}) => {
         {item.children && item.children.length > 0 ? (
           <Button variant="ghost" onClick={() => toggleItem(item.id)} asChild>
             <Link
-              to={item.url ? item.url : `/help?tagid=${item.id}`}
+              to={
+                item.url
+                  ? item.url
+                  : `/help?current=${current}&tagID=${item.id}&key=${keyword}&size=${size}`
+              }
               className={clsx(
                 'justify-between w-full text-gray-600',
                 tagid == item.id ? 'font-semibold text-black' : null,
@@ -215,7 +240,11 @@ const CollapsibleMenu = ({data, tagid}) => {
         ) : (
           <Button variant="ghost" asChild>
             <Link
-              to={item.url ? item.url : `/help?tagid=${item.id}`}
+              to={
+                item.url
+                  ? item.url
+                  : `/help?current=${current}&tagID=${item.id}&key=${keyword}&size=${size}`
+              }
               className={clsx(
                 'justify-between w-full text-gray-600',
                 tagid == item.id ? 'font-semibold text-black' : null,
