@@ -73,7 +73,7 @@ export default function Support() {
   };
 
   return (
-    <section className="container py-8">
+    <section className="container min-h-screen py-24">
       <div className="relative grid grid-cols-7">
         <div className="order-2 col-span-2 py-4 ml-8 rounded">
           <div className="sticky top-16 md:top-24">

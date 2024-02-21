@@ -24,9 +24,10 @@ export async function loader({request, context}) {
   const url = new URL(request.url);
   const searchParams = new URLSearchParams(url.search);
 
+  const size = searchParams.get('size');
   const params = {
     current: searchParams.get('current') || 1,
-    size: searchParams.get('size') || 10,
+    size: size ? (size > 20 ? 20 : size) : 10,
     keyword: searchParams.get('keyword') || '',
     tagid: searchParams.get('tagid') || '',
   };
@@ -34,7 +35,7 @@ export async function loader({request, context}) {
 
   // 导航菜单
   const sideBarMenu = await bluetti.get(
-    '/supportapi/support/directoryList?current=1&size=20&shopName=bluettipower&id=&directoryType=&language=en&isTree=true&country=US',
+    '/supportapi/support/directoryList?id=65b084a74a9028c6b4a8e276&shopName=bluettipower-develop&isTree=true',
     {
       cache: CacheNone(),
     },
@@ -42,7 +43,7 @@ export async function loader({request, context}) {
 
   // 关联问题列表
   const questionList = await bluetti.get(
-    `/supportapi/supportQuestion/QuestionList?current=${params.current}&tagID=${params.tagid}&key=${params.keyword}&size=${params.size}&shopName=&isTree=true&isSend=true`,
+    `/supportapi/supportQuestion/QuestionList?current=${params.current}&tagID=${params.tagid}&key=${params.keyword}&size=${params.size}&shopName=bluettipower-develop&isTree=true&isSend=true`,
     {
       cache: CacheNone(),
     },
@@ -60,13 +61,10 @@ export async function loader({request, context}) {
 
 export default function Support() {
   const {sideBarMenu, questionList, params} = useLoaderData();
-  const records = sideBarMenu.records.find(
-    (item) => item.id === '65864e8555b57154dcd3db90',
-  );
-  const {size, current, keyword, tagid} = params;
+  const {size, current, keyword} = params;
 
   return (
-    <section className="container py-8">
+    <section className="container min-h-screen py-8">
       {/* 搜索框 */}
       <div className="flex py-8 justify-stretch md:justify-center">
         <form className="block w-full md:w-auto" action="/$/help">
@@ -125,7 +123,7 @@ export default function Support() {
       <div className="grid gap-10 pt-10 mt-10 border-t border-gray-100 lg:grid-cols-12">
         <aside className="hidden lg:block lg:col-span-3">
           <div className="sticky p-4 bg-gray-200 rounded top-14">
-            <CollapsibleMenu data={records?.children} params={params} />
+            <CollapsibleMenu data={sideBarMenu.records} params={params} />
           </div>
         </aside>
 
@@ -196,11 +194,11 @@ const CollapsibleMenu = ({data, params}) => {
   const {size, current, keyword, tagid} = params;
 
   const [expandedItems, setExpandedItems] = useState({
-    '65ae157ddfdfd80771ff545b': true,
-    '65ae158fdfdfd80771ff545d': true,
-    '65ae15c0dfdfd80771ff545f': true,
-    '65ae1971dfdfd80771ff54ab': true,
-    '65ae15d5dfdfd80771ff5461': true,
+    '65d5c60cfc4e080cd0bd4c7a': true,
+    '65d5c596fc4e080cd0bd4c6c': true,
+    '65d5c5c4fc4e080cd0bd4c6e': true,
+    '65d5c5c7fc4e080cd0bd4c70': true,
+    '65d5c5f5fc4e080cd0bd4c76': true,
   });
 
   const toggleItem = (itemId) => {
@@ -225,7 +223,7 @@ const CollapsibleMenu = ({data, params}) => {
               }
               className={clsx(
                 'justify-between w-full text-gray-600',
-                tagid == item.id ? 'font-semibold text-black' : null,
+                tagid == item.id ? 'font-semibold !text-black' : null,
               )}
             >
               <span>{item.name}</span>
@@ -247,7 +245,7 @@ const CollapsibleMenu = ({data, params}) => {
               }
               className={clsx(
                 'justify-between w-full text-gray-600',
-                tagid == item.id ? 'font-semibold text-black' : null,
+                tagid == item.id ? 'font-semibold !text-black' : null,
               )}
             >
               <span>{item.name}</span>
