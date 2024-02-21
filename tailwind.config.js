@@ -7,6 +7,7 @@ module.exports = {
     './components/**/*.{js,jsx}',
     './app/**/*.{js,jsx,json}',
     './src/**/*.{js,jsx,json}',
+    './node_modules/@bluetti/**/*.{js,jsx,tsx}',
   ],
   prefix: '',
   theme: {

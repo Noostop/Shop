@@ -15,6 +15,7 @@ import {CacheNone} from '@shopify/hydrogen';
 import {AC180} from '~/pages/AC180';
 import {AC60} from '~/pages/AC60';
 import {getLocaleFromRequest} from '~/lib/utils';
+import {Render} from '@bluetti/craft';
 
 // export function shouldRevalidate({
 //   currentParams,
@@ -61,14 +62,14 @@ export async function loader({params, context, request}) {
   });
 
   try {
-    const pageInfo = await bluetti.get(
-      `/pageapi/page/test2?shop=bluettipower-develop`,
+    const data = await bluetti.get(
+      `/pageapi/page/${handle}?shop=bluettipower-develop`,
       {
         cache: CacheNone(),
       },
     );
 
-    return defer(pageInfo);
+    return defer(data);
   } catch (error) {
     const {pathname} = new URL(request.url);
     throw new Response(`${pathname} not found`, {
@@ -80,18 +81,15 @@ export async function loader({params, context, request}) {
 export default function TopicsIndex() {
   const {urlHandle} = useOutletContext();
   const data = useLoaderData();
-  const [content, setContent] = useState();
 
-  useEffect(() => {
-    setContent(decompressFromBase64(data.content || ''));
-  }, [data]);
+  console.log(data);
 
   return (
     <>
-      {content}
+      <Render data={data?.content} />
 
-      {urlHandle === 'ac200max' && <AC180 />}
-      {urlHandle === 'ac60' && <AC60 />}
+      {/* {urlHandle === 'ac200max' && <AC180 />}
+      {urlHandle === 'ac60' && <AC60 />} */}
     </>
   );
 }
