@@ -1,4 +1,3 @@
-import lzjs from 'lzjs';
 import {
   compress,
   decompress,
@@ -63,17 +62,13 @@ export async function loader({params, context, request}) {
 
   try {
     const pageInfo = await bluetti.get(
-      `/pageapi/page/test2?shop=bluettipower-develop&lang=en`,
+      `/pageapi/page/test2?shop=bluettipower-develop`,
       {
         cache: CacheNone(),
       },
     );
 
-    if (pageInfo.id) {
-      return defer(pageInfo);
-    }
-
-    // return redirect(`/${pathPrefix}/404`);
+    return defer(pageInfo);
   } catch (error) {
     const {pathname} = new URL(request.url);
     throw new Response(`${pathname} not found`, {
@@ -85,25 +80,16 @@ export async function loader({params, context, request}) {
 export default function TopicsIndex() {
   const {urlHandle} = useOutletContext();
   const data = useLoaderData();
-  const [com, setCom] = useState();
+  const [content, setContent] = useState();
 
   useEffect(() => {
-    // console.log(
-    //   lz.decompress(lz.decodeBase64(pageInfo.context)),
-    //   'pageInfo+++++',
-    // );
-
-    // setCom(data);
-
-    console.log(
-      lzjs.decompress(lzjs.decompressFromBase64(data.content)),
-      'pageInfo------',
-    );
-    console.log(decompressFromBase64(data.content), 'pageInfo-++++--');
+    setContent(decompressFromBase64(data.content || ''));
   }, [data]);
 
   return (
     <>
+      {content}
+
       {urlHandle === 'ac200max' && <AC180 />}
       {urlHandle === 'ac60' && <AC60 />}
     </>

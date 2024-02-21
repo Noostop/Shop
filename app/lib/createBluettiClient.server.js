@@ -32,10 +32,16 @@ export function createBluettiClient({
         });
 
         if (!response.ok) {
-          throw new Error(`从BLUETTI api 获取时出错: ${response.statusText}`);
+          throw new Error(
+            `Error getting from BLUETTI API: ${response.statusText}`,
+          );
         }
 
         const json = await response.json();
+
+        if (json.code !== 0) {
+          throw new Error(`Error getting from BLUETTI API: ${json.msg}`);
+        }
 
         return json.data;
       },
@@ -50,10 +56,16 @@ export function createBluettiClient({
       });
 
       if (!response.ok) {
-        throw new Error(`从BLUETTI api 获取时出错: ${response.statusText}`);
+        throw new Error(
+          `Error getting from BLUETTI API: ${response.statusText}`,
+        );
       }
 
       const json = await response.json();
+
+      if (json.code !== 0) {
+        throw new Error(`Error getting from BLUETTI API: ${json.msg}`);
+      }
 
       return json.data;
     });

@@ -1,16 +1,12 @@
 import clsx from 'clsx';
 import {Fragment, useState, useEffect} from 'react';
-import {defer, redirect} from '@shopify/remix-oxygen';
+import {defer, redirectDocument} from '@shopify/remix-oxygen';
 import {Image} from '@shopify/hydrogen';
 import {Await, Outlet, useLoaderData} from '@remix-run/react';
 import {HeaddingWithEyebrow} from '~/components/Headding';
 import {Link} from '~/components/Link';
 import * as cheerio from 'cheerio';
-
-import {
-  MagnifyingGlassIcon,
-  ChevronDownIcon,
-} from '@heroicons/react/24/outline';
+import {getLocaleFromRequest} from '~/lib/utils';
 
 import {
   motion,
@@ -18,13 +14,6 @@ import {
   useScroll,
   useMotionValueEvent,
 } from 'framer-motion';
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
 
 const extractHeadingsFromHTML = (html) => {
   const headings = [];
@@ -43,25 +32,30 @@ const extractHeadingsFromHTML = (html) => {
   return {headings, html: $.html()};
 };
 
-export async function loader({params, request, context}) {
-  const {locale, id} = params;
-  const {bluetti} = context;
+export async function loader({request, context}) {
+  const {bluetti, session} = context;
+  const {pathPrefix} = await getLocaleFromRequest({
+    session,
+    request,
+  });
+  const id = new URL(request.url).searchParams.get('id') || '';
 
   if (!id) {
-    throw new Response(`${new URL(request.url).pathname} not found`, {
-      status: 404,
-    });
+    // throw new Response(`${new URL(request.url).pathname} not found`, {
+    //   status: 404,
+    // });
+    return redirectDocument(`/${pathPrefix}/help`);
   }
 
   const questionContent = await bluetti.get(
-    `/supportapi/supportQuestion/Question/${id}?current=&size=&shopName=bluettipower&id=&directoryType=&language=en&isTree=true&country=US`,
+    `/supportapi/supportQuestion/Question/${id}`,
   );
 
-  return defer({questionContent, id});
+  return defer({questionContent});
 }
 
 export default function Support() {
-  const {id, questionContent} = useLoaderData();
+  const {questionContent} = useLoaderData();
   const [preHtml, setPreHtml] = useState();
   const [headings, setHeadings] = useState([]);
 
@@ -85,7 +79,7 @@ export default function Support() {
     <section className="container py-8">
       <div className="relative grid grid-cols-7">
         <div className="order-2 col-span-2 py-4 ml-8 rounded">
-          <div className="sticky top-16">
+          <div className="sticky top-16 md:top-24">
             <h3 className="font-medium text-gray-600">目录</h3>
             <ul className="mt-2 space-y-2 border-l-2 border-gray-100">
               {headings.map((heading) => (
@@ -101,7 +95,6 @@ export default function Support() {
                   <button
                     className="pl-4 text-sm text-gray-600 cursor-pointer hover:text-primary"
                     onClick={() => handleClick(heading.headingId)}
-                    // to={`/help/${id}#${heading.headingId}`}
                   >
                     {heading.text}
                   </button>
@@ -118,7 +111,7 @@ export default function Support() {
             dangerouslySetInnerHTML={{
               __html: preHtml,
             }}
-            className="mt-4 prose prose-lg prose-video:aspect-video prose-video:w-full prose-video:rounded prose-img:rounded prose-img:w-full prose-a:text-primary prose-a:hover:text-primary/80 max-w-none"
+            className="mt-4 prose prose-lg prose-video:aspect-video prose-video:w-full prose-video:rounded prose-img:rounded prose-a:text-primary prose-a:hover:text-primary/80 max-w-none"
           />
         </div>
       </div>
