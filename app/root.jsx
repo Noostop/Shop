@@ -18,9 +18,8 @@ import tailwindStyles from './styles/tailwind.css';
 import {Layout} from '~/components/Layout';
 import {Link} from '~/components/Link';
 import {Button} from '../@/components/ui/button';
-import {getLocaleFromRequest, parseMenu} from '~/lib/utils';
+import {getLocaleFromRequest, convertToLowerCase, parseMenu} from '~/lib/utils';
 import {seoPayload} from '~/lib/seo.server';
-import {countries} from './data/countries';
 
 /**
  * 这对于避免在子导航上重新获取根查询非常重要
@@ -110,7 +109,7 @@ export default function App() {
 
   return (
     <html
-      lang={locale.language}
+      lang={convertToLowerCase(locale.language)}
       className="h-full text-base antialiased bg-neutral-950"
     >
       <head>
@@ -149,7 +148,10 @@ export function ErrorBoundary() {
   }
 
   return (
-    <html lang={locale.language} className="antialiased bg-neutral-950">
+    <html
+      lang={convertToLowerCase(locale.language)}
+      className="antialiased bg-neutral-950"
+    >
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />

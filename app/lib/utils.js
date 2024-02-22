@@ -316,3 +316,13 @@ export function convertToLowerCase(str) {
 
   return result;
 }
+
+export function getFetchHeaders({i18n, headers = {}}) {
+  return {
+    ...headers,
+    'Content-type': 'application/json',
+    shop: i18n.shop,
+    country: i18n.country.toUpperCase(),
+    language: convertToLowerCase(i18n.language),
+  };
+}

@@ -1,5 +1,5 @@
 import {createWithCache, CacheLong} from '@shopify/hydrogen';
-import {convertToLowerCase} from './utils';
+import {getFetchHeaders} from './utils';
 
 export function createBluettiClient({
   serverDomain,
@@ -10,23 +10,16 @@ export function createBluettiClient({
 }) {
   const withCache = createWithCache({cache, waitUntil});
 
-  const headers = {
-    'Content-type': 'application/json',
-    shop: i18n.shop,
-    country: i18n.country.toUpperCase(),
-    language: convertToLowerCase(i18n.language),
-  };
-
-  async function post(query, options = {cache: CacheLong()}) {
+  async function post(url, body = {}, options = {cache: CacheLong()}) {
     return withCache(
-      ['r&m', JSON.stringify(query)],
+      ['r&m', JSON.stringify(url)],
       options.cache,
       async function () {
-        const response = await fetch(`${serverDomain}`, {
+        const response = await fetch(`${serverDomain}${url}`, {
           method: 'POST',
-          headers,
+          headers: getFetchHeaders({i18n}),
           body: JSON.stringify({
-            query,
+            body,
           }),
         });
 
@@ -47,11 +40,11 @@ export function createBluettiClient({
     );
   }
 
-  async function get(query, options = {cache: CacheLong()}) {
-    return withCache(['r&m', query], options.cache, async function () {
-      const response = await fetch(`${serverDomain}${query}`, {
+  async function get(url, options = {cache: CacheLong()}) {
+    return withCache(['r&m', url], options.cache, async function () {
+      const response = await fetch(`${serverDomain}${url}`, {
         method: 'GET',
-        headers,
+        headers: getFetchHeaders({i18n}),
       });
 
       if (!response.ok) {

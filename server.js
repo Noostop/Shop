@@ -73,7 +73,7 @@ export default {
         cache,
         waitUntil,
         i18n,
-        serverDomain: 'https://srv0.bluettipower.com',
+        serverDomain: env.BLUETTI_SERVER_DOMAIN,
         serverAPiVersion: 'v1',
       });
 
