@@ -8,9 +8,6 @@ import {Link} from '~/components/Link';
 export async function loader({params, context}) {
   const {locale, handle} = params;
   const {bluetti} = context;
-  // if(locale) {
-
-  // }
   const support = await bluetti.get(
     '/supportapi/support/directoryList?current=&size=&shopName=bluettipower&id=&directoryType=&language=en&isTree=true&country=US',
   );

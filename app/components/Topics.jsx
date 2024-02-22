@@ -16,6 +16,8 @@ import {
 } from '@/components/ui/accordion';
 import {Dialog, DialogContent, DialogTrigger} from '@/components/ui/dialog';
 
+import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs';
+
 import {Button} from '@/components/ui/button';
 import {ScrollArea} from '@radix-ui/react-scroll-area';
 
@@ -25,7 +27,56 @@ export function Faqs({data}) {
       <div className="container">
         <h1 className="text-4xl font-semibold">常见问题</h1>
 
-        <div className="flex flex-col gap-8 pt-8 mt-8 border-t border-gray-300">
+        <div className="min-h-[50vh] pt-8 mt-8 border-t border-gray-300">
+          <Tabs
+            className="w-full h-full"
+            defaultValue={data[0].groupName}
+            orientation="vertical"
+          >
+            <TabsList className="container justify-start h-auto bg-gray-100 rounded md:px-4 md:py-2">
+              <ScrollArea className="overflow-auto">
+                <div className="flex items-center gap-2 w-max p-1.5">
+                  {data?.map(({groupName}) => (
+                    <TabsTrigger
+                      className="md:font-semibold py-1.5 md:px-4 md:py-2 md:text-base data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow"
+                      key={groupName}
+                      value={groupName}
+                    >
+                      {groupName}
+                    </TabsTrigger>
+                  ))}
+                </div>
+              </ScrollArea>
+            </TabsList>
+            {data?.map(({groupName, commonQuestionDetails}) => (
+              <TabsContent value={groupName} key={groupName}>
+                <Accordion type="multiple" className="space-y-2">
+                  {commonQuestionDetails?.map(({sort, answer, question}) => (
+                    <AccordionItem
+                      key={sort}
+                      value={answer}
+                      className="px-4 py-4 border-none rounded even:bg-gray-100"
+                    >
+                      <AccordionTrigger className="text-left hover:no-underline">
+                        <span className="text-sm font-medium md:text-base">
+                          {question}
+                        </span>
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div
+                          className="prose-sm prose"
+                          dangerouslySetInnerHTML={{__html: answer}}
+                        />
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </TabsContent>
+            ))}
+          </Tabs>
+        </div>
+
+        <div className="flex flex-col hidden gap-8 pt-8 mt-8 border-t border-gray-300">
           {data?.map(({groupName, commonQuestionDetails}) => (
             <div
               key={groupName}
