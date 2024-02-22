@@ -25,6 +25,8 @@ import {
   CheckCircleIcon,
 } from '@heroicons/react/24/outline';
 
+import {createBluettiClient} from '~/lib/createBluettiClient';
+
 const extractHeadingsFromHTML = (html) => {
   const headings = [];
   const $ = cheerio.load(html);
@@ -81,6 +83,12 @@ export default function Support() {
   const [headings, setHeadings] = useState([]);
   const [success, setSuccess] = useState(false);
 
+  const bluetti = new createBluettiClient({
+    i18n,
+    serverDomain: env.BLUETTI_SERVER_DOMAIN,
+    serverAPiVersion: 'v1',
+  });
+
   useEffect(() => {
     // 解析HTML并获取标题
     const {headings, html} = extractHeadingsFromHTML(content.answer);
@@ -100,16 +108,12 @@ export default function Support() {
   const handleFeedback = async (type) => {
     setSuccess(true);
 
-    const response = await fetch(
-      `${env.BLUETTI_SERVER_DOMAIN}/supportapi/supportQuestion/LikeOrOppose`,
+    const response = await bluetti.post(
+      `/supportapi/supportQuestion/LikeOrOppose`,
       {
-        method: 'POST',
-        headers: getFetchHeaders({i18n}),
-        body: JSON.stringify({
-          type,
-          id: content.id,
-          userId: '648c149b6d557dee404dfad4',
-        }),
+        type,
+        id: content.id,
+        userId: '648c149b6d557dee404dfad4',
       },
     );
 
