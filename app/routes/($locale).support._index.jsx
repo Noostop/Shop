@@ -2,7 +2,6 @@ import {defer, redirect} from '@shopify/remix-oxygen';
 import {Image} from '@shopify/hydrogen';
 import {Await, useLoaderData} from '@remix-run/react';
 import {MagnifyingGlassIcon} from '@heroicons/react/24/outline';
-import {HeaddingWithEyebrow} from '~/components/Headding';
 import {Link} from '~/components/Link';
 
 export async function loader({params, context}) {
