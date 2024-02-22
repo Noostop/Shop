@@ -509,12 +509,13 @@ function User({isLoggedIn}) {
 function Search() {
   return (
     <div className="relative flow-root ml-4 lg:ml-6">
-      <a href="/search" className="flex items-center p-2 -m-2 group">
+      <Link to="/search" className="flex items-center p-2 -m-2 group">
+        <span className="sr-only">Search</span>
         <MagnifyingGlassIcon
           className="flex-shrink-0 w-6 h-6"
           aria-hidden="true"
         />
-      </a>
+      </Link>
     </div>
   );
 }

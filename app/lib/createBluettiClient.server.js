@@ -1,4 +1,5 @@
 import {createWithCache, CacheLong} from '@shopify/hydrogen';
+import {convertToLowerCase} from './utils';
 
 export function createBluettiClient({
   serverDomain,
@@ -13,10 +14,8 @@ export function createBluettiClient({
     'Content-type': 'application/json',
     shop: i18n.shop,
     country: i18n.country.toUpperCase(),
-    language: i18n.language.toLowerCase(),
+    language: convertToLowerCase(i18n.language),
   };
-
-  // console.log(JSON.stringify(headers));
 
   async function post(query, options = {cache: CacheLong()}) {
     return withCache(

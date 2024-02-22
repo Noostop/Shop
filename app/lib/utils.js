@@ -299,3 +299,20 @@ export function isMobileDevice() {
     navigator.userAgent.indexOf('IEMobile') !== -1
   );
 }
+
+// 字符串移除 HTML 标签
+export function removeHtmlTags(text) {
+  return text.replace(/<[^>]*>/g, '');
+}
+
+export function convertToLowerCase(str) {
+  const suStr = str.split('_');
+  let result = '';
+  if (suStr.length === 1) {
+    return str.toLowerCase();
+  } else if (suStr.length === 2) {
+    return `${suStr[0].toLowerCase()}_${suStr[1].toUpperCase()}`;
+  }
+
+  return result;
+}

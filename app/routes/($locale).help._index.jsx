@@ -19,6 +19,18 @@ import {Link} from '~/components/Link';
 import {Button} from '@/components/ui/button';
 import {Pagination} from '~/components/Pagination';
 
+/**
+ * @type {MetaFunction}
+ */
+export const meta = () => {
+  return [
+    {title: `BLUETTI | 帮助中心`},
+    {
+      description: '帮助中心',
+    },
+  ];
+};
+
 export async function loader({request, context}) {
   const {bluetti, session} = context;
   const url = new URL(request.url);
@@ -35,7 +47,7 @@ export async function loader({request, context}) {
 
   // 导航菜单
   const sideBarMenu = await bluetti.get(
-    '/supportapi/support/directoryList?id=65b084a74a9028c6b4a8e276&shopName=bluettipower-develop&isTree=true',
+    '/supportapi/support/directoryList?id=65b084a74a9028c6b4a8e276&isTree=true',
     {
       cache: CacheNone(),
     },
@@ -43,7 +55,7 @@ export async function loader({request, context}) {
 
   // 关联问题列表
   const questionList = await bluetti.get(
-    `/supportapi/supportQuestion/QuestionList?current=${params.current}&tagID=${params.tagid}&key=${params.keyword}&size=${params.size}&shopName=bluettipower-develop&isTree=true&isSend=true`,
+    `/supportapi/supportQuestion/QuestionList?current=${params.current}&tagID=${params.tagid}&key=${params.keyword}&size=${params.size}&isTree=true&isSend=true`,
     {
       cache: CacheNone(),
     },
@@ -121,13 +133,19 @@ export default function Support() {
       </div>
       {/* 内容区域 */}
       <div className="grid gap-10 pt-10 mt-10 border-t border-gray-100 lg:grid-cols-12">
-        <aside className="hidden lg:block lg:col-span-3">
-          <div className="sticky p-4 bg-gray-200 rounded top-14">
-            <CollapsibleMenu data={sideBarMenu.records} params={params} />
-          </div>
-        </aside>
+        {sideBarMenu.total > 0 && (
+          <aside className="hidden lg:block lg:col-span-3">
+            <div className="sticky p-4 bg-gray-200 rounded top-14">
+              <CollapsibleMenu data={sideBarMenu.records} params={params} />
+            </div>
+          </aside>
+        )}
 
-        <div className="lg:col-span-9">
+        <div
+          className={clsx(
+            sideBarMenu.total > 0 ? 'lg:col-span-9' : 'lg:col-span-12',
+          )}
+        >
           <Suspense fallback={<div>Loading...</div>}>
             <Await resolve={questionList}>
               {questionList.total > 0 ? (

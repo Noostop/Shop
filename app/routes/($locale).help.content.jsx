@@ -1,12 +1,11 @@
 import clsx from 'clsx';
-import {Fragment, useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {defer, redirectDocument} from '@shopify/remix-oxygen';
 import {Image} from '@shopify/hydrogen';
 import {Await, Outlet, useLoaderData} from '@remix-run/react';
-import {HeaddingWithEyebrow} from '~/components/Headding';
 import {Link} from '~/components/Link';
 import * as cheerio from 'cheerio';
-import {getLocaleFromRequest} from '~/lib/utils';
+import {getLocaleFromRequest, removeHtmlTags} from '~/lib/utils';
 
 import {
   motion,
@@ -32,6 +31,20 @@ const extractHeadingsFromHTML = (html) => {
   return {headings, html: $.html()};
 };
 
+/**
+ * @type {MetaFunction}
+ */
+export const meta = ({data}) => {
+  const {name, questionDetail} = data;
+
+  return [
+    {title: `BLUETTI | ${name}`},
+    {
+      description: removeHtmlTags(questionDetail),
+    },
+  ];
+};
+
 export async function loader({request, context}) {
   const {bluetti, session} = context;
   const {pathPrefix} = await getLocaleFromRequest({
@@ -44,21 +57,19 @@ export async function loader({request, context}) {
     return redirectDocument(`/${pathPrefix}/help`);
   }
 
-  const questionContent = await bluetti.get(
-    `/supportapi/supportQuestion/Question/${id}`,
-  );
+  const data = await bluetti.get(`/supportapi/supportQuestion/Question/${id}`);
 
-  return defer({questionContent});
+  return defer(data);
 }
 
 export default function Support() {
-  const {questionContent} = useLoaderData();
+  const data = useLoaderData();
   const [preHtml, setPreHtml] = useState();
   const [headings, setHeadings] = useState([]);
 
   useEffect(() => {
     // 解析HTML并获取标题
-    const {headings, html} = extractHeadingsFromHTML(questionContent.answer);
+    const {headings, html} = extractHeadingsFromHTML(data.answer);
     setHeadings(headings);
     setPreHtml(html);
   }, []);
@@ -102,7 +113,7 @@ export default function Support() {
         </div>
 
         <div className="order-1 col-span-5">
-          <h1 className="text-2xl font-semibold">{questionContent.name}</h1>
+          <h1 className="text-2xl font-semibold">{data.name}</h1>
           <div
             id="answerContent"
             dangerouslySetInnerHTML={{
