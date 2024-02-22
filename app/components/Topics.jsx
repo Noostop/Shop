@@ -1,13 +1,11 @@
 import {Link} from '@remix-run/react';
 import {Bars3Icon, PlayIcon} from '@heroicons/react/24/outline';
 import {Image} from '@shopify/hydrogen';
-
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from '@/components/ui/hover-card';
-
 import {
   Accordion,
   AccordionContent,
@@ -15,9 +13,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import {Dialog, DialogContent, DialogTrigger} from '@/components/ui/dialog';
-
 import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs';
-
 import {Button} from '@/components/ui/button';
 import {ScrollArea} from '@radix-ui/react-scroll-area';
 
@@ -76,7 +72,7 @@ export function Faqs({data}) {
           </Tabs>
         </div>
 
-        <div className="flex flex-col hidden gap-8 pt-8 mt-8 border-t border-gray-300">
+        {/* <div className="flex flex-col hidden gap-8 pt-8 mt-8 border-t border-gray-300">
           {data?.map(({groupName, commonQuestionDetails}) => (
             <div
               key={groupName}
@@ -106,7 +102,7 @@ export function Faqs({data}) {
               </Accordion>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );
