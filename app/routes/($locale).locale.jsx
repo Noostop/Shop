@@ -1,6 +1,6 @@
 import invariant from 'tiny-invariant';
 import {json, redirectDocument} from '@shopify/remix-oxygen';
-import {parseUrl} from '~/lib/utils';
+// import {parseUrl} from '~/lib/utils';
 
 export const action = async ({request, context}) => {
   const {session} = context;
@@ -36,9 +36,9 @@ export const action = async ({request, context}) => {
 
     const {origin} = new URL(request.url);
     const redirectUrl = new URL(`${path}`, `${origin}`);
-    const {i18n} = parseUrl(redirectUrl);
+    // const {i18n} = parseUrl(redirectUrl);
 
-    session.set('i18n', i18n);
+    // session.set('i18n', i18n);
     return redirectDocument(`${origin}${path}`, {
       status: 302,
       headers: {

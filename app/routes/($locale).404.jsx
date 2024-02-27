@@ -32,7 +32,7 @@ export default function NotFond() {
     const timer = setInterval(() => {
       setTimes((times) => times - 1);
       if (times <= 1) {
-        window.location.href = `/${data.pathPrefix}`;
+        window.location.href = `/`;
         clearInterval(timer);
       }
     }, 1000);

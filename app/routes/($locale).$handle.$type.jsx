@@ -34,7 +34,10 @@ export async function loader({params, context, request}) {
   const haveType = types.includes(type);
 
   if (!haveType) {
-    return redirectDocument(`/${pathPrefix}/404`);
+    // return redirectDocument(`/${pathPrefix}/404`);
+    throw new Response(`${type} not found`, {
+      status: 404,
+    });
   }
 
   return defer({type});

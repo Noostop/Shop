@@ -39,13 +39,16 @@ export async function loader({params, request, context}) {
       return defer(product);
     }
 
-    return redirectDocument(`/${pathPrefix}/404`);
+    // return redirectDocument(`/${pathPrefix}/404`);
+    throw new Response(`${handle} not found`, {
+      status: 404,
+    });
   } catch (error) {
     // const {pathname} = new URL(request.url);
-    return redirectDocument(`/${pathPrefix}/404`);
-    // throw new Response(`${pathname} not found`, {
-    //   status: 404,
-    // });
+    // return redirectDocument(`/${pathPrefix}/404`);
+    throw new Response(`${handle} not found`, {
+      status: 404,
+    });
   }
 }
 

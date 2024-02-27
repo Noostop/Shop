@@ -40,12 +40,21 @@ export default {
         HydrogenSession.init(request, [env.SESSION_SECRET]),
       ]);
 
-      const {isSame, i18n, pathPrefix, url} = await getLocaleFromRequest({
+      const {i18n, url, sameSite} = await getLocaleFromRequest({
         session,
         request,
       });
+      const {origin, pathname, search} = new URL(request.url);
 
-      if (!isSame) {
+      console.log(
+        i18n.pathPrefix,
+        url,
+        `${origin}${pathname}${search}`,
+        'i18n+++++++++',
+      );
+
+      //TODO: 第一次存储的时机不对，需要思考
+      if (sameSite) {
         session.set('i18n', i18n);
         return redirectDocument(`${url}`, {
           headers: {
@@ -53,6 +62,10 @@ export default {
           },
         });
       }
+
+      // if (url !== `${origin}${pathname}${search}`) {
+      //   return redirectDocument(url);
+      // }
 
       /**
        * 创建 Hydrogen 的 Storefront 客户端。
@@ -113,13 +126,14 @@ export default {
          * 仅当应用程序出现 404 错误时才检查重定向。
          * 如果重定向不存在，则`storefrontRedirect`
          * 将传递 404 响应。
+         * ${i18n.pathPrefix}
          */
-        const url = new URL(request.url);
-        const redirectUrl = new URL(
-          `/${pathPrefix}/404?from=${url.pathname}`,
-          `${url.origin}`,
-        );
-        return redirectDocument(redirectUrl, 302);
+        // const url = new URL(request.url);
+        // const redirectUrl = new URL(
+        //   `/404?from=${url.pathname}`,
+        //   `${url.origin}`,
+        // );
+        return redirectDocument(`/404?from=${url.pathname}`, 302);
         // return storefrontRedirect({request, response, storefront});
       }
 

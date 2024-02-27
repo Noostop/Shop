@@ -74,7 +74,7 @@ export function cn(...inputs) {
 export function usePrefixPathWithLocale(path) {
   const [root] = useMatches();
   const selectedLocale = root.data.selectedLocale;
-  return selectedLocale ? `/${selectedLocale.pathPrefix || ''}${path}` : path;
+  return selectedLocale ? `${selectedLocale.pathPrefix || ''}${path}` : path;
 }
 
 export function removeSpacesFromURL(url) {
@@ -86,9 +86,9 @@ export function removeSpacesFromURL(url) {
   return processedURL;
 }
 
-export function parseUrl(url) {
-  // 使用 URL 对象解析 URL
-  const {origin, pathname, search} = new URL(url);
+// 获取以存储的语言信息
+export async function getLocaleFromRequest({session, request}) {
+  const {origin, pathname, search} = new URL(request.url);
   // 将路径按斜杠分割成数组
   const pathSegments = pathname.split('/');
   // 过滤掉空字符串，保留非空路径部分
@@ -96,83 +96,65 @@ export function parseUrl(url) {
   // 获取第一个非空路径部分作为参数
   const firstParam = nonEmptySegments.length > 0 ? nonEmptySegments[0] : null;
 
-  // 进行国家和语言类型的校验
-  const validCountries = countries[firstParam && firstParam?.toLowerCase()]; // 有效的国家列表
+  // 通过 url 查找国家信息，如果不存在则显示默认国家
+  let country = {
+    ...countries.default,
+    pathPrefix: '/',
+  };
 
-  // 检查国家和语言是否有效
-  if (firstParam && validCountries) {
-    return {
-      origin,
-      pathname,
-      search,
-      pathPrefix: removeSpacesFromURL(firstParam),
-      i18n: validCountries,
-    };
-  } else {
-    // 如果国家参数无效，默认返回一个值
-    return {
-      origin,
-      pathname,
-      search,
-      pathPrefix: firstParam ? firstParam : 'us',
-      i18n: countries['us'],
+  const keysArray = Object.keys(countries);
+  if (keysArray.includes(`/${firstParam}`)) {
+    country = {
+      ...countries[`/${firstParam}`],
+      pathPrefix: `/${firstParam}`,
     };
   }
-}
 
-// 获取以存储的语言信息
-export async function getLocaleFromRequest({session, request}) {
   const sectionI18n = await session.get('i18n');
-  const {origin, pathname, search, i18n, pathPrefix} = parseUrl(request.url);
 
-  let isSame = false;
+  // console.log(firstParam, sectionI18n, country, 'sectionI18n');
 
   if (sectionI18n) {
-    isSame = sectionI18n.pathPrefix === pathPrefix;
-
     return {
-      isSame,
-      pathPrefix,
       i18n: sectionI18n,
-      url: isSame
-        ? `${origin}${
-            pathname.startsWith(sectionI18n.pathPrefix)
-              ? ''
-              : `/${sectionI18n.pathPrefix}`
-          }${pathname.replace(pathPrefix, sectionI18n)}${search}`
-        : `${origin}${
-            pathname.startsWith(sectionI18n.pathPrefix)
-              ? pathname
-              : pathname.replace(pathPrefix, sectionI18n.pathPrefix)
-          }${search}`,
+      url: `${origin}${
+        pathname.startsWith(sectionI18n.pathPrefix)
+          ? ''
+          : sectionI18n.pathPrefix
+      }${pathname}${search}`,
+      sameSite: false,
     };
   }
 
-  return {isSame, i18n, pathPrefix, url: `${origin}${pathname}${search}`};
+  return {
+    i18n: country,
+    url: `${origin}${pathname}${search}`,
+    sameSite: sectionI18n ? false : true,
+  };
 }
 
 // 读取请求头中的语言信息
-export function getApproximateLocaleFromRequest(request) {
-  const url = new URL(request.url);
+// export function getApproximateLocaleFromRequest(request) {
+//   const url = new URL(request.url);
 
-  // Get the accept-language header
-  const acceptLang = request.headers.get('accept-language');
+//   // Get the accept-language header
+//   const acceptLang = request.headers.get('accept-language');
 
-  // Do something with accept language.
-  // For example:
-  if (acceptLang.includes('en-US')) {
-    return {
-      language: 'EN',
-      country: 'US',
-    };
-  }
+//   // Do something with accept language.
+//   // For example:
+//   if (acceptLang.includes('en-US')) {
+//     return {
+//       language: 'EN',
+//       country: 'US',
+//     };
+//   }
 
-  // Use the default locale
-  return {
-    language: 'EN',
-    country: 'CA',
-  };
-}
+//   // Use the default locale
+//   return {
+//     language: 'EN',
+//     country: 'CA',
+//   };
+// }
 
 function resolveToFromType({customPrefixes, pathname, type}) {
   if (!pathname || !type) return '';
