@@ -266,6 +266,24 @@ export type RecommendedProductsQuery = {
   };
 };
 
+export type CustomerActivateMutationVariables = StorefrontAPI.Exact<{
+  id: StorefrontAPI.Scalars['ID']['input'];
+  input: StorefrontAPI.CustomerActivateInput;
+  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
+  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
+}>;
+
+export type CustomerActivateMutation = {
+  customerActivate?: StorefrontAPI.Maybe<{
+    customerAccessToken?: StorefrontAPI.Maybe<
+      Pick<StorefrontAPI.CustomerAccessToken, 'accessToken' | 'expiresAt'>
+    >;
+    customerUserErrors: Array<
+      Pick<StorefrontAPI.CustomerUserError, 'code' | 'field' | 'message'>
+    >;
+  }>;
+};
+
 export type CustomerAddressUpdateMutationVariables = StorefrontAPI.Exact<{
   address: StorefrontAPI.MailingAddressInput;
   customerAccessToken: StorefrontAPI.Scalars['String']['input'];
@@ -462,6 +480,21 @@ export type CustomerQuery = {
       >;
     }
   >;
+};
+
+export type LoginMutationVariables = StorefrontAPI.Exact<{
+  input: StorefrontAPI.CustomerAccessTokenCreateInput;
+}>;
+
+export type LoginMutation = {
+  customerAccessTokenCreate?: StorefrontAPI.Maybe<{
+    customerUserErrors: Array<
+      Pick<StorefrontAPI.CustomerUserError, 'code' | 'field' | 'message'>
+    >;
+    customerAccessToken?: StorefrontAPI.Maybe<
+      Pick<StorefrontAPI.CustomerAccessToken, 'accessToken' | 'expiresAt'>
+    >;
+  }>;
 };
 
 export type OrderMoneyFragment = Pick<
@@ -885,39 +918,6 @@ export type CustomerUpdateMutation = {
     >;
     customerUserErrors: Array<
       Pick<StorefrontAPI.CustomerUserError, 'code' | 'field' | 'message'>
-    >;
-  }>;
-};
-
-export type CustomerActivateMutationVariables = StorefrontAPI.Exact<{
-  id: StorefrontAPI.Scalars['ID']['input'];
-  input: StorefrontAPI.CustomerActivateInput;
-  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
-  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
-}>;
-
-export type CustomerActivateMutation = {
-  customerActivate?: StorefrontAPI.Maybe<{
-    customerAccessToken?: StorefrontAPI.Maybe<
-      Pick<StorefrontAPI.CustomerAccessToken, 'accessToken' | 'expiresAt'>
-    >;
-    customerUserErrors: Array<
-      Pick<StorefrontAPI.CustomerUserError, 'code' | 'field' | 'message'>
-    >;
-  }>;
-};
-
-export type LoginMutationVariables = StorefrontAPI.Exact<{
-  input: StorefrontAPI.CustomerAccessTokenCreateInput;
-}>;
-
-export type LoginMutation = {
-  customerAccessTokenCreate?: StorefrontAPI.Maybe<{
-    customerUserErrors: Array<
-      Pick<StorefrontAPI.CustomerUserError, 'code' | 'field' | 'message'>
-    >;
-    customerAccessToken?: StorefrontAPI.Maybe<
-      Pick<StorefrontAPI.CustomerAccessToken, 'accessToken' | 'expiresAt'>
     >;
   }>;
 };
@@ -1946,6 +1946,10 @@ interface GeneratedQueryTypes {
 }
 
 interface GeneratedMutationTypes {
+  '#graphql\n  mutation customerActivate(\n    $id: ID!,\n    $input: CustomerActivateInput!,\n    $country: CountryCode,\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    customerActivate(id: $id, input: $input) {\n      customerAccessToken {\n        accessToken\n        expiresAt\n      }\n      customerUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
+    return: CustomerActivateMutation;
+    variables: CustomerActivateMutationVariables;
+  };
   '#graphql\n  mutation customerAddressUpdate(\n    $address: MailingAddressInput!\n    $customerAccessToken: String!\n    $id: ID!\n    $country: CountryCode\n    $language: LanguageCode\n ) @inContext(country: $country, language: $language) {\n    customerAddressUpdate(\n      address: $address\n      customerAccessToken: $customerAccessToken\n      id: $id\n    ) {\n      customerAddress {\n        id\n      }\n      customerUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
     return: CustomerAddressUpdateMutation;
     variables: CustomerAddressUpdateMutationVariables;
@@ -1962,17 +1966,13 @@ interface GeneratedMutationTypes {
     return: CustomerAddressCreateMutation;
     variables: CustomerAddressCreateMutationVariables;
   };
-  '#graphql\n  # https://shopify.dev/docs/api/storefront/latest/mutations/customerUpdate\n  mutation customerUpdate(\n    $customerAccessToken: String!,\n    $customer: CustomerUpdateInput!\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(language: $language, country: $country) {\n    customerUpdate(customerAccessToken: $customerAccessToken, customer: $customer) {\n      customer {\n        acceptsMarketing\n        email\n        firstName\n        id\n        lastName\n        phone\n      }\n      customerAccessToken {\n        accessToken\n        expiresAt\n      }\n      customerUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
-    return: CustomerUpdateMutation;
-    variables: CustomerUpdateMutationVariables;
-  };
-  '#graphql\n  mutation customerActivate(\n    $id: ID!,\n    $input: CustomerActivateInput!,\n    $country: CountryCode,\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    customerActivate(id: $id, input: $input) {\n      customerAccessToken {\n        accessToken\n        expiresAt\n      }\n      customerUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
-    return: CustomerActivateMutation;
-    variables: CustomerActivateMutationVariables;
-  };
   '#graphql\n  mutation login($input: CustomerAccessTokenCreateInput!) {\n    customerAccessTokenCreate(input: $input) {\n      customerUserErrors {\n        code\n        field\n        message\n      }\n      customerAccessToken {\n        accessToken\n        expiresAt\n      }\n    }\n  }\n': {
     return: LoginMutation;
     variables: LoginMutationVariables;
+  };
+  '#graphql\n  # https://shopify.dev/docs/api/storefront/latest/mutations/customerUpdate\n  mutation customerUpdate(\n    $customerAccessToken: String!,\n    $customer: CustomerUpdateInput!\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(language: $language, country: $country) {\n    customerUpdate(customerAccessToken: $customerAccessToken, customer: $customer) {\n      customer {\n        acceptsMarketing\n        email\n        firstName\n        id\n        lastName\n        phone\n      }\n      customerAccessToken {\n        accessToken\n        expiresAt\n      }\n      customerUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
+    return: CustomerUpdateMutation;
+    variables: CustomerUpdateMutationVariables;
   };
   '#graphql\n  mutation customerRecover(\n    $email: String!,\n    $country: CountryCode,\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    customerRecover(email: $email) {\n      customerUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
     return: CustomerRecoverMutation;

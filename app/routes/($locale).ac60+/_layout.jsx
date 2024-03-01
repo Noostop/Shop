@@ -22,11 +22,11 @@ export const meta = ({data}) => {
  * @param {LoaderFunctionArgs}
  */
 export async function loader({params, context}) {
-  const handle = 'ac200max';
+  const {handle} = params;
   const {bluetti} = context;
 
   try {
-    const product = await bluetti.get(`/supportapi/product/detail/${handle}`, {
+    const product = await bluetti.get(`/supportapi/product/detail/ac60`, {
       cache: CacheNone(),
     });
 

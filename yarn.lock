@@ -644,10 +644,10 @@
     "@babel/helper-validator-identifier" "^7.22.20"
     to-fast-properties "^2.0.0"
 
-"@bluetti/craft@0.0.2":
-  version "0.0.2"
-  resolved "https://npmjs.bluettipower.com/@bluetti/craft/-/craft-0.0.2.tgz"
-  integrity sha512-XMeyL8k7dmjo22EAef/HW6GdLeAYGB3ahXY1aSJ6zGxF9a88YbUi/kYVWTMI7BAd2r021fBnjpmwoGUiIGmRrQ==
+"@bluetti/craft@0.0.11":
+  version "0.0.11"
+  resolved "https://npmjs.bluettipower.com/@bluetti/craft/-/craft-0.0.11.tgz#06393457b8805cb53791ad0fefb2d382153652b1"
+  integrity sha512-rGvZAn3JGoV/S7wPJOdDDSRHmvfJEltM0QjoZPpmgAECZRv26LpUllS2gEc0agH0Av40gLZCMWUFsQaN2wMjfg==
   dependencies:
     "@chakra-ui/react" "^2.8.2"
     "@craftjs/core" "^0.2.4"
@@ -656,11 +656,17 @@
     "@emotion/react" "^11.11.3"
     "@emotion/styled" "^11.11.0"
     "@motionone/utils" "^10.17.0"
+    "@radix-ui/react-icons" "^1.3.0"
+    "@radix-ui/react-select" "^2.0.0"
+    "@radix-ui/react-slot" "^1.0.2"
+    class-variance-authority "^0.7.0"
     clsx "^2.1.0"
     framer-motion "^11.0.5"
     lz-string "^1.5.0"
     react-color "^2.19.3"
     react-intersection-observer "^9.8.0"
+    tailwind-merge "^2.2.1"
+    tailwindcss-animate "^1.0.7"
 
 "@bugsnag/browser@^7.21.0", "@bugsnag/browser@^7.22.3":
   version "7.22.3"
@@ -3796,6 +3802,34 @@
     "@radix-ui/react-use-callback-ref" "1.0.1"
     "@radix-ui/react-use-layout-effect" "1.0.1"
 
+"@radix-ui/react-select@^2.0.0":
+  version "2.0.0"
+  resolved "https://npmjs.bluettipower.com/@radix-ui/react-select/-/react-select-2.0.0.tgz#a3511792a51a7018d6559357323a7f52e0e38887"
+  integrity sha512-RH5b7af4oHtkcHS7pG6Sgv5rk5Wxa7XI8W5gvB1N/yiuDGZxko1ynvOiVhFM7Cis2A8zxF9bTOUVbRDzPepe6w==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/number" "1.0.1"
+    "@radix-ui/primitive" "1.0.1"
+    "@radix-ui/react-collection" "1.0.3"
+    "@radix-ui/react-compose-refs" "1.0.1"
+    "@radix-ui/react-context" "1.0.1"
+    "@radix-ui/react-direction" "1.0.1"
+    "@radix-ui/react-dismissable-layer" "1.0.5"
+    "@radix-ui/react-focus-guards" "1.0.1"
+    "@radix-ui/react-focus-scope" "1.0.4"
+    "@radix-ui/react-id" "1.0.1"
+    "@radix-ui/react-popper" "1.1.3"
+    "@radix-ui/react-portal" "1.0.4"
+    "@radix-ui/react-primitive" "1.0.3"
+    "@radix-ui/react-slot" "1.0.2"
+    "@radix-ui/react-use-callback-ref" "1.0.1"
+    "@radix-ui/react-use-controllable-state" "1.0.1"
+    "@radix-ui/react-use-layout-effect" "1.0.1"
+    "@radix-ui/react-use-previous" "1.0.1"
+    "@radix-ui/react-visually-hidden" "1.0.3"
+    aria-hidden "^1.1.1"
+    react-remove-scroll "2.5.5"
+
 "@radix-ui/react-slot@1.0.2", "@radix-ui/react-slot@^1.0.2":
   version "1.0.2"
   resolved "https://registry.npmmirror.com/@radix-ui/react-slot/-/react-slot-1.0.2.tgz"
@@ -3988,6 +4022,13 @@
     cookie "^0.4.1"
     set-cookie-parser "^2.4.8"
     source-map "^0.7.3"
+
+"@remix-run/v1-route-convention@^0.1.3":
+  version "0.1.4"
+  resolved "https://npmjs.bluettipower.com/@remix-run/v1-route-convention/-/v1-route-convention-0.1.4.tgz#5d3a0bb6c7b2af1c8eedf233ca6e03a428870ea7"
+  integrity sha512-fVTr9YlNLWfaiM/6Y56sOtcY8x1bBJQHY0sDWO5+Z/vjJ2Ni7fe2fwrzs1jUFciMPXqBQdFGePnkuiYLz3cuUA==
+  dependencies:
+    minimatch "^7.4.3"
 
 "@repeaterjs/repeater@^3.0.4":
   version "3.0.5"
@@ -7892,7 +7933,7 @@ fs-extra@^10.0.0:
     jsonfile "^6.0.1"
     universalify "^2.0.0"
 
-fs-extra@^11.1.0:
+fs-extra@^11.1.0, fs-extra@^11.1.1:
   version "11.2.0"
   resolved "https://registry.npmmirror.com/fs-extra/-/fs-extra-11.2.0.tgz"
   integrity sha512-PmDi3uwK5nFuXh7XDTlVnS17xJS7vW36is2+w3xcv8SVxiB4NyATf4ctkVY5bkSjX0Y4nbvZCq1/EjtEyr9ktw==
@@ -12362,6 +12403,15 @@ remedial@^1.0.7:
   resolved "https://registry.npmmirror.com/remedial/-/remedial-1.0.8.tgz"
   integrity sha512-/62tYiOe6DzS5BqVsNpH/nkGlX45C/Sp6V+NtiN6JQNS1Viay7cWkazmRkrQrdFj2eshDe96SIQNIoMxqhzBOg==
 
+remix-flat-routes@^0.6.4:
+  version "0.6.4"
+  resolved "https://npmjs.bluettipower.com/remix-flat-routes/-/remix-flat-routes-0.6.4.tgz#fe0e6fdf84dc6b95f43c1abfe726e49ca6c9da4d"
+  integrity sha512-/0bTfaNSd2O3ak+cCLAlmHIsgm7YWiaBiu5ENUyuSWSNwF/KaHuKFhcHHhozPevQ8ROgCZG9tNbWzH6ktJoprA==
+  dependencies:
+    "@remix-run/v1-route-convention" "^0.1.3"
+    fs-extra "^11.1.1"
+    minimatch "^5.1.0"
+
 remix-i18n@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmmirror.com/remix-i18n/-/remix-i18n-1.0.1.tgz"
@@ -13222,9 +13272,9 @@ swap-case@^2.0.2:
   dependencies:
     tslib "^2.0.3"
 
-tailwind-merge@^2.2.0:
+tailwind-merge@^2.2.0, tailwind-merge@^2.2.1:
   version "2.2.1"
-  resolved "https://registry.npmmirror.com/tailwind-merge/-/tailwind-merge-2.2.1.tgz"
+  resolved "https://npmjs.bluettipower.com/tailwind-merge/-/tailwind-merge-2.2.1.tgz#3f10f296a2dba1d88769de8244fafd95c3324aeb"
   integrity sha512-o+2GTLkthfa5YUt4JxPfzMIpQzZ3adD1vLVkvKE1Twl9UAhGsEbIZhHHZVRttyW177S8PDJI3bTQNaebyofK3Q==
   dependencies:
     "@babel/runtime" "^7.23.7"

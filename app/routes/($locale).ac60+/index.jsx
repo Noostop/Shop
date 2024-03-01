@@ -1,7 +1,7 @@
 import {defer} from '@shopify/remix-oxygen';
 import {useLoaderData, useOutletContext} from '@remix-run/react';
 import {CacheNone} from '@shopify/hydrogen';
-import {AC180} from '~/pages/AC180';
+import {AC60} from '~/pages/AC60';
 import {Render} from '@bluetti/craft';
 
 /**
@@ -21,12 +21,12 @@ export const meta = ({data}) => {
  * @param {LoaderFunctionArgs}
  */
 export async function loader({params, context, request}) {
-  const handle = 'ac60';
+  const {handle} = params;
   const {bluetti} = context;
 
   try {
     const data = await bluetti.get(
-      `/pageapi/page/${handle}?shop=bluettipower-develop`,
+      `/pageapi/page/ac60?shop=bluettipower-develop`,
       {
         cache: CacheNone(),
       },
@@ -47,7 +47,7 @@ export default function TopicsIndex() {
   const localComponent = () => {
     switch (urlHandle) {
       case 'ac200max':
-        return <AC180 />;
+        return <AC60 />;
       default:
         return published && <Render data={content} />;
     }

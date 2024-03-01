@@ -115,7 +115,7 @@ export function Specs({data}) {
         <h1 className="text-4xl font-semibold">技术参数</h1>
 
         <div className="flex flex-col gap-8 pt-8 mt-8 border-t border-gray-300">
-          {data.map(({title, parameterItems}) => (
+          {data?.map(({title, parameterItems}) => (
             <div key={title} className="flex flex-col gap-4" id={`co_${title}`}>
               <h3 className="text-3xl font-semibold">{title}</h3>
 
@@ -156,7 +156,7 @@ export function Downloads({data}) {
             <h3 className="text-3xl font-semibold">{manuals.title}</h3>
 
             <ul className="flex flex-col gap-4">
-              {manuals.lists.map(({id, title, description, url}) => (
+              {manuals?.lists.map(({id, title, description, url}) => (
                 <li
                   key={id}
                   className="flex justify-between p-4 odd:bg-gray-50"
