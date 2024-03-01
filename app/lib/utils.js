@@ -74,87 +74,49 @@ export function cn(...inputs) {
 export function usePrefixPathWithLocale(path) {
   const [root] = useMatches();
   const selectedLocale = root.data.selectedLocale;
-  return selectedLocale ? `${selectedLocale.pathPrefix || ''}${path}` : path;
-}
-
-export function removeSpacesFromURL(url) {
-  // 使用 trim() 方法去除字符串两端的空格
-  const trimmedURL = url.trim();
-  // 如果 URL 包含空格，可能需要进一步处理
-  // 例如，将空格替换为 URL 编码中的 "%20"
-  const processedURL = trimmedURL.replace(/\s/g, '%20');
-  return processedURL;
+  return selectedLocale
+    ? `${
+        selectedLocale.pathPrefix == '/' ? '' : selectedLocale.pathPrefix
+      }${path}`
+    : path;
 }
 
 // 获取以存储的语言信息
-export async function getLocaleFromRequest({session, request}) {
-  const {origin, pathname, search} = new URL(request.url);
-  // 将路径按斜杠分割成数组
-  const pathSegments = pathname.split('/');
-  // 过滤掉空字符串，保留非空路径部分
-  const nonEmptySegments = pathSegments.filter((segment) => segment !== '');
-  // 获取第一个非空路径部分作为参数
-  const firstParam = nonEmptySegments.length > 0 ? nonEmptySegments[0] : null;
+export function getLocaleFromRequest(request) {
+  const url = new URL(request.url);
+  const firstPathPart = url.pathname.substring(1).split('/')[0].toLowerCase();
 
-  // 通过 url 查找国家信息，如果不存在则显示默认国家
-  let country = {
-    ...countries.default,
-    pathPrefix: '/',
-  };
-
-  const keysArray = Object.keys(countries);
-  if (keysArray.includes(`/${firstParam}`)) {
-    country = {
-      ...countries[`/${firstParam}`],
-      pathPrefix: `/${firstParam}`,
-    };
-  }
-
-  const sectionI18n = await session.get('i18n');
-
-  // console.log(firstParam, sectionI18n, country, 'sectionI18n');
-
-  if (sectionI18n) {
-    return {
-      i18n: sectionI18n,
-      url: `${origin}${
-        pathname.startsWith(sectionI18n.pathPrefix)
-          ? ''
-          : sectionI18n.pathPrefix
-      }${pathname}${search}`,
-      sameSite: false,
-    };
-  }
-
-  return {
-    i18n: country,
-    url: `${origin}${pathname}${search}`,
-    sameSite: sectionI18n ? false : true,
-  };
+  return countries[firstPathPart]
+    ? {
+        ...countries[firstPathPart],
+      }
+    : {
+        ...countries['default'],
+      };
 }
 
 // 读取请求头中的语言信息
-// export function getApproximateLocaleFromRequest(request) {
-//   const url = new URL(request.url);
+export function getApproximateLocaleFromRequest(request) {
+  const url = new URL(request.url);
 
-//   // Get the accept-language header
-//   const acceptLang = request.headers.get('accept-language');
+  // Get the accept-language header
+  const acceptLang = request.headers.get('accept-language');
 
-//   // Do something with accept language.
-//   // For example:
-//   if (acceptLang.includes('en-US')) {
-//     return {
-//       language: 'EN',
-//       country: 'US',
-//     };
-//   }
+  // Do something with accept language.
+  // For example:
+  if (acceptLang.includes('en-US')) {
+    return {
+      language: 'EN',
+      country: 'US',
+    };
+  }
 
-//   // Use the default locale
-//   return {
-//     language: 'EN',
-//     country: 'CA',
-//   };
-// }
+  // Use the default locale
+  return {
+    language: 'EN',
+    country: 'CA',
+  };
+}
 
 function resolveToFromType({customPrefixes, pathname, type}) {
   if (!pathname || !type) return '';
@@ -299,6 +261,11 @@ export function convertToLowerCase(str) {
   return result;
 }
 
+/**
+ * 获取本地翻译请求头
+ * @param {Object} param0 I18n
+ * @returns 请求头
+ */
 export function getFetchHeaders({i18n, headers = {}}) {
   return {
     ...headers,
@@ -307,4 +274,24 @@ export function getFetchHeaders({i18n, headers = {}}) {
     country: i18n.country.toUpperCase(),
     language: convertToLowerCase(i18n.language),
   };
+}
+
+/**
+ * Validates that a url is local
+ * @param url
+ * @returns `true` if local `false`if external domain
+ */
+export function isLocalPath(url) {
+  try {
+    // We don't want to redirect cross domain,
+    // doing so could create fishing vulnerability
+    // If `new URL()` succeeds, it's a fully qualified
+    // url which is cross domain. If it fails, it's just
+    // a path, which will be the current domain.
+    new URL(url);
+  } catch (e) {
+    return true;
+  }
+
+  return false;
 }

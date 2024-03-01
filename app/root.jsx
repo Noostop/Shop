@@ -66,7 +66,8 @@ export const useRootLoaderData = () => {
  * @param {LoaderFunctionArgs}
  */
 export async function loader({context, params}) {
-  const {session, i18n, cart} = context;
+  const {session, storefront, cart} = context;
+
   const [customerAccessToken, layout] = await Promise.all([
     session.get('customerAccessToken'),
     getLayoutData(context),
@@ -93,10 +94,13 @@ export async function loader({context, params}) {
       isLoggedIn,
       cart: cartPromise,
       publicStoreDomain,
-      selectedLocale: i18n,
+      selectedLocale: storefront.i18n,
     },
     {
-      headers,
+      headers: {
+        ...headers,
+        // 'Set-Cookie': await session.commit(),
+      },
     },
   );
 }
@@ -109,7 +113,7 @@ export default function App() {
 
   return (
     <html
-      lang={convertToLowerCase(locale.language)}
+      lang={locale.language}
       className="h-full text-base antialiased bg-neutral-950"
     >
       <head>
@@ -148,10 +152,7 @@ export function ErrorBoundary() {
   }
 
   return (
-    <html
-      lang={convertToLowerCase(locale.language)}
-      className="antialiased bg-neutral-950"
-    >
+    <html lang={locale.language} className="antialiased bg-neutral-950">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />

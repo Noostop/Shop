@@ -1,5 +1,4 @@
-const HOST = 'http:localhost:3000';
-// const HOST = 'https:shop.iiixys.cc';
+const SHOP = 'bluettipower-develop';
 
 export const countries = {
   default: {
@@ -8,158 +7,197 @@ export const countries = {
     countryText: 'United States',
     langText: 'English',
     currency: 'USD',
+    shop: SHOP,
+    pathPrefix: '/',
   },
-  '/cn': {
+  cn: {
     country: 'CN',
     language: 'ZH_CN',
     countryText: '中国大陆',
     langText: '简体中文',
     currency: 'CNY',
     alias: 'CN',
+    shop: SHOP,
+    pathPrefix: '/cn',
   },
-  '/tw': {
+  tw: {
     country: 'TW',
     language: 'ZH_TW',
     countryText: '中国台湾',
     langText: '繁体中文',
     currency: 'NT',
     alias: 'TW',
+    shop: SHOP,
+    pathPrefix: '/tw',
   },
-  '/hk': {
+  hk: {
     country: 'HK',
     language: 'ZH_TW',
     countryText: '中国香港',
     langText: '繁体中文',
     currency: 'HKD',
     alias: 'HK',
+    shop: SHOP,
+    pathPrefix: '/hk',
   },
-  '/hk-en': {
+  'hk-en': {
     country: 'HK',
     language: 'EN',
     countryText: '中国香港',
     langText: 'English',
     currency: 'HKD',
     alias: 'HK',
+    shop: SHOP,
+    pathPrefix: '/hk-en',
   },
-  '/kr': {
+  kr: {
     country: 'KR',
     language: 'KO',
     countryText: '대한민국',
     langText: '한국어',
     currency: 'KRW',
     alias: 'KR',
+    shop: SHOP,
+    pathPrefix: '/kr',
   },
-  '/id': {
+  id: {
     country: 'ID',
     language: 'EN',
     countryText: 'Indonesia',
     langText: 'English',
     currency: 'IDR',
     alias: 'ID',
+    shop: SHOP,
+    pathPrefix: '/id',
   },
-  '/fr': {
+  fr: {
     country: 'FR',
     language: 'FR',
     countryText: 'France',
     langText: 'Français',
     currency: 'EUR',
-    alias: 'FR-FR',
+    alias: 'FR',
+    shop: SHOP,
+    pathPrefix: '/fr',
   },
-  '/fr-en': {
+  'fr-en': {
     country: 'FR',
     language: 'EN',
     countryText: 'France',
     langText: 'English',
     currency: 'EUR',
     alias: 'FR-FR',
+    shop: SHOP,
+    pathPrefix: '/fr-en',
   },
-  '/de': {
+  de: {
     country: 'DE',
     language: 'DE',
     countryText: '德国',
     langText: 'Deutsch',
     currency: 'EUR',
     alias: 'DE',
+    shop: SHOP,
+    pathPrefix: '/de',
   },
-  '/au': {
+  au: {
     country: 'AU',
     language: 'EN',
     countryText: 'Australia',
     langText: 'English',
     currency: 'AUD',
     alias: 'AU',
+    shop: SHOP,
+    pathPrefix: '/au',
   },
-  '/ca': {
+  ca: {
     country: 'CA',
     language: 'EN',
     countryText: 'Canada',
     langText: 'English',
     currency: 'CAD',
     alias: 'CA',
+    shop: SHOP,
+    pathPrefix: '/ca',
   },
-  '/ca-fr': {
+  'ca-fr': {
     country: 'CA',
     language: 'FR',
     countryText: 'Canada',
     langText: 'Français',
     currency: 'CAD',
-    alias: 'CA',
+    alias: 'CA-FR',
+    shop: SHOP,
+    pathPrefix: '/ca-fr',
   },
-  '/it': {
+  it: {
     country: 'IT',
     language: 'IT',
     countryText: 'Italia',
     langText: 'Italiano',
     currency: 'EUR',
     alias: 'IT',
+    pathPrefix: '/it',
   },
-  '/es': {
+  es: {
     country: 'ES',
     language: 'ES',
     countryText: 'España',
     langText: 'Español',
     currency: 'EUR',
     alias: 'ES',
+    shop: SHOP,
+    pathPrefix: '/es',
   },
-  '/at': {
+  at: {
     country: 'AT',
     language: 'DE',
     countryText: 'Österreich',
     langText: 'Deutsch',
     currency: 'EUR',
     alias: 'AT',
+    shop: SHOP,
+    pathPrefix: '/at',
   },
-  '/jp': {
+  jp: {
     country: 'JP',
     language: 'JA',
     countryText: '日本',
     langText: '日本語',
     currency: 'JPY',
     alias: 'JP',
+    shop: SHOP,
+    pathPrefix: '/jp',
   },
-  '/ae': {
+  ae: {
     country: 'AE',
     language: 'EN',
     countryText: 'UAE',
     langText: 'English',
     currency: 'AED',
     alias: 'AE',
+    shop: SHOP,
+    pathPrefix: '/ae',
   },
-  '/bh': {
+  bh: {
     country: 'BH',
     language: 'EN',
     countryText: 'Bahrain',
     langText: 'English',
     currency: 'BHD',
     alias: 'BH',
+    shop: SHOP,
+    pathPrefix: '/bh',
   },
-  '/ar': {
+  ar: {
     country: 'AR',
     language: 'ES',
     countryText: 'Argentina',
     langText: 'Español',
     currency: 'ARS',
     alias: 'AR',
+    shop: SHOP,
+    pathPrefix: '/ar',
   },
 };
 
@@ -167,36 +205,26 @@ export const areas = [
   {
     id: '748327',
     name: 'APAC',
-    countries: [
-      '/cn',
-      '/hk',
-      '/hk-en',
-      '/tw',
-      '/au',
-      '/id',
-      '/in',
-      '/kr',
-      '/jp',
-    ],
+    countries: ['cn', 'hk', 'hk-en', 'tw', 'au', 'id', 'in', 'kr', 'jp'],
   },
   {
     id: '432432',
     name: 'EU',
-    countries: ['/fr-en', '/fr', '/de', '/at', '/it', '/es'],
+    countries: ['fr-en', 'fr', 'de', 'at', 'it', 'es'],
   },
   {
     id: '8794239',
     name: 'ME',
-    countries: ['/ae', '/bh'],
+    countries: ['ae', 'bh'],
   },
   {
     id: '89123129',
     name: 'NA',
-    countries: ['default', '/ca', '/ca-fr'],
+    countries: ['default', 'ca', 'ca-fr'],
   },
   {
     id: '899989',
     name: 'SA',
-    countries: ['/ar'],
+    countries: ['ar'],
   },
 ];

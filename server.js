@@ -1,5 +1,6 @@
 // Virtual entry point for the app
 import * as remixBuild from '@remix-run/dev/server-build';
+import {v4 as uuidv4} from 'uuid';
 import {
   cartGetIdDefault,
   cartSetIdDefault,
@@ -8,6 +9,7 @@ import {
   storefrontRedirect,
 } from '@shopify/hydrogen';
 import {
+  redirect,
   redirectDocument,
   createRequestHandler,
   getStorefrontHeaders,
@@ -40,32 +42,17 @@ export default {
         HydrogenSession.init(request, [env.SESSION_SECRET]),
       ]);
 
-      const {i18n, url, sameSite} = await getLocaleFromRequest({
-        session,
-        request,
-      });
-      const {origin, pathname, search} = new URL(request.url);
-
-      console.log(
-        i18n.pathPrefix,
-        url,
-        `${origin}${pathname}${search}`,
-        'i18n+++++++++',
-      );
-
-      //TODO: 第一次存储的时机不对，需要思考
-      if (sameSite) {
-        session.set('i18n', i18n);
-        return redirectDocument(`${url}`, {
+      const uuid = session.get('uuid') ?? uuidv4();
+      if (!session.has('uuid')) {
+        session.set('uuid', uuid);
+        const url = new URL(request.url);
+        return redirect(`${url.pathname}${url.search}`, {
+          status: 302,
           headers: {
             'Set-Cookie': await session.commit(),
           },
         });
       }
-
-      // if (url !== `${origin}${pathname}${search}`) {
-      //   return redirectDocument(url);
-      // }
 
       /**
        * 创建 Hydrogen 的 Storefront 客户端。
@@ -73,7 +60,7 @@ export default {
       const {storefront} = createStorefrontClient({
         cache,
         waitUntil,
-        i18n,
+        i18n: getLocaleFromRequest(request),
         publicStorefrontToken: env.PUBLIC_STOREFRONT_API_TOKEN,
         privateStorefrontToken: env.PRIVATE_STOREFRONT_API_TOKEN,
         storeDomain: env.PUBLIC_STORE_DOMAIN,
@@ -82,10 +69,13 @@ export default {
         storefrontApiVersion: '2023-10',
       });
 
+      /**
+       * 创建 Bluetti 客户端。
+       */
       const bluetti = createBluettiClient({
         cache,
         waitUntil,
-        i18n,
+        i18n: getLocaleFromRequest(request),
         serverDomain: env.BLUETTI_SERVER_DOMAIN,
         serverAPiVersion: 'v1',
       });
@@ -109,8 +99,8 @@ export default {
         build: remixBuild,
         mode: process.env.NODE_ENV,
         getLoadContext: () => ({
+          uuid,
           session,
-          i18n,
           storefront,
           bluetti,
           cart,
@@ -128,11 +118,7 @@ export default {
          * 将传递 404 响应。
          * ${i18n.pathPrefix}
          */
-        // const url = new URL(request.url);
-        // const redirectUrl = new URL(
-        //   `/404?from=${url.pathname}`,
-        //   `${url.origin}`,
-        // );
+        const url = new URL(request.url);
         return redirectDocument(`/404?from=${url.pathname}`, 302);
         // return storefrontRedirect({request, response, storefront});
       }

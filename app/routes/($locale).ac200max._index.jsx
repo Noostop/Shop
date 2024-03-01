@@ -21,7 +21,7 @@ export const meta = ({data}) => {
  * @param {LoaderFunctionArgs}
  */
 export async function loader({params, context, request}) {
-  const {handle} = params;
+  const handle = 'ac60';
   const {bluetti} = context;
 
   try {
@@ -34,8 +34,7 @@ export async function loader({params, context, request}) {
 
     return defer(data);
   } catch (error) {
-    const {pathname} = new URL(request.url);
-    throw new Response(`${pathname} not found`, {
+    throw new Response(`not found`, {
       status: 404,
     });
   }

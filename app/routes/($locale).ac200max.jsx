@@ -3,7 +3,6 @@ import {defer, redirectDocument} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Outlet} from '@remix-run/react';
 import {CacheNone} from '@shopify/hydrogen';
 import {LayoutTopics} from '~/components/LayoutTopics';
-import {getLocaleFromRequest} from '~/lib/utils';
 
 /**
  * @type {MetaFunction}
@@ -22,13 +21,9 @@ export const meta = ({data}) => {
 /**
  * @param {LoaderFunctionArgs}
  */
-export async function loader({params, request, context}) {
-  const {handle} = params;
-  const {bluetti, session} = context;
-  const {pathPrefix} = await getLocaleFromRequest({
-    session,
-    request,
-  });
+export async function loader({params, context}) {
+  const handle = 'ac200max';
+  const {bluetti} = context;
 
   try {
     const product = await bluetti.get(`/supportapi/product/detail/${handle}`, {
@@ -38,15 +33,8 @@ export async function loader({params, request, context}) {
     if (product && product.status === 2) {
       return defer(product);
     }
-
-    // return redirectDocument(`/${pathPrefix}/404`);
-    throw new Response(`${handle} not found`, {
-      status: 404,
-    });
   } catch (error) {
-    // const {pathname} = new URL(request.url);
-    // return redirectDocument(`/${pathPrefix}/404`);
-    throw new Response(`${handle} not found`, {
+    throw new Response(`page not found`, {
       status: 404,
     });
   }

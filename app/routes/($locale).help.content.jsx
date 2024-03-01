@@ -5,11 +5,7 @@ import {Image} from '@shopify/hydrogen';
 import {Await, Outlet, useLoaderData} from '@remix-run/react';
 import {Link} from '~/components/Link';
 import * as cheerio from 'cheerio';
-import {
-  getLocaleFromRequest,
-  removeHtmlTags,
-  getFetchHeaders,
-} from '~/lib/utils';
+import {removeHtmlTags, getFetchHeaders} from '~/lib/utils';
 
 import {
   motion,
@@ -59,22 +55,24 @@ export const meta = ({data}) => {
 };
 
 export async function loader({request, context}) {
-  const {bluetti, session, env, i18n} = context;
-  const {pathPrefix} = await getLocaleFromRequest({
-    session,
-    request,
-  });
+  const {bluetti, storefront, env} = context;
   const id = new URL(request.url).searchParams.get('id') || '';
 
   if (!id) {
-    return redirectDocument(`/${pathPrefix}/help`);
+    return redirectDocument(`/help`);
   }
 
-  const content = await bluetti.get(
-    `/supportapi/supportQuestion/Question/${id}`,
-  );
+  try {
+    const content = await bluetti.get(
+      `/supportapi/supportQuestion/Question/${id}`,
+    );
 
-  return defer({content, env, i18n});
+    return defer({content, env, i18n: storefront.i18n});
+  } catch (error) {
+    throw new Response(`page not found`, {
+      status: 404,
+    });
+  }
 }
 
 export default function Support() {

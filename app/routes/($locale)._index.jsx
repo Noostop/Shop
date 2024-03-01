@@ -1,6 +1,6 @@
 import {Suspense} from 'react';
-import {defer, redirect} from '@shopify/remix-oxygen';
-import {Await, useLoaderData} from '@remix-run/react';
+import {defer, redirect, redirectDocument} from '@shopify/remix-oxygen';
+import {Await, useLoaderData, useMatches} from '@remix-run/react';
 import {useI18n} from 'remix-i18n';
 import {Image, Money} from '@shopify/hydrogen';
 
@@ -16,7 +16,6 @@ import {SliderShow} from '~/components/SliderShow';
 import {FeaturedCardContent} from '~/components/FeaturedCard';
 import {Testimonials} from '~/components/Testimonials';
 import {Link} from '~/components/Link';
-import {countries} from '~/data/countries';
 
 /**
  * @type {MetaFunction}
@@ -29,12 +28,16 @@ export const meta = () => {
  * @param {LoaderFunctionArgs}
  */
 export async function loader({request, params, context}) {
-  const {locale, handle} = params;
-  const {storefront} = context;
-  const cookieHeader = request.headers.get('Cookie');
-  // const cookie = (await knowledgeCountry.parse(cookieHeader)) || {};
+  const {locale} = params;
+  const {storefront, uuid} = context;
+  const {pathPrefix} = storefront.i18n;
 
-  // console.log(locale, handle, 'locale, handle');
+  // 校验语言路径
+  // if (locale && !pathPrefix.includes(locale.toLowerCase())) {
+  //   throw new Response(`Page not found`, {
+  //     status: 404,
+  //   });
+  // }
 
   const {collections} = await storefront.query(FEATURED_COLLECTION_QUERY);
   const featuredCollection = collections.nodes[0];
@@ -45,8 +48,7 @@ export async function loader({request, params, context}) {
 
 export default function Home() {
   /** @type {LoaderReturnData} */
-  const data = useLoaderData();
-
+  // const data = useLoaderData();
   // const {t} = useI18n();
 
   return (
@@ -170,7 +172,7 @@ export default function Home() {
         ]}
       />
 
-      <FeaturedBenefitsCard />
+      {/* <FeaturedBenefitsCard /> */}
 
       <FeaturedCardContent
         items={[

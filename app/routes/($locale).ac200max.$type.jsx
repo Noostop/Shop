@@ -1,41 +1,17 @@
-import {defer, redirectDocument} from '@shopify/remix-oxygen';
+import {defer} from '@shopify/remix-oxygen';
 import {useLoaderData, useOutletContext} from '@remix-run/react';
-import {getLocaleFromRequest} from '~/lib/utils';
-
 import {Faqs, Specs, Downloads, Videos} from '~/components/Topics';
-
-/**
- * @type {MetaFunction}
- */
-// export const meta = ({data}) => {
-//   const {title, description} = data;
-
-//   return [
-//     {title: `BLUETTI | ${title}`},
-//     {
-//       description,
-//     },
-//   ];
-// };
 
 /**
  * @param {LoaderFunctionArgs}
  */
-export async function loader({params, context, request}) {
+export async function loader({params}) {
   const {type} = params;
-  const {session} = context;
-  const {pathPrefix} = await getLocaleFromRequest({
-    session,
-    request,
-  });
-
   const types = ['faqs', 'manuals', 'downloads', 'videos', 'specs'];
-
   const haveType = types.includes(type);
 
   if (!haveType) {
-    // return redirectDocument(`/${pathPrefix}/404`);
-    throw new Response(`${type} not found`, {
+    throw new Response(`Page not found`, {
       status: 404,
     });
   }
