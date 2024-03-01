@@ -4,14 +4,6 @@ import {twMerge} from 'tailwind-merge';
 import {redirect} from '@shopify/remix-oxygen';
 import {useLocation, useMatches} from '@remix-run/react';
 import {countries} from '~/data/countries';
-import {knowledgeCountry} from '~/lib/cookies.server';
-
-// 首字母大写
-export function capitalizeWords(str) {
-  return str.replace(/\b\w/g, function (match) {
-    return match.toUpperCase();
-  });
-}
 
 /**
  * @param {string} handle
@@ -46,14 +38,13 @@ export async function getVariantUrl({
   searchParams,
   selectedOptions,
 }) {
-  const cookieHeader = request.headers.get('Cookie');
-  const locale = await knowledgeCountry.parse(cookieHeader);
+  const {pathPrefix} = await getLocaleFromRequest(request);
 
   // const match = /(\/[a-zA-Z]{2}-[a-zA-Z]{2}\/)/g.exec(pathname);
   // const isLocalePathname = match && match.length > 0;
 
-  const path = locale
-    ? `${locale.pathPrefix || ''}/products/${handle}`
+  const path = pathPrefix
+    ? `${pathPrefix || ''}/products/${handle}`
     : `/products/${handle}`;
 
   selectedOptions.forEach((option) => {
@@ -65,15 +56,13 @@ export async function getVariantUrl({
   return path + (searchString ? '?' + searchParams.toString() : '');
 }
 
-/** @typedef {import('@shopify/hydrogen/storefront-api-types').SelectedOption} SelectedOption */
-
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
 export function usePrefixPathWithLocale(path) {
   const [root] = useMatches();
-  const selectedLocale = root.data.selectedLocale;
+  const selectedLocale = root.data?.selectedLocale;
   return selectedLocale
     ? `${
         selectedLocale.pathPrefix == '/' ? '' : selectedLocale.pathPrefix

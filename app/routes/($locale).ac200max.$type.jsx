@@ -10,13 +10,13 @@ export async function loader({params}) {
   const types = ['faqs', 'manuals', 'downloads', 'videos', 'specs'];
   const haveType = types.includes(type);
 
-  if (!haveType) {
-    throw new Response(`Page not found`, {
-      status: 404,
-    });
+  if (haveType) {
+    return defer({type});
   }
 
-  return defer({type});
+  throw new Response(`Page not found`, {
+    status: 404,
+  });
 }
 
 export default function TopicsType() {

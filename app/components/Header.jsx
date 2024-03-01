@@ -18,7 +18,7 @@ import {
   PlayCircleIcon,
 } from '@heroicons/react/20/solid';
 import {motion, AnimatePresence} from 'framer-motion';
-import {useVariantUrl} from '~/lib/utils';
+import {useVariantUrl, cn as clsx} from '~/lib/utils';
 import {CartMain} from '~/components/Cart';
 
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
@@ -53,7 +53,6 @@ import {
 } from '@/components/ui/hover-card';
 
 import {ScrollArea} from '@/components/ui/scroll-area';
-import clsx from 'clsx';
 
 const products = [
   {

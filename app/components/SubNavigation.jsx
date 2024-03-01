@@ -179,7 +179,11 @@ const SubLink = ({enable, title, url}) => {
     <>
       {enable && (
         <li className="flex-shrink-0">
-          <Link to={url} className="block py-3 rounded-lg hover:text-gray-300">
+          <Link
+            to={url}
+            className="block py-3 rounded-lg hover:text-gray-300"
+            // reloadDocument
+          >
             {title}
           </Link>
         </li>

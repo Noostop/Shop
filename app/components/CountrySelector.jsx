@@ -109,10 +109,7 @@ export function CountrySelector() {
                                 <input
                                   type="hidden"
                                   name="path"
-                                  value={`${pathname.replace(
-                                    firstParam,
-                                    locale.pathPrefix,
-                                  )}${search}`}
+                                  value={`${locale.pathPrefix}`}
                                 />
                                 <Button
                                   type="submit"
@@ -166,12 +163,6 @@ export function CountrySelector() {
                   <div className="grid grid-cols-3 gap-4">
                     {area?.countries.map((countryKey) => {
                       const locale = countries[countryKey];
-
-                      // const strippedPathname = pathname.replace(
-                      //   `${selectedLocale.pathPrefix}`,
-                      //   locale?.pathPrefix || '',
-                      // );
-
                       const hreflang = `${locale?.language}-${locale?.country}`;
 
                       if (!locale) return null;
@@ -196,14 +187,7 @@ export function CountrySelector() {
                           <input
                             type="hidden"
                             name="path"
-                            value={`${
-                              firstParam
-                                ? pathname.replace(
-                                    firstParam,
-                                    locale.pathPrefix,
-                                  )
-                                : `/${locale.pathPrefix}`
-                            }${search}`}
+                            value={`${locale.pathPrefix}`}
                           />
                           <Button
                             type="submit"

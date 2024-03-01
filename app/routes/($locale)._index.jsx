@@ -27,17 +27,8 @@ export const meta = () => {
 /**
  * @param {LoaderFunctionArgs}
  */
-export async function loader({request, params, context}) {
-  const {locale} = params;
-  const {storefront, uuid} = context;
-  const {pathPrefix} = storefront.i18n;
-
-  // 校验语言路径
-  // if (locale && !pathPrefix.includes(locale.toLowerCase())) {
-  //   throw new Response(`Page not found`, {
-  //     status: 404,
-  //   });
-  // }
+export async function loader({context}) {
+  const {storefront} = context;
 
   const {collections} = await storefront.query(FEATURED_COLLECTION_QUERY);
   const featuredCollection = collections.nodes[0];

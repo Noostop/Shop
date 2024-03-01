@@ -66,7 +66,16 @@ export const useRootLoaderData = () => {
  * @param {LoaderFunctionArgs}
  */
 export async function loader({context, params}) {
+  const {locale} = params;
   const {session, storefront, cart} = context;
+  const {pathPrefix} = storefront.i18n;
+
+  // 校验语言路径
+  if (locale && !pathPrefix.includes(locale.toLowerCase())) {
+    throw new Response(`Page not found`, {
+      status: 404,
+    });
+  }
 
   const [customerAccessToken, layout] = await Promise.all([
     session.get('customerAccessToken'),
@@ -139,7 +148,7 @@ export default function App() {
 export function ErrorBoundary() {
   const error = useRouteError();
   const rootData = useRootLoaderData();
-  const locale = rootData.selectedLocale;
+  const locale = rootData?.selectedLocale;
   const nonce = useNonce();
   let errorMessage = 'Unknown error';
   let errorStatus = 500;
@@ -152,7 +161,7 @@ export function ErrorBoundary() {
   }
 
   return (
-    <html lang={locale.language} className="antialiased bg-neutral-950">
+    <html lang={locale?.language} className="antialiased bg-neutral-950">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />

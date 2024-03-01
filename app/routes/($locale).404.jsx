@@ -1,17 +1,20 @@
 import {useI18n} from 'remix-i18n';
 import {useState, useEffect} from 'react';
+import {useMatches} from '@remix-run/react';
 import {Button} from '@/components/ui/button';
 import {Link} from '~/components/Link';
 
 export default function NotFond() {
+  const [root] = useMatches();
   const {t} = useI18n();
   const [times, setTimes] = useState(10);
+  const rootData = root?.data;
 
   useEffect(() => {
     const timer = setInterval(() => {
       setTimes((times) => times - 1);
       if (times <= 1) {
-        window.location.href = `/`;
+        window.location.href = `${rootData.selectedLocale.pathPrefix}`;
         clearInterval(timer);
       }
     }, 1000);

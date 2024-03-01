@@ -43,8 +43,12 @@ export default {
       ]);
 
       const uuid = session.get('uuid') ?? uuidv4();
-      if (!session.has('uuid')) {
+      const i18n = getLocaleFromRequest(request);
+      const sessionI18n = session.get('i18n');
+
+      if (sessionI18n && sessionI18n.pathPrefix !== i18n.pathPrefix) {
         session.set('uuid', uuid);
+        session.set('i18n', i18n);
         const url = new URL(request.url);
         return redirect(`${url.pathname}${url.search}`, {
           status: 302,
@@ -60,7 +64,7 @@ export default {
       const {storefront} = createStorefrontClient({
         cache,
         waitUntil,
-        i18n: getLocaleFromRequest(request),
+        i18n,
         publicStorefrontToken: env.PUBLIC_STOREFRONT_API_TOKEN,
         privateStorefrontToken: env.PRIVATE_STOREFRONT_API_TOKEN,
         storeDomain: env.PUBLIC_STORE_DOMAIN,
@@ -75,7 +79,7 @@ export default {
       const bluetti = createBluettiClient({
         cache,
         waitUntil,
-        i18n: getLocaleFromRequest(request),
+        i18n,
         serverDomain: env.BLUETTI_SERVER_DOMAIN,
         serverAPiVersion: 'v1',
       });
@@ -119,7 +123,12 @@ export default {
          * ${i18n.pathPrefix}
          */
         const url = new URL(request.url);
-        return redirectDocument(`/404?from=${url.pathname}`, 302);
+        return redirectDocument(
+          `${i18n.pathPrefix !== '/' ? i18n.pathPrefix : ''}/404?from=${
+            url.pathname
+          }`,
+          302,
+        );
         // return storefrontRedirect({request, response, storefront});
       }
 
