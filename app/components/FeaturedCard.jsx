@@ -20,7 +20,7 @@ export function FeaturedCard({title, description, image, links, dark}) {
     <div className="relative overflow-hidden w-full bg-gray-100 md:col-cols-1 aspect-[3/4] lg:aspect-[4/3] xl:aspect-video">
       <Image
         data={image}
-        sizes="100vw"
+        sizes="(min-width: 45em) 50vw, 100vw"
         className="object-cover w-full h-full"
       />
 

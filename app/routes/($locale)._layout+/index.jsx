@@ -163,7 +163,7 @@ export default function Home() {
         ]}
       />
 
-      {/* <FeaturedBenefitsCard /> */}
+      <FeaturedBenefitsCard />
 
       <FeaturedCardContent
         items={[
@@ -280,6 +280,7 @@ function FeaturedBenefitsCard({item}) {
                 height: 1546,
                 altText: 'BLUETTI ESS',
               }}
+              sizes="(min-width: 45em) 50vw, 100vw"
             />
             <div className="inset-0 p-4 lg:absolute lg:px-10 lg:py-8 lg:w-3/4 2xl:w-1/2">
               <p>
@@ -308,8 +309,7 @@ function FeaturedBenefitsCard({item}) {
                 height: 320,
                 altText: 'BLUETTI ESS',
               }}
-              width={570}
-              height={320}
+              sizes="(min-width: 45em) 50vw, 100vw"
             />
           </div>
           <div className="shadow-lg basis-1/2">
@@ -323,6 +323,7 @@ function FeaturedBenefitsCard({item}) {
                   height: 675,
                   altText: 'BLUETTI ESS',
                 }}
+                sizes="(min-width: 45em) 50vw, 100vw"
               />
               <div className="inset-0 p-4 lg:absolute lg:-translate-x-1/2 lg:w-3/4 2xl:w-1/2 lg:top-10 lg:left-1/2">
                 <p>
