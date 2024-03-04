@@ -1,4 +1,4 @@
-import {Await} from '@remix-run/react';
+import {Await, useMatches} from '@remix-run/react';
 import {Suspense} from 'react';
 import {CartForm} from '@shopify/hydrogen';
 import {json} from '@shopify/remix-oxygen';
@@ -89,12 +89,17 @@ export async function action({request, context}) {
 
 export default function Cart() {
   const rootData = useRootLoaderData();
-  const cartPromise = rootData.cart;
+
+  const data = useMatches();
+
+  console.log(data);
+
+  // const cartPromise = rootData.cart;
 
   return (
     <div className="container mt-24">
       <h1>Cart</h1>
-      <Suspense fallback={<p>Loading cart ...</p>}>
+      {/* <Suspense fallback={<p>Loading cart ...</p>}>
         <Await
           resolve={cartPromise}
           errorElement={<div>An error occurred</div>}
@@ -103,7 +108,7 @@ export default function Cart() {
             return <CartMain layout="page" cart={cart} />;
           }}
         </Await>
-      </Suspense>
+      </Suspense> */}
     </div>
   );
 }

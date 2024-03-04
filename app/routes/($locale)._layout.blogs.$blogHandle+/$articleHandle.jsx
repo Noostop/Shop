@@ -44,18 +44,25 @@ export default function Article() {
   }).format(new Date(article.publishedAt));
 
   return (
-    <div className="article">
-      <h1>
+    <div className="container">
+      <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
         {title}
         <span>
           {publishedDate} &middot; {author?.name}
         </span>
       </h1>
 
-      {image && <Image data={image} sizes="90vw" loading="eager" />}
+      {image && (
+        <Image
+          data={image}
+          sizes="90vw"
+          loading="eager"
+          className="overflow-hidden rounded-lg shadow-lg"
+        />
+      )}
       <div
         dangerouslySetInnerHTML={{__html: contentHtml}}
-        className="article"
+        className="prose max-w-max"
       />
     </div>
   );

@@ -12,7 +12,7 @@ import {
 } from '@remix-run/react';
 import favicon from '../public/favicon.svg';
 import {Link} from '~/components/Link';
-import {Button} from '../@/components/ui/button';
+import {Button} from '@/components/ui/button';
 
 export function links() {
   return [

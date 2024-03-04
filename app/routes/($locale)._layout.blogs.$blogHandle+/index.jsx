@@ -41,9 +41,11 @@ export default function Blog() {
   const {articles} = blog;
 
   return (
-    <div className="blog">
-      <h1>{blog.title}</h1>
-      <div className="blog-grid">
+    <div className="container">
+      <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+        {blog.title}
+      </h1>
+      <div className="flex flex-col gap-10">
         <Pagination connection={articles}>
           {({nodes, isLoading, PreviousLink, NextLink}) => {
             return (
