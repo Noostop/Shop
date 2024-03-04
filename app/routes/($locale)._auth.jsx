@@ -9,42 +9,6 @@ import {
   useLoaderData,
   ScrollRestoration,
 } from '@remix-run/react';
-import favicon from 'public/favicon.svg';
-// import resetStyles from './styles/reset.css';
-import tailwindStyles from '~/styles/tailwind.css';
-
-/**
- * 这对于避免在子导航上重新获取根查询非常重要
- * @type {ShouldRevalidateFunction}
- */
-export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
-  // 执行突变时重新验证，例如添加到购物车、登录...
-  if (formMethod && formMethod !== 'GET') {
-    return true;
-  }
-
-  // 通过 useRevalidator 手动重新验证时重新验证
-  if (currentUrl.toString() === nextUrl.toString()) {
-    return true;
-  }
-
-  return false;
-};
-
-export function links() {
-  return [
-    {rel: 'stylesheet', href: tailwindStyles},
-    {
-      rel: 'preconnect',
-      href: 'https://cdn.shopify.com',
-    },
-    {
-      rel: 'preconnect',
-      href: 'https://shop.app',
-    },
-    {rel: 'icon', type: 'image/svg+xml', href: favicon},
-  ];
-}
 
 /**
  * @param {LoaderFunctionArgs}
@@ -101,7 +65,7 @@ export default function Auth() {
         <Meta />
         <Links />
       </head>
-      <body className="flex flex-col min-h-full">
+      <body>
         <Outlet />
 
         <ScrollRestoration nonce={nonce} />
