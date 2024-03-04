@@ -34,9 +34,9 @@ export async function loader({params, context, request}) {
 
     return defer(data);
   } catch (error) {
-    throw new Response(`not found`, {
-      status: 404,
-    });
+    // throw new Response(`not found`, {
+    //   status: 404,
+    // });
   }
 }
 

@@ -8,7 +8,6 @@ import {
 } from 'framer-motion';
 import clsx from 'clsx';
 import {cn} from '@/lib/utils';
-import {useRootLoaderData} from '~/root';
 import {Link} from '~/components/Link';
 import {Logo} from '~/components/Logo';
 import {MobileMenuAside} from '~/components/MobileMenuAside';
@@ -177,7 +176,7 @@ function NavigationMen({
   isLoggedIn,
   cart,
 }) {
-  const {publicStoreDomain} = useRootLoaderData();
+  // const {publicStoreDomain} = useRootLoaderData();
 
   function closeAside(event) {
     if (viewport === 'mobile') {

@@ -27,8 +27,9 @@ import {useI18n} from 'remix-i18n';
 
 export function CountrySelector() {
   const [root] = useMatches();
+
   const {t} = useI18n();
-  const selectedLocale = root.data.selectedLocale;
+  const selectedLocale = root?.data?.selectedLocale || {};
   const [open, setOpen] = useState(false);
   // const [countries, setCountries] = useState({});
   // const [areas, setAreas] = useState([]); // ['Asia', 'Europe', 'North America', 'South America', 'Africa', 'Oceania', 'Antarctica']
@@ -74,7 +75,7 @@ export function CountrySelector() {
                             return (
                               <Form
                                 method="post"
-                                action={`/locale`}
+                                action={`/api/locale`}
                                 key={hreflang}
                                 className="col-span-1"
                               >
@@ -152,7 +153,7 @@ export function CountrySelector() {
                       return (
                         <Form
                           method="post"
-                          action={`/locale`}
+                          action={`/api/locale`}
                           key={hreflang}
                           className="col-span-1"
                         >

@@ -14,13 +14,8 @@ export const meta = () => {
  * @param {LoaderFunctionArgs}
  */
 export async function loader({context, request}) {
-  const {pathPrefix} = await getLocaleFromRequest({
-    session: context.session,
-    request,
-  });
-
   if (await context.session.get('customerAccessToken')) {
-    return redirect(`/${pathPrefix}/account`);
+    return redirect(`/account`);
   }
   return json({});
 }
@@ -30,11 +25,6 @@ export async function loader({context, request}) {
  */
 export async function action({request, context}) {
   const {session, storefront} = context;
-
-  const {pathPrefix} = await getLocaleFromRequest({
-    session: context.session,
-    request,
-  });
 
   if (request.method !== 'POST') {
     return json({error: 'Method not allowed'}, {status: 405});
@@ -66,7 +56,7 @@ export async function action({request, context}) {
     const {customerAccessToken} = customerAccessTokenCreate;
     session.set('customerAccessToken', customerAccessToken);
 
-    return redirect(`/${pathPrefix}/account`, {
+    return redirect(`/account`, {
       headers: {
         'Set-Cookie': await session.commit(),
       },
@@ -85,53 +75,55 @@ export default function Login() {
   const error = data?.error || null;
 
   return (
-    <div className="login">
-      <h1>Sign in.</h1>
-      <Form method="POST">
-        <fieldset>
-          <label htmlFor="email">Email address</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            placeholder="Email address"
-            aria-label="Email address"
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus
-          />
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            placeholder="Password"
-            aria-label="Password"
-            minLength={8}
-            required
-          />
-        </fieldset>
-        {error ? (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="p-6 overflow-hidden bg-gray-100 rounded-lg">
+        <h1>Sign in.</h1>
+        <Form method="POST">
+          <fieldset>
+            <label htmlFor="email">Email address</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              required
+              placeholder="Email address"
+              aria-label="Email address"
+              // eslint-disable-next-line jsx-a11y/no-autofocus
+              autoFocus
+            />
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              placeholder="Password"
+              aria-label="Password"
+              minLength={8}
+              required
+            />
+          </fieldset>
+          {error ? (
+            <p>
+              <mark>
+                <small>{error}</small>
+              </mark>
+            </p>
+          ) : (
+            <br />
+          )}
+          <button type="submit">Sign in</button>
+        </Form>
+        <br />
+        <div>
           <p>
-            <mark>
-              <small>{error}</small>
-            </mark>
+            <Link to="/account/recover">Forgot password →</Link>
           </p>
-        ) : (
-          <br />
-        )}
-        <button type="submit">Sign in</button>
-      </Form>
-      <br />
-      <div>
-        <p>
-          <Link to="/account/recover">Forgot password →</Link>
-        </p>
-        <p>
-          <Link to="/account/register">Register →</Link>
-        </p>
+          <p>
+            <Link to="/account/register">Register →</Link>
+          </p>
+        </div>
       </div>
     </div>
   );
