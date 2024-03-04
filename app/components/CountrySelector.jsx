@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {Form, useMatches, useLocation, useFetcher} from '@remix-run/react';
+import {Form, useMatches} from '@remix-run/react';
 import {
   Dialog,
   DialogContent,
@@ -29,28 +29,10 @@ export function CountrySelector() {
   const [root] = useMatches();
   const {t} = useI18n();
   const selectedLocale = root.data.selectedLocale;
-
-  const {pathname, search} = useLocation();
   const [open, setOpen] = useState(false);
   // const [countries, setCountries] = useState({});
   // const [areas, setAreas] = useState([]); // ['Asia', 'Europe', 'North America', 'South America', 'Africa', 'Oceania', 'Antarctica']
   const [isMobile, setIsMobile] = useState(false);
-
-  // Get available countries list
-  // const fetcher = useFetcher();
-  // useEffect(() => {
-  //   if (!fetcher.data) {
-  //     return fetcher.load('/api/countries');
-  //   }
-  //   setAreas(fetcher.data.areas);
-  //   setCountries(fetcher.data.countries);
-  // }, [countries, areas]);
-
-  const pathSegments = pathname.split('/');
-  // 过滤掉空字符串，保留非空路径部分
-  const nonEmptySegments = pathSegments.filter((segment) => segment !== '');
-  // 获取第一个非空路径部分作为参数
-  const firstParam = nonEmptySegments.length > 0 ? nonEmptySegments[0] : null;
 
   useEffect(() => {
     setIsMobile(isMobileDevice());
@@ -92,7 +74,7 @@ export function CountrySelector() {
                             return (
                               <Form
                                 method="post"
-                                action={`/${firstParam ?? 'us'}/locale`}
+                                action={`/locale`}
                                 key={hreflang}
                                 className="col-span-1"
                               >
@@ -170,7 +152,7 @@ export function CountrySelector() {
                       return (
                         <Form
                           method="post"
-                          action={`/${firstParam ?? 'us'}/locale`}
+                          action={`/locale`}
                           key={hreflang}
                           className="col-span-1"
                         >

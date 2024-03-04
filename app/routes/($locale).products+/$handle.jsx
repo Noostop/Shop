@@ -9,14 +9,16 @@ import {
   getSelectedProductOptions,
   CartForm,
 } from '@shopify/hydrogen';
-import {getVariantUrl} from '~/lib/utils';
+import {Button} from '@/components/ui/button';
+
+import {cn, getVariantUrl} from '~/lib/utils';
 import {seoPayload} from '~/lib/seo.server';
 
 /**
  * @type {MetaFunction<typeof loader>}
  */
 export const meta = ({data}) => {
-  return [{title: `Hydrogen | ${data?.product.title ?? ''}`}];
+  return [{title: `BLUETTI | ${data?.product.title ?? ''}`}];
 };
 
 /**
@@ -119,13 +121,16 @@ export default function Product() {
   const {product, variants} = useLoaderData();
   const {selectedVariant} = product;
   return (
-    <div className="product">
-      <ProductImage image={selectedVariant?.image} />
-      <ProductMain
-        selectedVariant={selectedVariant}
-        product={product}
-        variants={variants}
-      />
+    <div className="container mt-4 md:mt-10">
+      <div className="grid grid-cols-5 gap-6 md:gap-10">
+        <ProductImage className="col-span-3" image={selectedVariant?.image} />
+        <ProductMain
+          className="col-span-2"
+          selectedVariant={selectedVariant}
+          product={product}
+          variants={variants}
+        />
+      </div>
     </div>
   );
 }
@@ -133,18 +138,24 @@ export default function Product() {
 /**
  * @param {{image: ProductVariantFragment['image']}}
  */
-function ProductImage({image}) {
+function ProductImage({image, className = ''}) {
   if (!image) {
-    return <div className="product-image" />;
+    return <div className={className} />;
   }
   return (
-    <div className="product-image">
+    <div
+      className={cn(
+        'overflow-hidden bg-gray-100 rounded-lg aspect-h-1 aspect-w-1',
+        className,
+      )}
+    >
       <Image
         alt={image.altText || 'Product Image'}
         aspectRatio="1/1"
         data={image}
         key={image.id}
         sizes="(min-width: 45em) 50vw, 100vw"
+        className="object-cover object-center w-full h-full mix-blend-multiply"
       />
     </div>
   );
@@ -157,13 +168,15 @@ function ProductImage({image}) {
  *   variants: Promise<ProductVariantsQuery>;
  * }}
  */
-function ProductMain({selectedVariant, product, variants}) {
+function ProductMain({selectedVariant, product, variants, className = ''}) {
   const {title, descriptionHtml} = product;
   return (
-    <div className="product-main">
-      <h1>{title}</h1>
+    <div className={className}>
+      <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+        {title}
+      </h1>
       <ProductPrice selectedVariant={selectedVariant} />
-      <br />
+
       <Suspense
         fallback={
           <ProductForm
@@ -186,14 +199,12 @@ function ProductMain({selectedVariant, product, variants}) {
           )}
         </Await>
       </Suspense>
-      <br />
-      <br />
-      <p>
-        <strong>Description</strong>
-      </p>
-      <br />
-      <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
-      <br />
+      <div className="mt-10">
+        <p>
+          <strong>Description</strong>
+        </p>
+        <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
+      </div>
     </div>
   );
 }
@@ -315,13 +326,13 @@ function AddToCartButton({analytics, children, disabled, lines, onClick}) {
             type="hidden"
             value={JSON.stringify(analytics)}
           />
-          <button
+          <Button
             type="submit"
             onClick={onClick}
             disabled={disabled ?? fetcher.state !== 'idle'}
           >
             {children}
-          </button>
+          </Button>
         </>
       )}
     </CartForm>
