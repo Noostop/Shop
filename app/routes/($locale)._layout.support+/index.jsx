@@ -7,17 +7,17 @@ import {Link} from '~/components/Link';
 export async function loader({params, context}) {
   const {locale, handle} = params;
   const {bluetti} = context;
-  const support = await bluetti.get(
-    '/supportapi/support/directoryList?current=&size=&shopName=bluettipower&id=&directoryType=&language=en&isTree=true&country=US',
-  );
+  // const support = await bluetti.get(
+  //   '/supportapi/support/directoryList?current=&size=&shopName=bluettipower-develop&id=&directoryType=&language=en&isTree=true&country=US',
+  // );
 
-  return defer({support});
+  return defer({support: 'support'});
 }
 
 export default function Support() {
   const {support} = useLoaderData();
 
-  console.log(support, 'support');
+  // console.log(support, 'support');
 
   return (
     <>
@@ -100,8 +100,7 @@ export default function Support() {
         </div>
       </section>
       <div className="container pt-8">
-        <div className="h-screen bg-pink-500"></div>
-        <div className="h-screen bg-pink-500"></div>
+        <div className="h-screen"></div>
       </div>
     </>
   );

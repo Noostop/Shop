@@ -46,20 +46,23 @@ export async function loader({request, context}) {
 
   try {
     // 导航菜单
-    const sideBarMenu = await bluetti.get(
-      '/supportapi/support/directoryList?id=65b084a74a9028c6b4a8e276&isTree=true',
-      {
-        cache: CacheNone(),
-      },
-    );
+    // const sideBarMenu = await bluetti.get(
+    //   '/supportapi/support/directoryList?id=65b084a74a9028c6b4a8e276&isTree=true',
+    //   {
+    //     cache: CacheNone(),
+    //   },
+    // );
 
-    // 关联问题列表
-    const questionList = await bluetti.get(
-      `/supportapi/supportQuestion/QuestionList?current=${params.current}&tagID=${params.tagid}&key=${params.keyword}&size=${params.size}&isTree=true&isSend=true`,
-      {
-        cache: CacheNone(),
-      },
-    );
+    // // 关联问题列表
+    // const questionList = await bluetti.get(
+    //   `/supportapi/supportQuestion/QuestionList?current=${params.current}&tagID=${params.tagid}&key=${params.keyword}&size=${params.size}&isTree=true&isSend=true`,
+    //   {
+    //     cache: CacheNone(),
+    //   },
+    // );
+
+    const sideBarMenu = [];
+    const questionList = [];
 
     session.set('helpParams', params);
     return defer(

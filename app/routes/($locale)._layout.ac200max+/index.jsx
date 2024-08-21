@@ -2,6 +2,7 @@ import {defer} from '@shopify/remix-oxygen';
 import {useLoaderData, useOutletContext} from '@remix-run/react';
 import {CacheNone} from '@shopify/hydrogen';
 import {AC60} from '~/pages/AC60';
+import {AC180} from '~/pages/AC180';
 import {Render} from '@bluetti/craft';
 
 /**
@@ -24,30 +25,36 @@ export async function loader({params, context, request}) {
   const {handle} = params;
   const {bluetti} = context;
 
-  try {
-    const data = await bluetti.get(
-      `/pageapi/page/ac60?shop=bluettipower-develop`,
-      {
-        cache: CacheNone(),
-      },
-    );
+  // try {
+  //   const data = await bluetti.get(
+  //     `/pageapi/page/ac60?shop=bluettipower-develop`,
+  //     {
+  //       cache: CacheNone(),
+  //     },
+  //   );
 
-    return defer(data);
-  } catch (error) {
-    // throw new Response(`not found`, {
-    //   status: 404,
-    // });
-  }
+  //   return defer(data);
+  // } catch (error) {
+  //   // throw new Response(`not found`, {
+  //   //   status: 404,
+  //   // });
+  // }
+
+  const data = [];
+
+  return defer({data});
 }
 
 export default function TopicsIndex() {
-  const {urlHandle} = useOutletContext();
+  // const {urlHandle} = useOutletContext();
   const {published, content} = useLoaderData();
+
+  const urlHandle = 'ac200max';
 
   const localComponent = () => {
     switch (urlHandle) {
       case 'ac200max':
-        return <AC60 />;
+        return <AC180 />;
       default:
         return published && <Render data={content} />;
     }

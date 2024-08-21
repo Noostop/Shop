@@ -92,7 +92,7 @@ export default function Cart() {
 
   const data = useMatches();
 
-  console.log(data);
+  // console.log(data);
 
   // const cartPromise = rootData.cart;
 

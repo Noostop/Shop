@@ -1,5 +1,5 @@
 import {Suspense} from 'react';
-import {defer, redirectDocument} from '@shopify/remix-oxygen';
+import {defer, json, redirectDocument} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Outlet} from '@remix-run/react';
 import {CacheNone} from '@shopify/hydrogen';
 import {LayoutTopics} from '~/components/LayoutTopics';
@@ -25,19 +25,21 @@ export async function loader({params, context}) {
   const {handle} = params;
   const {bluetti} = context;
 
-  try {
-    const product = await bluetti.get(`/supportapi/product/detail/ac60`, {
-      cache: CacheNone(),
-    });
+  // try {
+  //   const product = await bluetti.get(`/supportapi/product/detail/ac60`, {
+  //     cache: CacheNone(),
+  //   });
 
-    if (product && product.status === 2) {
-      return defer(product);
-    }
-  } catch (error) {
-    // throw new Response(`page not found`, {
-    //   status: 404,
-    // });
-  }
+  //   if (product && product.status === 2) {
+  //     return defer(product);
+  //   }
+  // } catch (error) {
+  //   // throw new Response(`page not found`, {
+  //   //   status: 404,
+  //   // });
+  // }
+
+  return json({product: 'product'});
 }
 
 export default function Handle() {
@@ -45,8 +47,8 @@ export default function Handle() {
   const data = useLoaderData();
 
   return (
-    <LayoutTopics {...data}>
-      <Outlet context={data} />
-    </LayoutTopics>
+    // <LayoutTopics {...data}>
+    <Outlet context={data} />
+    // </LayoutTopics>
   );
 }

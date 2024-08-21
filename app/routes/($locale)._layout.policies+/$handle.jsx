@@ -46,15 +46,16 @@ export default function Policy() {
   const {policy} = useLoaderData();
 
   return (
-    <div className="policy">
-      <br />
-      <br />
+    <div className="container space-y-4">
       <div>
         <Link to="/policies">← Back to Policies</Link>
       </div>
-      <br />
-      <h1>{policy.title}</h1>
-      <div dangerouslySetInnerHTML={{__html: policy.body}} />
+
+      <h1 className="text-3xl text-center">{policy.title}</h1>
+      <div
+        className="prose max-w-none"
+        dangerouslySetInnerHTML={{__html: policy.body}}
+      />
     </div>
   );
 }

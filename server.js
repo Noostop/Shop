@@ -8,6 +8,7 @@ import {
   createStorefrontClient,
   storefrontRedirect,
 } from '@shopify/hydrogen';
+
 import {
   redirect,
   redirectDocument,
@@ -15,7 +16,10 @@ import {
   getStorefrontHeaders,
   createCookieSessionStorage,
 } from '@shopify/remix-oxygen';
-import {getLocaleFromRequest} from '~/lib/utils';
+import {
+  getLocaleFromRequest,
+  getApproximateLocaleFromRequest,
+} from '~/lib/utils';
 import {createBluettiClient} from '~/lib/createBluettiClient.server';
 
 /**
@@ -42,21 +46,23 @@ export default {
         HydrogenSession.init(request, [env.SESSION_SECRET]),
       ]);
 
-      const uuid = session.get('uuid') ?? uuidv4();
-      const i18n = getLocaleFromRequest(request);
-      const sessionI18n = session.get('i18n');
+      // console.log('lang', getApproximateLocaleFromRequest(request));
 
-      if (sessionI18n && sessionI18n.pathPrefix !== i18n.pathPrefix) {
-        session.set('uuid', uuid);
-        session.set('i18n', i18n);
-        const url = new URL(request.url);
-        return redirect(`${url.pathname}${url.search}`, {
-          status: 302,
-          headers: {
-            'Set-Cookie': await session.commit(),
-          },
-        });
-      }
+      // const uuid = session.get('uuid') ?? uuidv4();
+      // const i18n = getLocaleFromRequest(request);
+      // const sessionI18n = session.get('i18n');
+
+      // if (sessionI18n && sessionI18n.pathPrefix !== i18n.pathPrefix) {
+      //   session.set('uuid', uuid);
+      //   session.set('i18n', i18n);
+      //   const url = new URL(request.url);
+      //   return redirect(`${url.pathname}${url.search}`, {
+      //     status: 302,
+      //     headers: {
+      //       'Set-Cookie': await session.commit(),
+      //     },
+      //   });
+      // }
 
       /**
        * 创建 Hydrogen 的 Storefront 客户端。
@@ -64,7 +70,11 @@ export default {
       const {storefront} = createStorefrontClient({
         cache,
         waitUntil,
-        i18n,
+        i18n: {
+          // shop: 'bluettipower',
+          // language: 'EN',
+          // country: 'US',
+        },
         publicStorefrontToken: env.PUBLIC_STOREFRONT_API_TOKEN,
         privateStorefrontToken: env.PRIVATE_STOREFRONT_API_TOKEN,
         storeDomain: env.PUBLIC_STORE_DOMAIN,
@@ -79,7 +89,10 @@ export default {
       const bluetti = createBluettiClient({
         cache,
         waitUntil,
-        i18n,
+        i18n: {
+          language: 'EN',
+          country: 'US',
+        },
         serverDomain: env.BLUETTI_SERVER_DOMAIN,
         serverAPiVersion: 'v1',
       });
@@ -103,7 +116,7 @@ export default {
         build: remixBuild,
         mode: process.env.NODE_ENV,
         getLoadContext: () => ({
-          uuid,
+          // uuid,
           session,
           storefront,
           bluetti,
@@ -123,13 +136,13 @@ export default {
          * ${i18n.pathPrefix}
          */
         const url = new URL(request.url);
-        return redirectDocument(
-          `${i18n.pathPrefix !== '/' ? i18n.pathPrefix : ''}/404?from=${
-            url.pathname
-          }`,
-          302,
-        );
-        // return storefrontRedirect({request, response, storefront});
+        // return redirectDocument(
+        //   `${i18n.pathPrefix !== '/' ? i18n.pathPrefix : ''}/404?from=${
+        //     url.pathname
+        //   }`,
+        //   302,
+        // );
+        return storefrontRedirect({request, response, storefront});
       }
 
       return response;

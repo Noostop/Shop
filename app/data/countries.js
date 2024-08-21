@@ -137,7 +137,7 @@ export const countries = {
     langText: 'Italiano',
     currency: 'EUR',
     alias: 'IT',
-    pathPrefix: '/it',
+    pathPrefix: '/  ',
   },
   es: {
     country: 'ES',

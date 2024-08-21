@@ -19,11 +19,11 @@ export async function loader({context, params}) {
   const {pathPrefix} = storefront.i18n;
 
   // 校验语言路径
-  if (locale && !pathPrefix.includes(locale.toLowerCase())) {
-    throw new Response(`Page not found`, {
-      status: 404,
-    });
-  }
+  // if (locale && !pathPrefix.includes(locale.toLowerCase())) {
+  //   throw new Response(`Page not found`, {
+  //     status: 404,
+  //   });
+  // }
 
   const [customerAccessToken, layout] = await Promise.all([
     session.get('customerAccessToken'),

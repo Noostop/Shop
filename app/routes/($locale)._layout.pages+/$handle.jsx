@@ -34,11 +34,14 @@ export default function Page() {
   const {page} = useLoaderData();
 
   return (
-    <div className="page">
+    <div className="container py-24 min-h-svh">
       <header>
         <h1>{page.title}</h1>
       </header>
-      <main dangerouslySetInnerHTML={{__html: page.body}} />
+      <main
+        className="prose max-w-none"
+        dangerouslySetInnerHTML={{__html: page.body}}
+      />
     </div>
   );
 }

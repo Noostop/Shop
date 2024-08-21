@@ -3,6 +3,7 @@ import {useMemo} from 'react';
 import {twMerge} from 'tailwind-merge';
 import {redirect} from '@shopify/remix-oxygen';
 import {useLocation, useMatches} from '@remix-run/react';
+import acceptLanguageParser from 'accept-language-parser';
 import {countries} from '~/data/countries';
 
 /**
@@ -86,25 +87,11 @@ export function getLocaleFromRequest(request) {
 
 // 读取请求头中的语言信息
 export function getApproximateLocaleFromRequest(request) {
-  const url = new URL(request.url);
+  const {parse} = acceptLanguageParser;
+  const acceptLang = request.headers.get('accept-language') || 'en-US';
+  const lang = parse(acceptLang)[0];
 
-  // Get the accept-language header
-  const acceptLang = request.headers.get('accept-language');
-
-  // Do something with accept language.
-  // For example:
-  if (acceptLang.includes('en-US')) {
-    return {
-      language: 'EN',
-      country: 'US',
-    };
-  }
-
-  // Use the default locale
-  return {
-    language: 'EN',
-    country: 'CA',
-  };
+  return lang;
 }
 
 function resolveToFromType({customPrefixes, pathname, type}) {
@@ -259,7 +246,7 @@ export function getFetchHeaders({i18n, headers = {}}) {
   return {
     ...headers,
     'Content-type': 'application/json',
-    shop: i18n.shop,
+    shop: i18n.shop || 'bluettipower-develop',
     country: i18n.country.toUpperCase(),
     language: convertToLowerCase(i18n.language),
   };
