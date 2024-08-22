@@ -1,8 +1,5 @@
 module.exports = {
-  extends: [
-    '@remix-run/eslint-config',
-    'plugin:hydrogen/recommended',
-  ],
+  extends: ['@remix-run/eslint-config', 'plugin:prettier/recommended'],
   rules: {
     'hydrogen/prefer-image-component': 'off',
     'no-useless-escape': 'off',

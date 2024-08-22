@@ -1,4 +1,4 @@
-import {useNonce, Seo} from '@shopify/hydrogen';
+import {useNonce, getSeoMeta} from '@shopify/hydrogen';
 import {defer} from '@shopify/remix-oxygen';
 import {
   Links,
@@ -77,6 +77,11 @@ export async function loader({context, params}) {
   );
 }
 
+// export const meta = ({data, matches}) => {
+//   // Pass one or more arguments, preserving properties from parent routes
+//   return getSeoMeta(matches[0].data.seo, data.seo);
+// };
+
 export default function App() {
   const nonce = useNonce();
   /** @type {LoaderReturnData} */
@@ -91,7 +96,7 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <Seo />
+
         <Meta />
         <Links />
       </head>

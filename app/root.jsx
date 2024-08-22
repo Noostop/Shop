@@ -1,3 +1,4 @@
+import {useEffect} from 'react';
 import {useNonce} from '@shopify/hydrogen';
 import {
   Links,
@@ -11,13 +12,11 @@ import {
   isRouteErrorResponse,
 } from '@remix-run/react';
 import favicon from '../public/favicon.svg';
-import {fb} from 'facebook-pixel';
 
 import {Link} from '~/components/Link';
 import {Button} from '@/components/ui/button';
 
 import tailwindStyles from '~/styles/tailwind.css';
-import {useEffect} from 'react';
 
 /**
  * 这对于避免在子导航上重新获取根查询非常重要
@@ -61,12 +60,7 @@ export const useRootLoaderData = () => {
 };
 
 export default function App() {
-  useEffect(() => {
-    // fb.config({
-    //   autoPageView: true,
-    //   pixel: '936423210177765',
-    // });
-  }, []);
+  useEffect(() => {}, []);
 
   return <Outlet />;
 }
